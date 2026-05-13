@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>הסרטונים של משפחת אברהמוף</title>
+    <meta name="description" content="עמוד צפייה משפחתי המרכז את הסרטונים והפלייליסטים של משפחת אברהמוף." />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #1b2320;
+        --muted: #60706a;
+        --paper: #fbfaf6;
+        --surface: #ffffff;
+        --line: #d9ded8;
+        --mint: #d7efe4;
+        --mint-strong: #2f8266;
+        --sun: #ffd66b;
+        --rose: #d85f73;
+        --shadow: 0 18px 45px rgba(31, 48, 42, 0.12);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, "Noto Sans Hebrew", "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top right, rgba(255, 214, 107, 0.32), transparent 28rem),
+          linear-gradient(180deg, #f7fbf6 0%, var(--paper) 48%, #f2f8fb 100%);
+        color: var(--ink);
+      }
+
+      a { color: inherit; }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid rgba(217, 222, 216, 0.8);
+        background: rgba(251, 250, 246, 0.88);
+        backdrop-filter: blur(14px);
+      }
+
+      .nav {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        min-height: 68px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        background: var(--mint-strong);
+        color: #fff;
+        font-size: 20px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .nav-links a,
+      .button {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 9px 14px;
+        text-decoration: none;
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.72);
+        transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+      }
+
+      .nav-links a:hover,
+      .button:hover {
+        transform: translateY(-1px);
+        border-color: var(--mint-strong);
+        background: #fff;
+      }
+
+      .button.primary {
+        border-color: var(--mint-strong);
+        background: var(--mint-strong);
+        color: #fff;
+      }
+
+      .hero {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: clamp(38px, 8vw, 82px) 0 30px;
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+        gap: clamp(24px, 5vw, 56px);
+        align-items: center;
+      }
+
+      .eyebrow {
+        width: fit-content;
+        margin: 0 0 14px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: var(--mint);
+        color: #22634d;
+        font-weight: 800;
+        font-size: 0.92rem;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 720px;
+        font-size: clamp(2.35rem, 7vw, 5.4rem);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+
+      .hero p {
+        margin: 20px 0 0;
+        max-width: 620px;
+        color: var(--muted);
+        font-size: clamp(1.04rem, 2.5vw, 1.28rem);
+        line-height: 1.75;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+      }
+
+      .feature-video {
+        position: relative;
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.76);
+        box-shadow: var(--shadow);
+      }
+
+      .video-frame {
+        position: relative;
+        overflow: hidden;
+        border-radius: 6px;
+        background: #111;
+        aspect-ratio: 16 / 9;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+      }
+
+      main { padding-bottom: 56px; }
+
+      .section {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 34px 0;
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: clamp(1.55rem, 3vw, 2.3rem);
+        letter-spacing: 0;
+      }
+
+      .section-heading p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .video-card {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: 0 12px 30px rgba(31, 48, 42, 0.08);
+      }
+
+      .card-body {
+        display: grid;
+        gap: 12px;
+        padding: 16px;
+      }
+
+      .card-kicker {
+        color: var(--rose);
+        font-weight: 800;
+        font-size: 0.88rem;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 1.12rem;
+        letter-spacing: 0;
+      }
+
+      .playlist-card { min-height: 100%; }
+      .playlist-card .card-kicker { color: var(--mint-strong); }
+
+      .footer {
+        border-top: 1px solid var(--line);
+        padding: 24px 16px 34px;
+        text-align: center;
+        color: var(--muted);
+      }
+
+      @media (max-width: 900px) {
+        .hero { grid-template-columns: 1fr; }
+        .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+
+      @media (max-width: 680px) {
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 14px 0;
+        }
+        .nav-links { width: 100%; justify-content: stretch; }
+        .nav-links a { flex: 1 1 120px; }
+        .section-heading { align-items: flex-start; flex-direction: column; }
+        .grid { grid-template-columns: 1fr; }
+        .hero-actions .button { flex: 1 1 180px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="ניווט ראשי">
+        <div class="brand" aria-label="הסרטונים של משפחת אברהמוף">
+          <span class="brand-mark" aria-hidden="true">▶</span>
+          <span>משפחת אברהמוף</span>
+        </div>
+        <div class="nav-links">
+          <a href="#videos">סרטונים</a>
+          <a href="#playlists">פלייליסטים</a>
+          <a href="https://www.youtube.com/playlist?list=PL7xwd5UKvOL9vWk6BzVmHo6XbCGljD6DE" target="_blank" rel="noreferrer">YouTube</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">אוסף משפחתי לצפייה קלה</p>
+          <h1 id="page-title">הסרטונים של משפחת אברהמוף</h1>
+          <p>
+            כל הסרטונים והפלייליסטים במקום אחד, מסודרים בצורה נוחה לצפייה בבית,
+            לשיתוף עם המשפחה, ולחזרה לרגעים שאוהבים.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#videos">לצפייה בסרטונים</a>
+            <a class="button" href="#playlists">לעבור לפלייליסטים</a>
+          </div>
+        </div>
+        <div class="feature-video" aria-label="סרטון מרכזי">
+          <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/t5DH6UUGieY" title="סרטון של משפחת אברהמוף" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="videos" aria-labelledby="videos-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="videos-title">סרטונים נבחרים</h2>
+            <p>שלושה סרטונים לצפייה ישירה, בלי לעזוב את העמוד.</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <article class="video-card">
+            <div class="video-frame">
+              <iframe src="https://www.youtube.com/embed/t5DH6UUGieY" title="סרטון ראשון של משפחת אברהמוף" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+              <span class="card-kicker">סרטון</span>
+              <h3>סרטון 1</h3>
+              <a class="button" href="https://youtu.be/t5DH6UUGieY" target="_blank" rel="noreferrer">פתיחה ב-YouTube</a>
+            </div>
+          </article>
+
+          <article class="video-card">
+            <div class="video-frame">
+              <iframe src="https://www.youtube.com/embed/5eyUG0JwrYE" title="סרטון שני של משפחת אברהמוף" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+              <span class="card-kicker">סרטון</span>
+              <h3>סרטון 2</h3>
+              <a class="button" href="https://youtu.be/5eyUG0JwrYE" target="_blank" rel="noreferrer">פתיחה ב-YouTube</a>
+            </div>
+          </article>
+
+          <article class="video-card">
+            <div class="video-frame">
+              <iframe src="https://www.youtube.com/embed/yIkCaBUylbI" title="סרטון שלישי של משפחת אברהמוף" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+              <span class="card-kicker">סרטון</span>
+              <h3>סרטון 3</h3>
+              <a class="button" href="https://youtu.be/yIkCaBUylbI" target="_blank" rel="noreferrer">פתיחה ב-YouTube</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="playlists" aria-labelledby="playlists-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="playlists-title">פלייליסטים</h2>
+            <p>אוספים מלאים שאפשר להפעיל ברצף מתוך האתר.</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <article class="video-card playlist-card">
+            <div class="video-frame">
+              <iframe src="https://www.youtube.com/embed/videoseries?list=PL7xwd5UKvOL9vWk6BzVmHo6XbCGljD6DE" title="פלייליסט ראשון של משפחת אברהמוף" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+              <span class="card-kicker">פלייליסט</span>
+              <h3>אוסף 1</h3>
+              <a class="button" href="https://www.youtube.com/playlist?list=PL7xwd5UKvOL9vWk6BzVmHo6XbCGljD6DE" target="_blank" rel="noreferrer">פתיחה ב-YouTube</a>
+            </div>
+          </article>
+
+          <article class="video-card playlist-card">
+            <div class="video-frame">
+              <iframe src="https://www.youtube.com/embed/videoseries?list=PL7xwd5UKvOL_GC_8-bJv6Id8DPWCe2tnP" title="פלייליסט שני של משפחת אברהמוף" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+              <span class="card-kicker">פלייליסט</span>
+              <h3>אוסף 2</h3>
+              <a class="button" href="https://www.youtube.com/playlist?list=PL7xwd5UKvOL_GC_8-bJv6Id8DPWCe2tnP" target="_blank" rel="noreferrer">פתיחה ב-YouTube</a>
+            </div>
+          </article>
+
+          <article class="video-card playlist-card">
+            <div class="video-frame">
+              <iframe src="https://www.youtube.com/embed/videoseries?list=PL7xwd5UKvOL-U8bAWXBsxMo_ekfALOUwp" title="פלייליסט שלישי של משפחת אברהמוף" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+              <span class="card-kicker">פלייליסט</span>
+              <h3>אוסף 3</h3>
+              <a class="button" href="https://www.youtube.com/playlist?list=PL7xwd5UKvOL-U8bAWXBsxMo_ekfALOUwp" target="_blank" rel="noreferrer">פתיחה ב-YouTube</a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>הסרטונים של משפחת אברהמוף · בנוי לצפייה ושיתוף משפחתי</span>
+    </footer>
+  </body>
+</html>
