@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Omer Car Race</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #07070c; font-family: Arial, sans-serif; user-select: none; }
+    canvas { display: block; width: 100vw; height: 100vh; }
+    #menu, #gameOver {
+      position: fixed; inset: 0; z-index: 5; display: grid; place-items: center;
+      background: radial-gradient(circle, #1a0826 0%, #050508 100%); color: white; text-align: center; padding: 24px;
+    }
+    #gameOver { display: none; background: rgba(0, 0, 0, 0.82); }
+    .panel { width: min(460px, 92vw); border: 1px solid rgba(255,255,255,.16); border-radius: 16px; padding: 22px; background: rgba(255,255,255,.06); box-shadow: 0 0 28px rgba(255,0,85,.22); }
+    h1 { margin: 0 0 12px; font-size: clamp(34px, 7vw, 56px); text-shadow: 0 0 18px #ff0055; letter-spacing: 0; }
+    p { margin: 8px 0; color: #d8d8e5; line-height: 1.5; }
+    button { border: 0; border-radius: 999px; padding: 13px 28px; margin-top: 16px; font-size: 20px; font-weight: 800; cursor: pointer; color: #fff; background: #ff0055; box-shadow: 0 0 16px #ff0055; }
+    button:hover { transform: scale(1.04); background: #ff2277; }
+    #ui {
+      position: fixed; top: 16px; left: 16px; z-index: 3; min-width: 165px; color: #fff;
+      background: rgba(10,10,20,.9); border: 2px solid #ff0055; border-radius: 12px; padding: 13px 14px;
+    }
+    .line { display: flex; justify-content: space-between; gap: 18px; font-weight: 800; margin: 5px 0; }
+    #tip { position: fixed; right: 16px; bottom: 14px; z-index: 3; color: rgba(255,255,255,.72); font-weight: 700; direction: ltr; }
+  </style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <div id="ui">
+    <div class="line">SCORE <span id="score">0</span></div>
+    <div class="line">WAVE <span id="wave">1</span></div>
+    <div class="line">HP <span id="hp">3</span></div>
+    <div class="line">COINS <span id="coins">0</span></div>
+  </div>
+  <div id="tip">Move: arrows / WASD · Boost: Space</div>
+  <section id="menu">
+    <div class="panel">
+      <h1>🚗 Omer Car Race 🚗</h1>
+      <p>התחמק מהמכוניות, אסוף מטבעות, ונסה לשרוד כמה שיותר גלים.</p>
+      <p>זזים עם החצים או WASD. לחיצה על Space נותנת האצה קצרה.</p>
+      <button id="start">START GAME</button>
+    </div>
+  </section>
+  <section id="gameOver">
+    <div class="panel">
+      <h1>GAME OVER</h1>
+      <p>ניקוד: <strong id="finalScore">0</strong></p>
+      <p>מטבעות שנאספו: <strong id="finalCoins">0</strong></p>
+      <button id="again">PLAY AGAIN</button>
+    </div>
+  </section>
+
+<script>
+(() => {
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const scoreEl = document.getElementById('score');
+  const waveEl = document.getElementById('wave');
+  const hpEl = document.getElementById('hp');
+  const coinsEl = document.getElementById('coins');
+  const menu = document.getElementById('menu');
+  const over = document.getElementById('gameOver');
+  const finalScore = document.getElementById('finalScore');
+  const finalCoins = document.getElementById('finalCoins');
+
+  let w = 0, h = 0, roadW = 0, roadX = 0, offset = 0;
+  let keys = {}, running = false, score = 0, wave = 1, hp = 3, coins = 0, spawn = 0, coinSpawn = 0;
+  let cars = [], coinItems = [], sparks = [];
+  const player = { x: 0, y: 0, w: 46, h: 84, speed: 6, boost: 0 };
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    roadW = Math.min(650, Math.max(310, w - 110));
+    roadX = (w - roadW) / 2;
+    player.x = Math.min(Math.max(player.x || w / 2, roadX), roadX + roadW - player.w);
+    player.y = h - 140;
+  }
+
+  function car(x, y, cw, ch, color, police) {
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, cw, ch);
+    ctx.fillStyle = '#111';
+    ctx.fillRect(x - 4, y + 10, 4, 18); ctx.fillRect(x + cw, y + 10, 4, 18);
+    ctx.fillRect(x - 4, y + ch - 28, 4, 18); ctx.fillRect(x + cw, y + ch - 28, 4, 18);
+    ctx.fillStyle = 'rgba(8,18,28,.85)';
+    ctx.fillRect(x + 5, y + 14, cw - 10, 16);
+    ctx.fillRect(x + 5, y + ch - 30, cw - 10, 14);
+    if (police) {
+      ctx.fillStyle = (Date.now() / 120 | 0) % 2 ? '#0055ff' : '#ff003c';
+      ctx.fillRect(x + cw / 2 - 13, y + ch / 2 - 5, 26, 10);
+    }
+  }
+
+  function spawnCar() {
+    const colors = ['#ff3344', '#a533ff', '#00ccff', '#00ff66', '#7e7e8a', '#ffffff'];
+    const police = Math.random() < 0.14;
+    const cw = police ? 54 : 46;
+    const ch = police ? 98 : 86;
+    cars.push({
+      x: roadX + Math.random() * (roadW - cw), y: -120, w: cw, h: ch,
+      speed: 3 + Math.random() * 2 + wave * .35, color: police ? '#ffffff' : colors[Math.random() * colors.length | 0], police,
+      vx: Math.random() < .35 ? (Math.random() < .5 ? -1 : 1) * (1 + wave * .08) : 0
+    });
+  }
+
+  function hit(a, b) {
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+  }
+
+  function burst(x, y, color) {
+    for (let i = 0; i < 22; i++) sparks.push({ x, y, color, a: 1, vx: (Math.random() - .5) * 8, vy: (Math.random() - .5) * 8 });
+  }
+
+  function reset() {
+    score = 0; wave = 1; hp = 3; coins = 0; spawn = 0; coinSpawn = 0; cars = []; coinItems = []; sparks = [];
+    player.x = w / 2 - player.w / 2; player.y = h - 140; player.boost = 0;
+    menu.style.display = 'none'; over.style.display = 'none'; running = true;
+    requestAnimationFrame(loop);
+  }
+
+  function end() {
+    running = false;
+    finalScore.textContent = score;
+    finalCoins.textContent = coins;
+    over.style.display = 'grid';
+  }
+
+  function update() {
+    const speed = player.speed + (player.boost > 0 ? 4 : 0);
+    if (keys.ArrowLeft || keys.KeyA) player.x -= speed;
+    if (keys.ArrowRight || keys.KeyD) player.x += speed;
+    if (keys.ArrowUp || keys.KeyW) player.y -= speed;
+    if (keys.ArrowDown || keys.KeyS) player.y += speed;
+    if (keys.Space && player.boost <= 0) player.boost = 18;
+    if (player.boost > 0) player.boost--;
+    player.x = Math.max(roadX, Math.min(roadX + roadW - player.w, player.x));
+    player.y = Math.max(8, Math.min(h - player.h - 8, player.y));
+
+    offset = (offset + 8 + wave * .35) % 80;
+    spawn++;
+    if (spawn > Math.max(22, 68 - wave * 4)) { spawnCar(); spawn = 0; }
+    coinSpawn++;
+    if (coinSpawn > 135) { coinItems.push({ x: roadX + Math.random() * (roadW - 28), y: -34, w: 28, h: 28 }); coinSpawn = 0; }
+
+    for (let i = cars.length - 1; i >= 0; i--) {
+      const c = cars[i];
+      c.y += c.speed; c.x += c.vx;
+      if (c.x < roadX || c.x + c.w > roadX + roadW) c.vx *= -1;
+      if (hit(player, c)) {
+        cars.splice(i, 1); hp--; burst(player.x + player.w / 2, player.y + player.h / 2, '#ff0055');
+        if (hp <= 0) end();
+      } else if (c.y > h + 140) {
+        cars.splice(i, 1); score += 1;
+        if (score > 0 && score % 18 === 0) wave++;
+      }
+    }
+
+    for (let i = coinItems.length - 1; i >= 0; i--) {
+      const c = coinItems[i]; c.y += 4 + wave * .22;
+      if (hit(player, c)) { coinItems.splice(i, 1); coins++; score += 3; burst(c.x + 14, c.y + 14, '#ffcc00'); }
+      else if (c.y > h + 60) coinItems.splice(i, 1);
+    }
+    for (let i = sparks.length - 1; i >= 0; i--) {
+      const s = sparks[i]; s.x += s.vx; s.y += s.vy; s.a -= .035;
+      if (s.a <= 0) sparks.splice(i, 1);
+    }
+    scoreEl.textContent = score; waveEl.textContent = wave; hpEl.textContent = hp; coinsEl.textContent = coins;
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = '#44444a';
+    ctx.fillRect(roadX - 64, 0, 64, h); ctx.fillRect(roadX + roadW, 0, 64, h);
+    for (let y = offset - 80; y < h; y += 40) {
+      ctx.fillStyle = ((y / 40) | 0) % 2 ? '#fff' : '#ff2244';
+      ctx.fillRect(roadX - 6, y, 6, 40); ctx.fillRect(roadX + roadW, y, 6, 40);
+    }
+    ctx.fillStyle = '#18181f'; ctx.fillRect(roadX, 0, roadW, h);
+    ctx.fillStyle = '#fff';
+    for (let y = offset - 80; y < h; y += 80) ctx.fillRect(roadX + roadW / 2 - 4, y, 8, 42);
+    coinItems.forEach(c => { ctx.fillStyle = '#ffcc00'; ctx.beginPath(); ctx.arc(c.x + 14, c.y + 14, 14, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#513300'; ctx.font = 'bold 17px Arial'; ctx.fillText('$', c.x + 9, c.y + 20); });
+    cars.forEach(c => car(c.x, c.y, c.w, c.h, c.color, c.police));
+    car(player.x, player.y, player.w, player.h, player.boost > 0 ? '#00ffcc' : '#ffffff', false);
+    sparks.forEach(s => { ctx.globalAlpha = s.a; ctx.fillStyle = s.color; ctx.beginPath(); ctx.arc(s.x, s.y, 4, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1; });
+  }
+
+  function loop() {
+    if (!running) return;
+    update(); draw();
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize', resize);
+  window.addEventListener('keydown', e => { keys[e.code] = true; if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space'].includes(e.code)) e.preventDefault(); });
+  window.addEventListener('keyup', e => keys[e.code] = false);
+  document.getElementById('start').onclick = reset;
+  document.getElementById('again').onclick = reset;
+  resize(); draw();
+})();
+</script>
+</body>
+</html>
