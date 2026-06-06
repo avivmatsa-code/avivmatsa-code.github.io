@@ -181,6 +181,36 @@ h3 {
   background: var(--surface);
   box-shadow: var(--shadow);
 }
+.title-panel {
+  min-height: 320px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(25, 113, 95, 0.14), rgba(199, 91, 85, 0.12)),
+    var(--surface);
+}
+.title-panel-inner {
+  width: 100%;
+  min-height: 280px;
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  padding: 24px;
+}
+.title-panel-inner span { font-size: clamp(3rem, 8vw, 5rem); }
+.title-panel-inner strong {
+  font-size: clamp(1.65rem, 4vw, 2.8rem);
+  line-height: 1.1;
+}
+.title-panel-inner small {
+  color: var(--muted);
+  font-size: 1rem;
+}
 .frame,
 .hero-media {
   position: relative;
