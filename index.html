@@ -4,36 +4,35 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>האתר של אביב מצא</title>
-    <meta name="description" content="אתר אישי ומשפחתי עם אזורי תוכן, סרטונים ופרויקטים." />
+    <meta name="description" content="אתר אישי ומשפחתי עם אזורי תוכן, סרטונים, מקהלות ופרויקטים." />
     <link rel="stylesheet" href="/assets/site.css" />
   </head>
   <body>
     <header class="site-header">
       <nav class="nav" aria-label="ניווט ראשי">
-        <a class="brand" href="/" aria-label="דף הבית">
+        <span class="brand" aria-label="האתר של אביב מצא">
           <span class="brand-mark" aria-hidden="true">א</span>
           <span>avivmatsa.com</span>
-        </a>
+        </span>
         <div class="nav-links">
-          <a href="/family/abramoff-videos/">הסרטונים</a>
-          <a href="#family">משפחה</a>
-          <a href="#projects">פרויקטים</a>
+          <a href="#family"><span aria-hidden="true">👨‍👩‍👧‍👦</span> משפחה</a>
+          <a href="#projects"><span aria-hidden="true">🧩</span> פרויקטים</a>
+          <a href="#site-links"><span aria-hidden="true">🔗</span> קישורים</a>
         </div>
       </nav>
     </header>
 
     <main>
       <section class="hero" aria-labelledby="page-title">
-        <div>
-          <p class="eyebrow">אתר אישי ומשפחתי</p>
+        <div class="hero-content">
+          <p class="eyebrow"><span aria-hidden="true">✨</span> אתר אישי ומשפחתי</p>
           <h1 id="page-title">האתר של אביב מצא</h1>
           <p class="lead">
-            מקום אחד שמרכז עמודים אישיים, זכרונות משפחתיים, סרטונים ופרויקטים.
-            האתר הזה בנוי כך שיוכל לגדול בהדרגה, בלי לאבד סדר או פשטות.
+            מקום מסודר ונעים לתוכן משפחתי, סרטונים, אלבומים, מקהלות ופרויקטים קטנים שנשמרים במקום אחד ונפתחים בקלות מכל מכשיר.
           </p>
           <div class="actions">
-            <a class="button primary" href="/family/abramoff-videos/">לסרטוני משפחת אברהמוף</a>
-            <a class="button" href="#structure">לראות את מבנה האתר</a>
+            <a class="button primary" href="/family/abramoff-videos/"><span aria-hidden="true">🎬</span> משפחת אברהמוף</a>
+            <a class="button" href="/family/avi-choirs/"><span aria-hidden="true">🎵</span> המקהלות של אבי</a>
           </div>
         </div>
 
@@ -49,41 +48,54 @@
         </div>
       </section>
 
-      <section class="section" id="structure" aria-labelledby="structure-title">
+      <section class="section" id="family" aria-labelledby="family-title">
         <div class="section-heading">
           <div>
-            <h2 id="structure-title">מבנה האתר</h2>
-            <p class="section-text">דף הבית משמש כשער, וכל נושא מקבל ענף משלו.</p>
+            <p class="eyebrow"><span aria-hidden="true">🏠</span> משפחה</p>
+            <h2 id="family-title">עמודים משפחתיים</h2>
+            <p class="section-text">קישורים מהירים לתוכן המשפחתי שכבר נמצא באתר.</p>
           </div>
         </div>
 
         <div class="grid">
-          <article class="card portal-card" id="family">
-            <span class="kicker green">משפחה</span>
-            <h3>סרטונים וזכרונות משפחתיים</h3>
-            <p>ענף משפחתי שמרכז סרטונים, פלייליסטים ותוכן שנוח לשתף עם הקרובים.</p>
-            <a class="button primary" href="/family/abramoff-videos/">כניסה לענף הסרטונים</a>
+          <article class="card portal-card">
+            <span class="icon-badge" aria-hidden="true">🎬</span>
+            <span class="kicker green">סרטים ואלבומים</span>
+            <h3>משפחת אברהמוף</h3>
+            <p>סרטי יום הולדת, אלבום תמונות וקישורים משפחתיים חשובים במקום אחד.</p>
+            <a class="button primary" href="/family/abramoff-videos/">פתיחת העמוד</a>
           </article>
 
           <article class="card portal-card">
-            <span class="kicker">תוכן</span>
-            <h3>עמודים עתידיים</h3>
-            <p>אפשר להוסיף בהמשך תמונות, סיפורים, מסמכים, אירועים או עמודים מוגנים בסיסמה.</p>
-            <a class="button" href="/family/abramoff-videos/">דוגמה קיימת</a>
+            <span class="icon-badge" aria-hidden="true">🎵</span>
+            <span class="kicker coral">מקהלות ושירים</span>
+            <h3>המקהלות של אבי</h3>
+            <p>מקהלת שורשים והמקהלה הבוכרית, כולל פלייליסטים וקישורים ישירים לשירים.</p>
+            <a class="button primary" href="/family/avi-choirs/">פתיחת העמוד</a>
           </article>
+        </div>
+      </section>
 
-          <article class="card portal-card" id="projects">
-            <span class="kicker green">פרויקטים</span>
-            <h3>בסיס נקי להמשך</h3>
-            <p>האתר ב-GitHub יכול לשמש כטיוטה ציבורית, גיבוי, או בסיס עיצובי לפני מעבר ל-WordPress.</p>
-            <a class="button" href="https://github.com/avivmatsa-code/avivmatsa-code.github.io" target="_blank" rel="noreferrer">פתיחה ב-GitHub</a>
-          </article>
+      <section class="section compact" id="projects" aria-labelledby="projects-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span aria-hidden="true">🧩</span> פרויקטים</p>
+            <h2 id="projects-title">בסיס נקי להמשך</h2>
+            <p class="section-text">אפשר להוסיף בהמשך משחקים, תמונות, מסמכים או עמודים נוספים בלי לשנות את המבנה הקיים.</p>
+          </div>
+          <a class="button" href="https://github.com/avivmatsa-code/avivmatsa-code.github.io" target="_blank" rel="noreferrer"><span aria-hidden="true">💻</span> GitHub</a>
         </div>
       </section>
     </main>
 
-    <footer class="footer">
-      <span>avivmatsa.com · אתר אישי ומשפחתי בבנייה מתמשכת</span>
+    <footer class="footer" id="site-links">
+      <div class="footer-inner">
+        <span>avivmatsa.com · אתר אישי ומשפחתי</span>
+        <nav class="footer-links" aria-label="קישורי משפחה">
+          <a href="/family/abramoff-videos/"><span aria-hidden="true">🎬</span> משפחת אברהמוף</a>
+          <a href="/family/avi-choirs/"><span aria-hidden="true">🎵</span> המקהלות של אבי</a>
+        </nav>
+      </div>
     </footer>
   </body>
 </html>
