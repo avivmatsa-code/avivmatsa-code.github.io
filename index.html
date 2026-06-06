@@ -4,7 +4,22 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>האתר של אביב מצא</title>
-    <meta name="description" content="אתר אישי ומשפחתי עם אזורי תוכן, סרטונים, מקהלות ופרויקטים." />
+    <meta name="description" content="אתר אישי ומשפחתי עם אזורי תוכן, משחקים, סרטונים, מקהלות ופרויקטים." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="he_IL" />
+    <meta property="og:title" content="האתר של אביב מצא" />
+    <meta property="og:description" content="אתר אישי ומשפחתי עם משחק המכוניות של עומר, סרטים, אלבומים ומקהלות." />
+    <meta property="og:url" content="https://avivmatsa-code.github.io/" />
+    <meta property="og:image" content="https://dummyimage.com/1200x630/19715f/ffffff.png&text=avivmatsa.com" />
+    <meta property="og:image:secure_url" content="https://dummyimage.com/1200x630/19715f/ffffff.png&text=avivmatsa.com" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="האתר של אביב מצא" />
+    <meta name="twitter:description" content="אתר אישי ומשפחתי עם משחק המכוניות של עומר, סרטים, אלבומים ומקהלות." />
+    <meta name="twitter:image" content="https://dummyimage.com/1200x630/19715f/ffffff.png&text=avivmatsa.com" />
+    <link rel="canonical" href="https://avivmatsa-code.github.io/" />
     <link rel="stylesheet" href="/assets/site.css" />
   </head>
   <body>
@@ -15,8 +30,8 @@
           <span>avivmatsa.com</span>
         </span>
         <div class="nav-links">
+          <a href="#games"><span aria-hidden="true">🏎️</span> משחקים</a>
           <a href="#family"><span aria-hidden="true">👨‍👩‍👧‍👦</span> משפחה</a>
-          <a href="#projects"><span aria-hidden="true">🧩</span> פרויקטים</a>
           <a href="#site-links"><span aria-hidden="true">🔗</span> קישורים</a>
         </div>
       </nav>
@@ -28,10 +43,11 @@
           <p class="eyebrow"><span aria-hidden="true">✨</span> אתר אישי ומשפחתי</p>
           <h1 id="page-title">האתר של אביב מצא</h1>
           <p class="lead">
-            מקום מסודר ונעים לתוכן משפחתי, סרטונים, אלבומים, מקהלות ופרויקטים קטנים שנשמרים במקום אחד ונפתחים בקלות מכל מכשיר.
+            מקום מסודר ונעים לתוכן משפחתי, משחקים, סרטונים, אלבומים, מקהלות ופרויקטים קטנים שנשמרים במקום אחד ונפתחים בקלות מכל מכשיר.
           </p>
           <div class="actions">
-            <a class="button primary" href="/family/abramoff-videos/"><span aria-hidden="true">🎬</span> משפחת אברהמוף</a>
+            <a class="button primary" href="/games/Omer_Car_Race/"><span aria-hidden="true">🏎️</span> משחק המכוניות של עומר</a>
+            <a class="button" href="/family/abramoff-videos/"><span aria-hidden="true">🎬</span> משפחת אברהמוף</a>
             <a class="button" href="/family/avi-choirs/"><span aria-hidden="true">🎵</span> המקהלות של אבי</a>
           </div>
         </div>
@@ -45,6 +61,26 @@
               allowfullscreen
             ></iframe>
           </div>
+        </div>
+      </section>
+
+      <section class="section" id="games" aria-labelledby="games-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span aria-hidden="true">🏎️</span> משחקים</p>
+            <h2 id="games-title">המשחקים של עומר</h2>
+            <p class="section-text">קישור ישיר למשחק המכוניות שאפשר לפתוח מהדפדפן.</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <article class="card portal-card">
+            <span class="icon-badge" aria-hidden="true">🏎️</span>
+            <span class="kicker green">משחק דפדפן</span>
+            <h3>Omer Car Race</h3>
+            <p>משחק מירוץ מכוניות קטן, שמור כעמוד HTML עצמאי ונפתח ישירות מהאתר.</p>
+            <a class="button primary" href="/games/Omer_Car_Race/">פתיחת המשחק</a>
+          </article>
         </div>
       </section>
 
@@ -91,7 +127,8 @@
     <footer class="footer" id="site-links">
       <div class="footer-inner">
         <span>avivmatsa.com · אתר אישי ומשפחתי</span>
-        <nav class="footer-links" aria-label="קישורי משפחה">
+        <nav class="footer-links" aria-label="קישורים באתר">
+          <a href="/games/Omer_Car_Race/"><span aria-hidden="true">🏎️</span> משחק המכוניות של עומר</a>
           <a href="/family/abramoff-videos/"><span aria-hidden="true">🎬</span> משפחת אברהמוף</a>
           <a href="/family/avi-choirs/"><span aria-hidden="true">🎵</span> המקהלות של אבי</a>
         </nav>
