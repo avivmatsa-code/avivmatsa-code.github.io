@@ -3,224 +3,92 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>האתר של אביב מצא</title>
-    <meta name="description" content="אתר אישי ומשפחתי עם אזורי תוכן, משחקים, טיולים, ריקוד ואקרודאנס, מוזיקה, סרטונים, אלבומים, מקהלות ופרויקטים." />
+    <title>כניסה | avivmatsa.com</title>
+    <meta name="description" content="שער כניסה לאזורים פרטיים באתר." />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="he_IL" />
-    <meta property="og:title" content="האתר של אביב מצא" />
-    <meta property="og:description" content="אתר אישי ומשפחתי עם משחק המכוניות של עומר, טיולים בחו״ל, תחרויות ריקוד ואקרודאנס, מגמת המוזיקה של חטיבת עתידים, סרטים, אלבומים ומקהלות." />
+    <meta property="og:title" content="כניסה לאתר" />
+    <meta property="og:description" content="שער כניסה לאזורים פרטיים באתר." />
     <meta property="og:url" content="https://avivmatsa-code.github.io/" />
-    <meta property="og:image" content="https://placehold.co/1200x630/0f766e/fef3c7.png?text=Games+Travel+Dance+Music+Family" />
-    <meta property="og:image:secure_url" content="https://placehold.co/1200x630/0f766e/fef3c7.png?text=Games+Travel+Dance+Music+Family" />
+    <meta property="og:image" content="https://placehold.co/1200x630/0f172a/67e8f9.png?text=Private+Portal" />
+    <meta property="og:image:secure_url" content="https://placehold.co/1200x630/0f172a/67e8f9.png?text=Private+Portal" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="האתר של אביב מצא" />
-    <meta name="twitter:description" content="אתר אישי ומשפחתי עם משחקים, טיולים, ריקוד ואקרודאנס, מוזיקה, סרטים, אלבומים ומקהלות." />
-    <meta name="twitter:image" content="https://placehold.co/1200x630/0f766e/fef3c7.png?text=Games+Travel+Dance+Music+Family" />
+    <meta name="twitter:title" content="כניסה לאתר" />
+    <meta name="twitter:description" content="שער כניסה לאזורים פרטיים באתר." />
+    <meta name="twitter:image" content="https://placehold.co/1200x630/0f172a/67e8f9.png?text=Private+Portal" />
     <link rel="canonical" href="https://avivmatsa-code.github.io/" />
     <link rel="stylesheet" href="/assets/site.css" />
     <style>
-      .home-actions {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-        gap: 10px;
-      }
-      .home-actions .button {
-        width: 100%;
-        min-height: 54px;
-        text-align: center;
-      }
-      .home-card {
-        display: flex;
-        flex-direction: column;
-      }
-      .home-card .button {
-        width: 100%;
-        min-height: 48px;
-        margin-top: auto;
-        text-align: center;
-      }
+      body { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+      .gate { width: min(100%, 460px); background: rgba(255,255,255,.92); border: 1px solid rgba(15,23,42,.12); border-radius: 8px; box-shadow: 0 24px 80px rgba(15,23,42,.16); padding: 28px; }
+      .gate h1 { margin: 0 0 8px; font-size: clamp(2rem, 6vw, 3rem); color: #0f172a; }
+      .gate p { margin: 0 0 22px; color: #475569; line-height: 1.7; }
+      .field { display: grid; gap: 8px; margin-bottom: 14px; }
+      .field label { font-weight: 800; color: #0f172a; }
+      .field input { min-height: 46px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0 12px; font: inherit; }
+      .error { min-height: 24px; color: #b91c1c; font-weight: 800; }
+      .menu { display: none; gap: 12px; margin-top: 20px; }
+      .menu.is-open { display: grid; }
+      .menu a { text-decoration: none; }
+      .hidden { display: none; }
     </style>
   </head>
   <body>
-    <header class="site-header">
-      <nav class="nav" aria-label="ניווט ראשי">
-        <span class="brand" aria-label="האתר של אביב מצא">
-          <span class="brand-mark" aria-hidden="true">א</span>
-          <span>avivmatsa.com</span>
-        </span>
-        <div class="nav-links">
-          <a href="#games"><span aria-hidden="true">🏎️</span> משחקים</a>
-          <a href="#travel"><span aria-hidden="true">🌍</span> טיולים</a>
-          <a href="#dance"><span aria-hidden="true">💃</span> ריקוד</a>
-          <a href="#music"><span aria-hidden="true">🎼</span> מוזיקה</a>
-          <a href="#family"><span aria-hidden="true">👨‍👩‍👧‍👦</span> משפחה</a>
-          <a href="#site-links"><span aria-hidden="true">🔗</span> קישורים</a>
+    <main class="gate" aria-labelledby="page-title">
+      <p class="eyebrow"><span aria-hidden="true">🔐</span> כניסה</p>
+      <h1 id="page-title">avivmatsa.com</h1>
+      <p id="intro">יש להזין שם משתמש וסיסמה כדי לראות את התפריט.</p>
+
+      <form id="login-form" autocomplete="off">
+        <div class="field">
+          <label for="username">שם משתמש</label>
+          <input id="username" name="username" inputmode="latin" required />
         </div>
+        <div class="field">
+          <label for="password">סיסמה</label>
+          <input id="password" name="password" type="password" required />
+        </div>
+        <button class="button primary" type="submit">כניסה</button>
+        <div class="error" id="error" aria-live="polite"></div>
+      </form>
+
+      <nav class="menu" id="menu" aria-label="תפריט קישורים">
+        <a class="button primary" href="/family/"><span aria-hidden="true">🏠</span> האתר המשפחתי</a>
       </nav>
-    </header>
-
-    <main>
-      <section class="hero" aria-labelledby="page-title">
-        <div class="hero-content">
-          <p class="eyebrow"><span aria-hidden="true">✨</span> אתר אישי ומשפחתי</p>
-          <h1 id="page-title">האתר של אביב מצא</h1>
-          <p class="lead">
-            מקום מסודר ונעים לתוכן משפחתי, משחקים, טיולים, ריקוד ואקרודאנס, מוזיקה, סרטונים, אלבומים, מקהלות ופרויקטים קטנים שנשמרים במקום אחד ונפתחים בקלות מכל מכשיר.
-          </p>
-          <div class="actions home-actions">
-            <a class="button primary" href="/games/"><span aria-hidden="true">🏎️</span> המשחקים של עומר</a>
-            <a class="button" href="/travel/"><span aria-hidden="true">🌍</span> טיולים בחו״ל</a>
-            <a class="button" href="/dance-acrodance/"><span aria-hidden="true">💃</span> תחרויות ריקוד ואקרודאנס</a>
-            <a class="button" href="/music/atidim/"><span aria-hidden="true">🎼</span> מגמת המוזיקה של חטיבת עתידים</a>
-            <a class="button" href="/family/abramoff-videos/"><span aria-hidden="true">🎬</span> משפחת אברהמוף</a>
-            <a class="button" href="/family/avi-choirs/"><span aria-hidden="true">🎵</span> המקהלות של אבי</a>
-          </div>
-        </div>
-
-        <div class="feature-panel title-panel" aria-hidden="true">
-          <div class="title-panel-inner">
-            <span>✨</span>
-            <strong>avivmatsa.com</strong>
-            <small>משחקים · טיולים · ריקוד · מוזיקה · משפחה · זיכרונות</small>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="games" aria-labelledby="games-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow"><span aria-hidden="true">🏎️</span> משחקים</p>
-            <h2 id="games-title">המשחקים של עומר</h2>
-            <p class="section-text">קישור ישיר לדף המשחקים של עומר, ומשם למשחק המכוניות שאפשר לפתוח מהדפדפן.</p>
-          </div>
-        </div>
-
-        <div class="grid">
-          <article class="card portal-card home-card">
-            <span class="icon-badge" aria-hidden="true">🏎️</span>
-            <span class="kicker green">משחק דפדפן</span>
-            <h3>המשחקים של עומר</h3>
-            <p>דף משחקים מסודר עם קישור ל-Omer Car Race.</p>
-            <a class="button primary" href="/games/">פתיחת דף המשחקים</a>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="travel" aria-labelledby="travel-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow"><span aria-hidden="true">🌍</span> טיולים</p>
-            <h2 id="travel-title">טיולים בחו״ל</h2>
-            <p class="section-text">אלבומי תמונות מטיולים בחו״ל לפי שנים ויעדים.</p>
-          </div>
-        </div>
-
-        <div class="grid">
-          <article class="card portal-card home-card">
-            <span class="icon-badge" aria-hidden="true">✈️</span>
-            <span class="kicker coral">אלבומי תמונות</span>
-            <h3>טיולים בחו״ל</h3>
-            <p>פראג, תאילנד, כרתים, הולנד, לונדון ואיטליה בדף אחד מסודר.</p>
-            <a class="button primary" href="/travel/">פתיחת דף הטיולים</a>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="dance" aria-labelledby="dance-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow"><span aria-hidden="true">💃</span> ריקוד</p>
-            <h2 id="dance-title">תחרויות ריקוד ואקרודאנס</h2>
-            <p class="section-text">סרטוני תחרויות IDO, DWC ו-DSI מהשנים 2025 ו-2026.</p>
-          </div>
-        </div>
-
-        <div class="grid">
-          <article class="card portal-card home-card">
-            <span class="icon-badge" aria-hidden="true">🏆</span>
-            <span class="kicker green">סרטוני תחרויות</span>
-            <h3>תחרויות ריקוד ואקרודאנס</h3>
-            <p>דף מסודר לכל סרטוני התחרויות, מחולק לפי שנים.</p>
-            <a class="button primary" href="/dance-acrodance/">פתיחת דף התחרויות</a>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="music" aria-labelledby="music-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow"><span aria-hidden="true">🎼</span> מוזיקה</p>
-            <h2 id="music-title">מגמת המוזיקה של חטיבת עתידים</h2>
-            <p class="section-text">פלייליסטים של ערבי מגמה והרכבים קטנים.</p>
-          </div>
-        </div>
-
-        <div class="grid">
-          <article class="card portal-card home-card">
-            <span class="icon-badge" aria-hidden="true">🎼</span>
-            <span class="kicker coral">פלייליסטים</span>
-            <h3>מגמת המוזיקה של חטיבת עתידים</h3>
-            <p>ערבי מגמה והרכבים קטנים מתשפ״ד, תשפ״ה ותשפ״ו.</p>
-            <a class="button primary" href="/music/atidim/">פתיחת העמוד</a>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="family" aria-labelledby="family-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow"><span aria-hidden="true">🏠</span> משפחה</p>
-            <h2 id="family-title">עמודים משפחתיים</h2>
-            <p class="section-text">קישורים מהירים לתוכן המשפחתי שכבר נמצא באתר.</p>
-          </div>
-        </div>
-
-        <div class="grid">
-          <article class="card portal-card home-card">
-            <span class="icon-badge" aria-hidden="true">🎬</span>
-            <span class="kicker green">סרטים ואלבומים</span>
-            <h3>משפחת אברהמוף</h3>
-            <p>סרטי יום הולדת, אלבום תמונות וקישורים משפחתיים חשובים במקום אחד.</p>
-            <a class="button primary" href="/family/abramoff-videos/">פתיחת העמוד</a>
-          </article>
-
-          <article class="card portal-card home-card">
-            <span class="icon-badge" aria-hidden="true">🎵</span>
-            <span class="kicker coral">מקהלות ושירים</span>
-            <h3>המקהלות של אבי</h3>
-            <p>מקהלת שורשים והמקהלה הבוכרית, כולל פלייליסטים וקישורים ישירים לשירים.</p>
-            <a class="button primary" href="/family/avi-choirs/">פתיחת העמוד</a>
-          </article>
-        </div>
-      </section>
-
-      <section class="section compact" id="projects" aria-labelledby="projects-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow"><span aria-hidden="true">🧩</span> פרויקטים</p>
-            <h2 id="projects-title">בסיס נקי להמשך</h2>
-            <p class="section-text">אפשר להוסיף בהמשך משחקים, תמונות, מסמכים או עמודים נוספים בלי לשנות את המבנה הקיים.</p>
-          </div>
-          <a class="button" href="https://github.com/avivmatsa-code/avivmatsa-code.github.io" target="_blank" rel="noreferrer"><span aria-hidden="true">💻</span> GitHub</a>
-        </div>
-      </section>
     </main>
 
-    <footer class="footer" id="site-links">
-      <div class="footer-inner">
-        <span>avivmatsa.com · אתר אישי ומשפחתי</span>
-        <nav class="footer-links" aria-label="קישורים באתר">
-          <a href="/games/"><span aria-hidden="true">🏎️</span> המשחקים של עומר</a>
-          <a href="/travel/"><span aria-hidden="true">🌍</span> טיולים בחו״ל</a>
-          <a href="/dance-acrodance/"><span aria-hidden="true">💃</span> תחרויות ריקוד ואקרודאנס</a>
-          <a href="/music/atidim/"><span aria-hidden="true">🎼</span> מגמת המוזיקה של חטיבת עתידים</a>
-          <a href="/family/abramoff-videos/"><span aria-hidden="true">🎬</span> משפחת אברהמוף</a>
-          <a href="/family/avi-choirs/"><span aria-hidden="true">🎵</span> המקהלות של אבי</a>
-        </nav>
-      </div>
-    </footer>
+    <script>
+      const USERNAME = "matsa";
+      const PASSWORD = "BestFamilyEver";
+      const form = document.getElementById("login-form");
+      const menu = document.getElementById("menu");
+      const error = document.getElementById("error");
+      const intro = document.getElementById("intro");
+
+      function openMenu() {
+        form.classList.add("hidden");
+        menu.classList.add("is-open");
+        intro.textContent = "ברוך הבא. בחר יעד:";
+      }
+
+      if (localStorage.getItem("avivmatsa-gate") === "open") {
+        openMenu();
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value;
+        if (username === USERNAME && password === PASSWORD) {
+          localStorage.setItem("avivmatsa-gate", "open");
+          openMenu();
+        } else {
+          error.textContent = "שם המשתמש או הסיסמה אינם נכונים.";
+        }
+      });
+    </script>
   </body>
 </html>
