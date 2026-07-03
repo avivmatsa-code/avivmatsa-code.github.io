@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>סיכוי, סיכון ותוחלת</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">דילוג לתוכן המרכזי</a>
+    <header class="topbar">
+      <div>
+        <strong class="brand">סיכוי, סיכון ותוחלת</strong>
+        <p class="safety-note">זוהי הדמיה לימודית בלבד. אין כאן שימוש בכסף אמיתי.</p>
+      </div>
+      <nav class="nav" aria-label="ניווט ראשי">
+        <button data-route="home">פתיחה</button>
+        <button data-route="coin">מטבע</button>
+        <button data-route="roulette">רולטה</button>
+        <button data-route="risk">מעבדת סיכון</button>
+        <button data-route="repeat">משחק יחיד/חוזר</button>
+        <button data-route="compare">השוואה</button>
+        <button data-route="quiz">שאלון</button>
+      </nav>
+    </header>
+
+    <main id="main" class="app-shell" tabindex="-1">
+      <section id="view-home" class="view active" aria-labelledby="home-title">
+        <div class="hero">
+          <div>
+            <p class="kicker">מעבדה מתמטית אינטראקטיבית</p>
+            <h1 id="home-title">סיכוי, סיכון ותוחלת</h1>
+            <p class="big-question">מה חשוב יותר: מה קרה הפעם, או מה צפוי לקרות אחרי אלפי משחקים?</p>
+            <p class="safety-note panel-note">זוהי הדמיה לימודית בלבד. אין כאן שימוש בכסף אמיתי.</p>
+            <div class="hero-actions">
+              <button class="primary" data-route="coin">התחלת מסלול לימוד</button>
+              <button data-route="roulette">ניסוי חופשי</button>
+              <button data-route="glossary">מילון מושגים</button>
+            </div>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="orbit coin-a">50%</div>
+            <div class="orbit coin-b">EV</div>
+            <div class="axis-line"></div>
+            <div class="bar-chart"><span></span><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="concept-grid">
+          <article class="concept-card"><h2>הסתברות</h2><p>הסיכוי שאירוע מסוים יתרחש.</p></article>
+          <article class="concept-card"><h2>תוחלת</h2><p>הרווח או ההפסד הממוצע הצפוי לכל משחק, אם נחזור עליו פעמים רבות.</p></article>
+          <article class="concept-card"><h2>סיכון</h2><p>האפשרות שהתוצאה בפועל תהיה שונה מאוד מהממוצע הצפוי.</p></article>
+        </div>
+      </section>
+
+      <section id="view-glossary" class="view" aria-labelledby="glossary-title">
+        <h1 id="glossary-title">מילון מושגים</h1>
+        <p class="safety-note">זוהי הדמיה לימודית בלבד. אין כאן שימוש בכסף אמיתי.</p>
+        <div class="two-col">
+          <article><h2>תוחלת אינה הבטחה</h2><p>תוחלת אינה הבטחה. היא ממוצע צפוי על פני מספר רב של ניסיונות.</p></article>
+          <article><h2>רווח נטו</h2><p>כמה השתנתה היתרה אחרי המשחק: זכייה מוסיפה, הפסד מוריד.</p></article>
+          <article><h2>תנודתיות</h2><p>מדד לכמה התוצאות יכולות להתרחק מהממוצע.</p></article>
+          <article><h2>כשל המהמר</h2><p>המחשבה שאחרי רצף מסוים התוצאה הבאה "חייבת" להתאזן, אף שכל סיבוב עצמאי.</p></article>
+        </div>
+      </section>
+
+      <section id="view-coin" class="view" aria-labelledby="coin-title">
+        <h1 id="coin-title">סימולטור הטלת מטבע של 10 ש"ח</h1>
+        <p class="safety-note">זוהי הדמיה לימודית בלבד. אין כאן שימוש בכסף אמיתי.</p>
+        <div class="learning-strip"><p><strong>משחק הוגן:</strong> עץ = רווח נטו 10 ש"ח, פלי = הפסד 10 ש"ח. הסתברות זכייה 50%, תוחלת 0 ש"ח.</p><p>מזל משפיע מאוד על התוצאה הקצרה. התוחלת משפיעה על הממוצע הארוך.</p></div>
+        <div class="sim-layout">
+          <form id="coin-form" class="control-panel">
+            <h2>הגדרות סימולציה</h2>
+            <label>מספר הטלות<select id="coin-rounds"><option value="1">1</option><option value="10" selected>10</option><option value="100">100</option><option value="1000">1,000</option><option value="10000">10,000</option><option value="custom">מותאם אישית</option></select></label>
+            <label id="coin-custom-wrap" class="hidden">מספר מותאם, עד 100,000<input id="coin-custom" type="number" min="1" max="100000" value="100000"></label>
+            <label>אופן הצגה<select id="coin-display"><option value="detail">כל הטלה בנפרד</option><option value="fast">אנימציה מהירה</option><option value="instant">תוצאה מיידית</option></select></label>
+            <fieldset><legend>מה לדעתך יקרה?</legend><label><input type="radio" name="coin-prediction" value="profit" checked> ארוויח</label><label><input type="radio" name="coin-prediction" value="loss"> אפסיד</label><label><input type="radio" name="coin-prediction" value="near"> אסיים קרוב לאפס</label><label><input type="radio" name="coin-prediction" value="unknown"> אי אפשר לדעת מה יקרה בניסוי המסוים</label></fieldset>
+            <div class="row"><button class="primary" type="submit">הפעלת סימולציה</button><button type="button" id="coin-reset">איפוס</button></div>
+            <progress id="coin-progress" max="100" value="0" class="hidden"></progress><div id="coin-animation" class="coin-token" aria-live="polite">עץ</div>
+          </form>
+          <div><div id="coin-stats" class="stats-grid"></div><div id="coin-explanation" class="explanation"></div></div>
+        </div>
+        <div class="graphs-grid"><div class="graph-card"><h2>רווח מצטבר</h2><canvas id="coin-profit-chart" width="680" height="320"></canvas></div><div class="graph-card"><h2>שיעור זכיות</h2><canvas id="coin-rate-chart" width="680" height="320"></canvas></div></div>
+        <section class="lab"><h2>מעבדת תוחלת</h2><div class="lab-grid"><label>רווח במקרה עץ<input id="lab-win" type="number" value="10" step="1"></label><label>הפסד במקרה פלי<input id="lab-loss" type="number" value="-10" step="1"></label><label>הסתברות זכייה: <span id="lab-prob-label">50%</span><input id="lab-prob" type="range" min="1" max="99" value="50"></label><label>מספר חזרות<input id="lab-rounds" type="number" min="1" max="100000" value="1000"></label></div><p id="lab-formula" class="formula"></p><p id="lab-kind" class="explanation"></p><button id="lab-run">הרץ משחק מותאם</button></section>
+      </section>
+
+      <section id="view-roulette" class="view" aria-labelledby="roulette-title">
+        <h1 id="roulette-title">סימולטור רולטה אירופית</h1>
+        <p class="safety-note">זוהי הדמיה לימודית בלבד. אין כאן שימוש בכסף אמיתי.</p>
+        <div class="learning-strip"><p>ברולטה אירופית יש 18 מספרים אדומים, 18 מספרים שחורים ואפס ירוק אחד.</p><p>המראה כאן הוא של מעבדה מתמטית, לא חוויית משחק. אפשר לזכות בסיבוב יחיד, אבל התוחלת שלילית לשחקן.</p></div>
+        <div class="sim-layout">
+          <form id="roulette-form" class="control-panel">
+            <h2>הגדרות רולטה</h2>
+            <label>סוג הימור<select id="roulette-bet-type"><option value="red">אדום</option><option value="black">שחור</option><option value="single">מספר יחיד</option><option value="dozen1">תריסר 1-12</option><option value="dozen2">תריסר 13-24</option><option value="dozen3">תריסר 25-36</option></select></label>
+            <label id="single-number-wrap" class="hidden">מספר יחיד 0-36<input id="single-number" type="number" min="0" max="36" value="7"></label>
+            <label>סכום הימור<select id="roulette-bet"><option value="10">10</option><option value="20">20</option><option value="50">50</option><option value="100">100</option><option value="custom">מותאם אישית</option></select></label>
+            <label id="roulette-custom-wrap" class="hidden">סכום מותאם<input id="roulette-custom" type="number" min="1" max="1000" value="10"></label>
+            <label>מצב משחק<select id="roulette-mode"><option value="1">סיבוב יחיד</option><option value="10">10 סיבובים</option><option value="100">100 סיבובים</option><option value="1000">1,000 סיבובים</option><option value="10000">10,000 סיבובים</option></select></label>
+            <div class="row"><button class="primary" type="submit">סובב</button><button type="button" id="roulette-reset">איפוס ל-1,000</button></div><button type="button" id="distribution-run">הרץ 1,000 שחקנים מדומים</button><p id="roulette-ev" class="formula"></p>
+          </form>
+          <div><div id="roulette-stats" class="stats-grid"></div><div id="roulette-explanation" class="explanation"></div></div>
+        </div>
+        <div class="graphs-grid"><div class="graph-card"><h2>יתרה לאורך זמן</h2><canvas id="roulette-balance-chart" width="680" height="320"></canvas></div><div class="graph-card"><h2>בפועל לעומת צפוי</h2><canvas id="roulette-expected-chart" width="680" height="320"></canvas></div><div class="graph-card wide"><h2>התפלגות יתרות סופיות</h2><canvas id="roulette-hist-chart" width="980" height="320"></canvas><div id="distribution-summary"></div></div></div>
+      </section>
+
+      <section id="view-risk" class="view" aria-labelledby="risk-title"><h1 id="risk-title">מעבדת סיכון</h1><p class="safety-note">זוהי הדמיה לימודית בלבד. אין כאן שימוש בכסף אמיתי.</p><div id="risk-card" class="choice-stage"></div></section>
+
+      <section id="view-repeat" class="view" aria-labelledby="repeat-title">
+        <h1 id="repeat-title">משחק יחיד לעומת משחק חוזר</h1><p class="safety-note">זוהי הדמיה לימודית בלבד. אין כאן שימוש בכסף אמיתי.</p>
+        <div class="split-panel"><article><h2>משחק יחיד</h2><p><strong>אם תטיל מטבע פעם אחת, האם התוחלת יכולה לומר לך מה יקרה?</strong></p><p>לא. התוחלת אינה תחזית של תוצאה בודדת.</p></article><article><h2>משחק שחוזר פעמים רבות</h2><p>כאשר חוזרים על אותו משחק פעמים רבות ובאותם תנאים, הממוצע בפועל נוטה להתקרב לתוחלת.</p></article></div>
+        <button id="repeat-run" class="primary">הרץ הדגמה מקבילה</button><div id="repeat-results" class="stats-grid"></div><div class="explanation"><p>חוק המספרים הגדולים מתייחס לממוצע של מספר רב של ניסויים.</p><p>הוא אינו מבטיח שכל שחקן יחיד יסיים קרוב לממוצע, ואינו אומר שאחרי רצף הפסדים "חייבת" להגיע זכייה.</p><p>כל סיבוב עצמאי, כל עוד כללי המשחק אינם משתנים.</p></div>
+        <section class="lab"><h2>המחשת כשל המהמר</h2><p>המטבע נפל חמש פעמים ברציפות על עץ. מה הסיכוי שבהטלה הבאה ייצא פלי?</p><div class="row"><button class="fallacy-answer" data-correct="false">יותר מ-50%</button><button class="fallacy-answer" data-correct="true">בדיוק 50%</button><button class="fallacy-answer" data-correct="false">פחות מ-50%</button></div><div id="fallacy-feedback" class="explanation"></div></section>
+      </section>
+
+      <section id="view-compare" class="view" aria-labelledby="compare-title"><h1 id="compare-title">השוואה בין מטבע לרולטה</h1><p class="safety-note">זוהי הדמיה לימודית בלבד. אין כאן שימוש בכסף אמיתי.</p><div class="table-wrap"><table><thead><tr><th>מאפיין</th><th>מטבע הוגן</th><th>רולטה אירופית</th></tr></thead><tbody><tr><td>הסתברות</td><td>50% מול 50%</td><td>כוללת 0 שמעניק יתרון לבית</td></tr><tr><td>תוחלת</td><td>אפס</td><td>שלילית לשחקן</td></tr><tr><td>אפשר לזכות במשחק יחיד</td><td>כן</td><td>כן</td></tr><tr><td>אפשר להפסיד במשחק יחיד</td><td>כן</td><td>כן</td></tr><tr><td>תוצאה צפויה לאורך זמן</td><td>ממוצע קרוב לאפס</td><td>הפסד ממוצע מצטבר</td></tr><tr><td>יתרון למפעיל</td><td>אין</td><td>כ-2.7%</td></tr><tr><td>משמעות רצף קודם</td><td>אינו משנה את ההטלה הבאה</td><td>אינו משנה את הסיבוב הבא</td></tr></tbody></table></div><blockquote>בטווח הקצר המזל יכול להסתיר את המתמטיקה. בטווח הארוך המתמטיקה נעשית בולטת יותר.</blockquote></section>
+
+      <section id="view-quiz" class="view" aria-labelledby="quiz-title"><h1 id="quiz-title">שאלון סיכום</h1><p class="safety-note">זוהי הדמיה לימודית בלבד. אין כאן שימוש בכסף אמיתי.</p><div id="quiz-box" class="quiz-box"></div></section>
+    </main>
+
+    <footer><p>תוצאה טובה אינה בהכרח החלטה טובה, ותוצאה רעה אינה בהכרח החלטה רעה.</p></footer>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
