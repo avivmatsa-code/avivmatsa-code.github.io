@@ -1,205 +1,202 @@
-<!doctype html>
-<html lang="he" dir="rtl">
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Multiplayer Car Race | By Omer Matsa</title>
-  <meta name="description" content="××©×—×§ ×”××›×•× ×™×•×ª ×©×œ ×¢×•××¨ ×‘××•× ×œ×™×™×Ÿ ×œÖ¾2â€“4 ×©×—×§× ×™×. ×™×•×¦×¨×™× ×—×“×¨, ××©×ª×¤×™× ×§×•×“ ×•××©×—×§×™× ×™×—×“.">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="he_IL">
-  <meta property="og:site_name" content="×”××©×—×§×™× ×©×œ ×¢×•××¨">
-  <meta property="og:title" content="Multiplayer Car Race â€” By Omer Matsa">
-  <meta property="og:description" content="××©×—×§ ××›×•× ×™×•×ª ××©×•×ª×£ ×œÖ¾2â€“4 ×©×—×§× ×™×. ×™×•×¦×¨×™× ×—×“×¨, ××©×ª×¤×™× ×§×•×“ ×•××ª×—×™×œ×™× ×œ×”×ª×—×¨×•×ª!">
-  <meta property="og:url" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/">
-  <meta property="og:image" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/multiplayer-police-laser-preview.jpg">
-  <meta property="og:image:secure_url" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/multiplayer-police-laser-preview.jpg">
-  <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="××¨×‘×¢ ××›×•× ×™×•×ª ×¦×‘×¢×•× ×™×•×ª ××ª×—×¨×•×ª ×™×—×“ ×‘×›×‘×™×© ××•××¨ ×‘×œ×™×œ×”">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Multiplayer Car Race â€” By Omer Matsa">
-  <meta name="twitter:description" content="××©×—×§ ××›×•× ×™×•×ª ××©×•×ª×£ ×œÖ¾2â€“4 ×©×—×§× ×™×. ×™×•×¦×¨×™× ×—×“×¨ ×•××©×—×§×™× ×™×—×“.">
-  <meta name="twitter:image" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/multiplayer-police-laser-preview.jpg">
-  <meta name="twitter:image:alt" content="××¨×‘×¢ ××›×•× ×™×•×ª ×¦×‘×¢×•× ×™×•×ª ××ª×—×¨×•×ª ×™×—×“ ×‘×›×‘×™×© ××•××¨ ×‘×œ×™×œ×”">
-  <link rel="canonical" href="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/">
-  <style>
-    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07070c;color:#fff;font-family:Arial,sans-serif;user-select:none}
-    canvas{display:block;width:100%;height:100%;touch-action:none}
-    .panel{position:fixed;z-index:10;background:#0a0a14e8;border:2px solid #ff0055;border-radius:14px;box-shadow:0 0 24px #ff005544}
-    #hud{top:12px;right:12px;padding:11px 14px;min-width:180px;font-weight:700;line-height:1.65}
-    #players{top:12px;left:12px;padding:10px 13px;min-width:170px}
-    .player-line{display:flex;align-items:center;gap:8px;margin:5px 0;font-weight:700}.dot{width:12px;height:12px;border-radius:50%}
-    #lobby{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#1a0826,#050508)}
-    .card{width:min(92vw,520px);padding:28px;text-align:center;background:#10101eeF;border:2px solid #ff0055;border-radius:24px;box-shadow:0 0 45px #ff005555}
-    h1{margin:0 0 8px;font-size:clamp(30px,7vw,48px);text-shadow:0 0 18px #ff0055}.sub{color:#ffcc00;margin-bottom:22px}
-    input{width:100%;padding:12px 14px;margin:6px 0 12px;border:1px solid #666;border-radius:10px;background:#202030;color:#fff;font-size:18px;text-align:center}
-    .row{display:flex;gap:10px}.btn{flex:1;padding:12px;border:0;border-radius:24px;background:#ff0055;color:#fff;font-size:18px;font-weight:800;cursor:pointer;box-shadow:0 0 12px #ff005588}.btn.alt{background:#00bfa5;color:#04110f}.btn:disabled{filter:grayscale(1);opacity:.45;cursor:not-allowed}
-    #roomBox{display:none;margin-top:18px;padding:14px;background:#0008;border-radius:12px}#roomCode{direction:ltr;font-size:28px;letter-spacing:5px;color:#00ffcc;font-weight:900}
-    #status{min-height:24px;color:#ffcc00;margin-top:10px}.small{font-size:13px;color:#aaa;line-height:1.5}
-    #message{position:fixed;inset:0;z-index:9;display:flex;align-items:center;justify-content:center;pointer-events:none;font-size:clamp(32px,8vw,64px);font-weight:900;text-shadow:0 0 20px #ff0055}
-    #controls{position:fixed;z-index:12;inset:auto 0 14px;display:none;justify-content:space-between;padding:0 16px;direction:ltr;pointer-events:none}
-    .pad{display:grid;grid-template-columns:58px 58px;gap:8px;pointer-events:auto}.touch{height:58px;border:0;border-radius:50%;background:#ffffff2e;color:#fff;font-size:24px;font-weight:900;touch-action:none}.fire{width:72px;height:72px;background:#ff005599}
-    #disconnect{position:fixed;z-index:13;bottom:10px;left:50%;transform:translateX(-50%);border:0;border-radius:16px;padding:7px 13px;background:#333b;color:#fff;cursor:pointer}
-    @media(pointer:coarse){#controls{display:flex}}@media(max-width:600px){#players{top:auto;bottom:98px;font-size:12px;min-width:130px}#hud{font-size:13px;min-width:145px}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <title>Multiplayer Car Race | By Omer Matsa</title>
+    <meta name="description" content="The original Omer Matsa car race, now playable online with 2â€“4 players.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Omer's Games">
+    <meta property="og:title" content="Multiplayer Car Race â€” By Omer Matsa">
+    <meta property="og:description" content="Race, shoot, defeat bosses and play online with 2â€“4 players.">
+    <meta property="og:url" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/">
+    <meta property="og:image" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/multiplayer-police-laser-preview.jpg">
+    <meta property="og:image:secure_url" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/multiplayer-police-laser-preview.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Multiplayer Car Race â€” By Omer Matsa">
+    <meta name="twitter:description" content="The original car race with online multiplayer for 2â€“4 players.">
+    <meta name="twitter:image" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/multiplayer-police-laser-preview.jpg">
+    <link rel="canonical" href="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/">
+    <style>
+        body { margin: 0; overflow: hidden; background: #07070c; font-family: sans-serif; user-select: none; }
+        #ui { position: absolute; top: 20px; left: 20px; color: white; background: rgba(10,10,20,0.9); padding: 15px; border-radius: 12px; border: 2px solid #ff0055; z-index: 100; min-width: 160px; }
+        .ui-line { font-size: 16px; font-weight: bold; margin-bottom: 4px; display: flex; justify-content: space-between; }
+        #msgLayer { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; z-index: 150; pointer-events: none; }
+        #msgText { font-size: 50px; font-weight: 900; color: #fff; text-shadow: 0 0 20px #ff0055; background: rgba(0,0,0,0.6); padding: 10px 30px; border-radius: 10px; display: none; }
+        #bossHpContainer { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 350px; background: rgba(0,0,0,0.8); border: 2px solid #ff3300; border-radius: 8px; padding: 10px; display: none; text-align: center; z-index: 100; color: white; }
+        #bossTitle { font-weight: bold; font-size: 18px; margin-bottom: 2px; }
+        #bossHpBar { width: 100%; height: 16px; background: #330000; border-radius: 4px; overflow: hidden; margin-top: 5px; }
+        #bossHpFill { width: 100%; height: 100%; background: #ff3300; transition: width 0.1s; }
+        #bossHpText { font-size: 12px; margin-top: 3px; }
+        
+        .pause-btn { width: 100%; padding: 8px; margin-top: 10px; font-weight: bold; background: #ff9f43; border: none; color: black; border-radius: 6px; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .pause-btn:hover { background: #ffb167; transform: scale(1.02); }
+        
+        #menuScreen { position: absolute; inset: 0; background: radial-gradient(circle, #1a0826 0%, #050508 100%); z-index: 200; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; overflow-y: auto; padding: 20px 0; }
+        .menu-btn { padding: 12px 35px; font-size: 22px; font-weight: bold; background: #ff0055; border: none; color: white; border-radius: 30px; cursor: pointer; margin-bottom: 15px; box-shadow: 0 0 15px #ff0055; transition: 0.2s; }
+        .menu-btn:hover { transform: scale(1.05); background: #ff2277; }
+        .reset-btn { padding: 8px 20px; font-size: 14px; font-weight: bold; background: #444; border: none; color: #aaa; border-radius: 20px; cursor: pointer; margin-bottom: 20px; transition: 0.2s; }
+        .reset-btn:hover { background: #555; color: #fff; }
+       
+        .shop-container { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); width: 460px; text-align: center; margin-bottom: 15px; }
+        .shop-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 8px; }
+        .shop-btn { padding: 6px 12px; font-weight: bold; background: #00ffcc; border: none; color: #000; border-radius: 4px; cursor: pointer; }
+        .shop-btn:disabled { background: #444; color: #888; cursor: not-allowed; }
+        
+        .skin-select-container { display: flex; justify-content: space-around; margin-top: 10px; width: 100%; gap: 5px; }
+        .skin-box { background: rgba(0,0,0,0.5); padding: 8px; border-radius: 8px; border: 2px solid transparent; cursor: pointer; flex: 1; font-size: 13px; text-align: center; transition: 0.2s; }
+        .skin-box:hover { background: rgba(255,255,255,0.1); }
+        .skin-box.active { border-color: #00ffcc; background: rgba(0,255,204,0.1); }
+        .skin-box.locked { opacity: 0.6; }
+        canvas { display: block; }
+        #networkLobby { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #1a0826, #050508); color: #fff; }
+        .network-card { width: min(92vw, 520px); padding: 28px; text-align: center; background: rgba(16,16,30,.96); border: 2px solid #ff0055; border-radius: 24px; box-shadow: 0 0 45px #ff005555; }
+        .network-card h1 { margin: 0 0 4px; font-size: clamp(30px,7vw,48px); text-shadow: 0 0 18px #ff0055; }
+        .network-byline { color: #ffcc00; font-size: 20px; font-weight: 800; margin-bottom: 18px; }
+        .network-card input { width: 100%; box-sizing: border-box; padding: 12px 14px; margin: 6px 0 12px; border: 1px solid #666; border-radius: 10px; background: #202030; color: #fff; font-size: 18px; text-align: center; }
+        .network-btn { padding: 12px 22px; border: 0; border-radius: 24px; background: #ff0055; color: #fff; font-size: 18px; font-weight: 800; cursor: pointer; }
+        .network-btn:disabled { filter: grayscale(1); opacity: .45; cursor: not-allowed; }
+        #networkStatus { min-height: 24px; margin-top: 12px; color: #ffcc00; }
+        #roomCode { direction: ltr; font-size: 30px; letter-spacing: 5px; color: #00ffcc; font-weight: 900; }
+        #onlineRoster { position: absolute; top: 20px; right: 20px; z-index: 110; min-width: 170px; padding: 12px; color: #fff; background: rgba(10,10,20,.9); border: 2px solid #00ffcc; border-radius: 12px; }
+        #onlineRoster:empty { display: none; }
+        #roleBadge { font-size: 13px; color: #aaa; margin-bottom: 10px; }
+    </style>
 </head>
 <body>
-  <canvas id="game"></canvas>
-  <div id="hud" class="panel">× ×™×§×•×“: <span id="score">0</span><br>×’×œ: <span id="wave">1</span><br>×—×™×™× ×§×‘×•×¦×ª×™×™×: <span id="lives">3</span><br>×ª×—××•×©×ª: <span id="ammo">0</span></div>
-  <div id="players" class="panel"></div>
-  <div id="message"></div>
-  <button id="disconnect" hidden>×™×¦×™××” ××”×—×“×¨</button>
-  <div id="controls"><div class="pad"><button class="touch" data-key="left">â—€</button><button class="touch" data-key="right">â–¶</button></div><button class="touch fire" data-key="fire">ğŸ”¥</button></div>
-
-  <div id="lobby">
-    <div class="card">
-      <h1>ğŸï¸ Multiplayer Car Race</h1>
-      <div class="sub">By Omer Matsa</div>
-      <p class="small">××©×—×§ ××•× ×œ×™×™×Ÿ ×œÖ¾2â€“4 ×©×—×§× ×™×</p>
-      <input id="name" maxlength="12" placeholder="×”×©× ×©×œ×š">
-      <div class="row"><button id="host" class="btn">×™×¦×™×¨×ª ×—×“×¨</button><button id="showJoin" class="btn alt">×”×¦×˜×¨×¤×•×ª</button></div>
-      <div id="joinArea" hidden><input id="joinCode" maxlength="6" placeholder="×§×•×“ ×—×“×¨" dir="ltr"><button id="join" class="btn alt">×”×¦×˜×¨×£ ×œ×—×“×¨</button></div>
-      <div id="roomBox">×§×•×“ ×”×—×“×¨:<div id="roomCode"></div><button id="copy" class="btn alt">×”×¢×ª×§×ª ×§×™×©×•×¨</button><div id="waiting" class="small"></div><button id="start" class="btn" disabled>×”×ª×—×œ×ª ×”××©×—×§</button></div>
-      <div id="status"></div>
-      <p class="small">×”×××¨×— ××©××™×¨ ××ª ×”×—×œ×•×Ÿ ×¤×ª×•×—. ××•××œ×¥ ×—×™×‘×•×¨ Wiâ€‘Fi ×™×¦×™×‘. ××§×©×™×: ×—×¦×™× ××• A/D, ×™×¨×™ ×‘Ö¾F.</p>
+<div id="networkLobby">
+    <div class="network-card">
+        <h1>ğŸï¸ Multiplayer Car Race</h1>
+        <div class="network-byline">By Omer Matsa</div>
+        <div id="roleBadge"></div>
+        <input id="playerName" maxlength="12" placeholder="Player name">
+        <div id="managerControls"><button class="network-btn" id="createRoom">CREATE ROOM</button></div>
+        <div id="guestControls">
+            <input id="joinCode" maxlength="6" placeholder="ROOM CODE">
+            <button class="network-btn" id="joinRoom">JOIN ROOM</button>
+        </div>
+        <div id="roomInfo" hidden>ROOM CODE<div id="roomCode"></div></div>
+        <div id="networkStatus"></div>
+        <div style="font-size:13px;color:#aaa;margin-top:12px">Move: arrows or W/A/S/D Â· Shoot: SPACE</div>
     </div>
-  </div>
+</div>
+<div id="onlineRoster"></div>
+<div id="menuScreen">
+    <h1 style="font-size: 45px; margin: 0 0 0 0; text-shadow: 0 0 20px #ff0055; font-family: 'Arial Black', sans-serif;">ğŸï¸ Multiplayer Car Race ğŸï¸</h1>
+    <div style="font-size:18px;color:#ffcc00;margin-bottom:8px;font-weight:bold">By Omer Matsa</div>
+    <div style="font-size: 20px; margin-bottom: 15px; color: #ffcc00; font-weight: bold;">COINS: <span id="menuCoins">0</span> ğŸ’°</div>
+    <button class="menu-btn" id="startBtn">START GAME</button>
+    <button class="reset-btn" id="resetBtn">××™×¤×•×¡ ×”×ª×§×“××•×ª ğŸ”„</button>
+    
+    <div class="shop-container">
+        <h3 style="margin: 0 0 10px 0; color: #00ffcc; font-size: 18px;">UPGRADES SHOP</h3>
+        <div class="shop-item">
+            <div>ğŸ›¡ï¸ Start Shield (Lvl <span id="lvlShield">0</span>/1)</div>
+            <button class="shop-btn" id="buyShield">Upgrade</button>
+        </div>
+        <div class="shop-item">
+            <div>âš¡ Extra Speed (Lvl <span id="lvlSpeed">0</span>/3)</div>
+            <button class="shop-btn" id="buySpeed">Upgrade</button>
+        </div>
+        <div class="shop-item">
+            <div>ğŸš€ Start Ammo (Lvl <span id="lvlAmmo">0</span>/3)</div>
+            <button class="shop-btn" id="buyAmmo">Upgrade</button>
+        </div>
+        <div class="shop-item">
+            <div>â¤ï¸ Max Lives (Lvl <span id="lvlHp">1</span>/3)</div>
+            <button class="shop-btn" id="buyHp">Upgrade</button>
+        </div>
+        <div class="shop-item">
+            <div>ğŸ”± Triple Shot (Lvl <span id="lvlTriple">0</span>/2)</div>
+            <button class="shop-btn" id="buyTriple">Upgrade</button>
+        </div>
+        <div class="shop-item">
+            <div>ğŸ”® Post-Boss Shield (Lvl <span id="lvlBossShield">0</span>/2)</div>
+            <button class="shop-btn" id="buyBossShield">Upgrade</button>
+        </div>
+        <div class="shop-item">
+            <div>ğŸ’¥ Post-Boss Ammo (Lvl <span id="lvlBossAmmo">0</span>/3)</div>
+            <button class="shop-btn" id="buyBossAmmo">Upgrade</button>
+        </div>
+    </div>
+    <div class="shop-container" style="width: 480px;">
+        <h3 style="margin: 0 0 5px 0; color: #ff0055; font-size: 18px;">SELECT VEHICLE SKIN</h3>
+        <div class="skin-select-container">
+            <div class="skin-box active" id="skin_default">
+                <div>ğŸš— Default</div>
+                <div style="color:#00ffcc; font-size:11px; margin-top:4px;">OWNED</div>
+            </div>
+            <div class="skin-box locked" id="skin_pig">
+                <div>ğŸ– Pig Style</div>
+                <div id="cost_pig" style="color:#ffcc00; font-size:11px; margin-top:4px;">50 ğŸ’°</div>
+            </div>
+            <div class="skin-box locked" id="skin_horse">
+                <div>ğŸ Horse Style</div>
+                <div id="cost_horse" style="color:#ffcc00; font-size:11px; margin-top:4px;">75 ğŸ’°</div>
+            </div>
+            <div class="skin-box locked" id="skin_tesla">
+                <div>âš¡ Tesla Cyber</div>
+                <div id="cost_tesla" style="color:#ffcc00; font-size:11px; margin-top:4px;">100 ğŸ’°</div>
+            </div>
+        </div>
+    </div>
+</div>
 
-  <script type="module">
-  import {initializeApp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-  import {initializeAppCheck,ReCaptchaV3Provider} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app-check.js";
-  import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-  import {getDatabase,ref,set,update as updateDb,get,onValue,onDisconnect,remove,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
-  (() => {
-    "use strict";
-    const firebaseConfig={apiKey:"AIzaSyB2iP1E8ZcKYeagKjhQIiLoPN6o773d6A8",authDomain:"omer-car-race-online.firebaseapp.com",databaseURL:"https://omer-car-race-online-default-rtdb.firebaseio.com",projectId:"omer-car-race-online",storageBucket:"omer-car-race-online.firebasestorage.app",messagingSenderId:"650092645345",appId:"1:650092645345:web:ee49b518b78f1f1edbe0a0"};
-    const app=initializeApp(firebaseConfig);
-    initializeAppCheck(app,{provider:new ReCaptchaV3Provider("6LchLnAtAAAAAMV5VgDsw1MDv7X-o717ZtbnrrZX"),isTokenAutoRefreshEnabled:true});
-    const auth=getAuth(app),db=getDatabase(app);
-    const $=s=>document.querySelector(s), canvas=$("#game"),ctx=canvas.getContext("2d");
-    const COLORS=["#fff","#ff3355","#00e5ff","#ffd600"], MAX=4;
-    let W=innerWidth,H=innerHeight,roadW=650,roadX=0,isHost=false,myId="",room="",running=false,last=0,lastNet=0;
-    let inputs={},snapshot=null,pressed={left:false,right:false,fire:false},unsubs=[],inputBusy=false;
-    let state={players:{},enemies:[],bullets:[],items:[],particles:[],score:0,wave:1,lives:3,spawn:0,itemSpawn:0,road:0};
-    const authReady=signInAnonymously(auth).then(r=>{myId=r.user.uid;return r.user}).catch(()=>{setStatus("×œ× × ×™×ª×Ÿ ×œ×”×ª×—×‘×¨ ×œ×©×™×¨×•×ª ×”××©×—×§",true);throw new Error("Firebase auth failed")});
-    const cleanName=()=>($("#name").value.trim()||"×©×—×§×Ÿ").slice(0,12);
-    function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;roadW=Math.min(650,W*.82);roadX=(W-roadW)/2}
-    addEventListener("resize",resize);resize();
-    const code=()=>Math.random().toString(36).slice(2,8).toUpperCase();
-    function setStatus(s,bad=false){$("#status").textContent=s;$("#status").style.color=bad?"#ff5577":"#ffcc00"}
-    function roster(){return Object.values(state.players).map(p=>({id:p.id,name:p.name,color:p.color,alive:p.alive}))}
-    function updateRoster(list=roster()){
-      $("#players").innerHTML="<b>×©×—×§× ×™× ×‘×—×“×¨</b>"+list.map(p=>`<div class="player-line"><i class="dot" style="background:${p.color}"></i>${escapeHtml(p.name)}${p.id===myId?" (×× ×™)":""}${p.alive===false?" â€” × ×¤×¡×œ":""}</div>`).join("");
-      if(isHost&&!running){$("#waiting").textContent=`${list.length}/4 ×©×—×§× ×™× ××—×•×‘×¨×™×`;$("#start").disabled=list.length<2}
-    }
-    function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-    function playerColor(id){let n=0;for(const c of id)n=(n*31+c.charCodeAt(0))>>>0;return COLORS[n%COLORS.length]}
-    function addPlayer(id,name,color){
-      const n=Object.keys(state.players).length;
-      state.players[id]={id,name,color:color||playerColor(id),x:roadX+roadW*(n+1)/(Math.min(MAX,n+2))-23,y:H-135,w:46,h:84,ammo:5,alive:true,cool:0,shield:false};
-      inputs[id]={left:false,right:false,fire:false};
-    }
-    function roomRef(path=""){return ref(db,`rooms/${room}${path?"/"+path:""}`)}
-    function listenRoom(){
-      unsubs.push(onValue(roomRef("players"),snap=>{
-        const players=snap.val()||{},ids=new Set(Object.keys(players));
-        if(isHost){
-          for(const [id,p] of Object.entries(players))if(!state.players[id])addPlayer(id,String(p.name||"×©×—×§×Ÿ").slice(0,12),p.color);
-          for(const id of Object.keys(state.players))if(!ids.has(id)){delete state.players[id];delete inputs[id]}
-        }
-        const list=Object.entries(players).map(([id,p])=>({id,name:String(p.name||"×©×—×§×Ÿ").slice(0,12),color:p.color||playerColor(id),alive:state.players[id]?.alive??true}));
-        updateRoster(list);
-      }));
-      unsubs.push(onValue(roomRef("meta"),snap=>{
-        const m=snap.val();if(!m){if(running)gameEnded("×”×—×“×¨ × ×¡×’×¨");return}
-        if(!isHost&&m.status==="running"&&!running){running=true;$("#lobby").style.display="none";$("#disconnect").hidden=false;flash("××ª×—×™×œ×™×!",1200);last=performance.now();requestAnimationFrame(loop)}
-        if(!isHost&&m.status==="ended"&&running)gameEnded("×”××©×—×§ ×”×¡×ª×™×™×")
-      }));
-      if(isHost)unsubs.push(onValue(roomRef("inputs"),snap=>{inputs=snap.val()||{}}));
-      else unsubs.push(onValue(roomRef("state"),snap=>{const v=snap.val();if(v){snapshot=v;running=true}}));
-    }
-    async function enterRoom(hosting){
-      const color=playerColor(myId);
-      await set(roomRef(`players/${myId}`),{name:cleanName(),color,joinedAt:serverTimestamp()});
-      await onDisconnect(roomRef(`players/${myId}`)).remove();
-      await onDisconnect(roomRef(`inputs/${myId}`)).remove();
-      listenRoom();showRoom(hosting);
-    }
-    $("#host").onclick=async()=>{
-      try{
-        await authReady;isHost=true;setStatus("×™×•×¦×¨ ×—×“×¨...");
-        for(let i=0;i<5;i++){room=code();if(!(await get(roomRef("meta"))).exists())break}
-        await set(roomRef("meta"),{hostId:myId,status:"waiting",createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
-        await onDisconnect(roomRef()).remove();await enterRoom(true);
-        setStatus("×”×—×“×¨ ××•×›×Ÿ â€” ×©×œ×—×• ××ª ×”×§×•×“ ×œ×—×‘×¨×™×");
-      }catch(e){setStatus("×œ× × ×™×ª×Ÿ ×œ×™×¦×•×¨ ×—×“×¨ ×›×¨×’×¢",true)}
-    };
-    $("#showJoin").onclick=()=>{$("#joinArea").hidden=false;$("#joinCode").focus()};
-    $("#join").onclick=async()=>{
-      room=$("#joinCode").value.trim().toUpperCase();if(room.length!==6){setStatus("×™×© ×œ×”×–×™×Ÿ ×§×•×“ ×‘×Ÿ 6 ×ª×•×•×™×",true);return}
-      try{
-        await authReady;isHost=false;setStatus("××ª×—×‘×¨ ×œ×—×“×¨...");
-        const meta=(await get(roomRef("meta"))).val(),players=(await get(roomRef("players"))).val()||{};
-        if(!meta)throw new Error("missing");if(meta.status!=="waiting")throw new Error("started");if(Object.keys(players).length>=MAX)throw new Error("full");
-        await enterRoom(false);setStatus("××—×•×‘×¨! ×××ª×™× ×™× ×©×”×××¨×— ×™×ª×—×™×œ");
-      }catch(e){setStatus(e.message==="started"?"×”××©×—×§ ×›×‘×¨ ×”×ª×—×™×œ":e.message==="full"?"×”×—×“×¨ ××œ×":"×”×—×“×¨ ×œ× × ××¦×",true)}
-    };
-    function showRoom(hosting){$("#roomBox").style.display="block";$("#roomCode").textContent=room;$("#host").disabled=$("#showJoin").disabled=true;$("#joinArea").hidden=true;$("#start").style.display=hosting?"block":"none"}
-    $("#copy").onclick=async()=>{const u=new URL(location.href);u.searchParams.set("room",room);try{await navigator.clipboard.writeText(u.href);setStatus("×”×§×™×©×•×¨ ×”×•×¢×ª×§!")}catch{prompt("×”×¢×ª×™×§×• ××ª ×”×§×™×©×•×¨:",u.href)}};
-    $("#start").onclick=()=>{if(Object.keys(state.players).length<2)return;startHost()};
-    async function startHost(){
-      running=true;state.score=0;state.wave=1;state.lives=3;state.enemies=[];state.bullets=[];state.items=[];state.spawn=0;
-      Object.values(state.players).forEach((p,i)=>{p.x=roadX+roadW*(i+1)/(Object.keys(state.players).length+1)-23;p.y=H-135;p.ammo=5;p.alive=true;p.shield=false});
-      await updateDb(roomRef("meta"),{status:"running",updatedAt:serverTimestamp()});
-      $("#lobby").style.display="none";$("#disconnect").hidden=false;flash("×’×œ 1",1200);last=performance.now();requestAnimationFrame(loop);
-    }
-    const urlRoom=new URLSearchParams(location.search).get("room");if(urlRoom){$("#joinArea").hidden=false;$("#joinCode").value=urlRoom.toUpperCase()}
-    function update(dt){
-      state.road=(state.road+280*dt)%80;state.spawn+=dt;state.itemSpawn+=dt;
-      const speed=260+state.wave*14;
-      Object.values(state.players).forEach(p=>{
-        const inp=p.id===myId?pressed:inputs[p.id]||{};if(!p.alive)return;
-        if(inp.left)p.x-=310*dt;if(inp.right)p.x+=310*dt;p.x=Math.max(roadX,Math.min(roadX+roadW-p.w,p.x));
-        p.cool-=dt;if(inp.fire&&p.ammo>0&&p.cool<=0){state.bullets.push({x:p.x+p.w/2-4,y:p.y,w:8,h:22,owner:p.id});p.ammo--;p.cool=.25}
-      });
-      if(state.spawn>Math.max(.28,1.02-state.wave*.045)){state.spawn=0;const w=42+Math.random()*14;state.enemies.push({x:roadX+Math.random()*(roadW-w),y:-100,w,h:80+Math.random()*22,s:speed*(.7+Math.random()*.55),color:["#e53935","#8e24aa","#43a047","#546e7a"][Math.floor(Math.random()*4)]})}
-      if(state.itemSpawn>6){state.itemSpawn=0;state.items.push({x:roadX+Math.random()*(roadW-32),y:-40,w:32,h:32,type:Math.random()<.25?"shield":"ammo"})}
-      state.bullets.forEach(b=>b.y-=620*dt);state.enemies.forEach(e=>e.y+=e.s*dt);state.items.forEach(i=>i.y+=speed*.75*dt);
-      for(let bi=state.bullets.length-1;bi>=0;bi--){const b=state.bullets[bi];let hit=false;for(let ei=state.enemies.length-1;ei>=0;ei--){const e=state.enemies[ei];if(overlap(b,e)){state.enemies.splice(ei,1);state.bullets.splice(bi,1);state.score+=2;burst(e.x+e.w/2,e.y+e.h/2,e.color);hit=true;break}}if(!hit&&b.y<-30)state.bullets.splice(bi,1)}
-      for(let ii=state.items.length-1;ii>=0;ii--){const it=state.items[ii];for(const p of Object.values(state.players)){if(p.alive&&overlap(p,it)){if(it.type==="ammo")p.ammo+=5;else p.shield=true;state.items.splice(ii,1);burst(it.x,it.y,"#00e5ff");break}}if(it.y>H+30)state.items.splice(ii,1)}
-      for(let ei=state.enemies.length-1;ei>=0;ei--){const e=state.enemies[ei];let gone=false;for(const p of Object.values(state.players)){if(p.alive&&overlap(p,e)){state.enemies.splice(ei,1);gone=true;if(p.shield){p.shield=false;burst(p.x,p.y,"#00e5ff")}else{state.lives--;burst(p.x,p.y,"#ff1744");if(state.lives<=0){endHost();return}}break}}if(!gone&&e.y>H+110){state.enemies.splice(ei,1);state.score++;if(state.score>=state.wave*30){state.wave++;flash("×’×œ "+state.wave,1000)}}}
-      state.particles.forEach(q=>{q.x+=q.vx*dt;q.y+=q.vy*dt;q.a-=dt*1.8});state.particles=state.particles.filter(q=>q.a>0);
-    }
-    function overlap(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
-    function burst(x,y,color){for(let i=0;i<14;i++)state.particles.push({x,y,vx:(Math.random()-.5)*260,vy:(Math.random()-.5)*260,a:1,color})}
-    function netState(){return JSON.parse(JSON.stringify(state))}
-    function loop(t){
-      if(!running)return;const dt=Math.min(.033,(t-last)/1000||.016);last=t;
-      if(isHost){update(dt);snapshot=state;if(t-lastNet>100){set(roomRef("state"),netState()).catch(()=>{});lastNet=t}}
-      else if(t-lastNet>80&&!inputBusy){inputBusy=true;set(roomRef(`inputs/${myId}`),pressed).catch(()=>{}).finally(()=>inputBusy=false);lastNet=t}
-      draw(snapshot||state);requestAnimationFrame(loop)
-    }
-    function draw(s){
-      ctx.clearRect(0,0,W,H);ctx.fillStyle="#44444a";ctx.fillRect(roadX-55,0,55,H);ctx.fillRect(roadX+roadW,0,55,H);ctx.fillStyle="#18181f";ctx.fillRect(roadX,0,roadW,H);
-      ctx.fillStyle="#fff";for(let y=(s.road||0)-80;y<H;y+=80)ctx.fillRect(roadX+roadW/2-4,y,8,40);
-      for(let y=(s.road||0)-40;y<H;y+=40){ctx.fillStyle=((y/40)|0)%2?"#fff":"#ff2244";ctx.fillRect(roadX-6,y,6,40);ctx.fillRect(roadX+roadW,y,6,40)}
-      (s.items||[]).forEach(i=>{ctx.fillStyle=i.type==="ammo"?"#ffd600":"#00e5ff";ctx.beginPath();ctx.arc(i.x+16,i.y+16,16,0,7);ctx.fill();ctx.fillStyle="#111";ctx.font="18px Arial";ctx.fillText(i.type==="ammo"?"â—":"â—†",i.x+10,i.y+23)});
-      (s.enemies||[]).forEach(e=>car(e.x,e.y,e.w,e.h,e.color));ctx.fillStyle="#ffe600";(s.bullets||[]).forEach(b=>ctx.fillRect(b.x,b.y,b.w,b.h));
-      Object.values(s.players||{}).forEach(p=>{if(!p.alive)return;car(p.x,p.y,p.w,p.h,p.color);ctx.fillStyle=p.color;ctx.font="bold 13px Arial";ctx.textAlign="center";ctx.fillText(p.name,p.x+p.w/2,p.y-7);if(p.shield){ctx.strokeStyle="#00e5ff";ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.x+p.w/2,p.y+p.h/2,p.h*.58,0,7);ctx.stroke()}});
-      (s.particles||[]).forEach(p=>{ctx.globalAlpha=p.a;ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,5,5)});ctx.globalAlpha=1;ctx.textAlign="start";
-      $("#score").textContent=s.score||0;$("#wave").textContent=s.wave||1;$("#lives").textContent=s.lives??3;$("#ammo").textContent=(s.players&&s.players[myId]?.ammo)??0;
-    }
-    function car(x,y,w,h,color){ctx.fillStyle="#08080b";ctx.fillRect(x-4,y+10,4,18);ctx.fillRect(x+w,y+10,4,18);ctx.fillRect(x-4,y+h-28,4,18);ctx.fillRect(x+w,y+h-28,4,18);ctx.fillStyle=color;ctx.fillRect(x,y,w,h);ctx.fillStyle="#202b38";ctx.fillRect(x+6,y+17,w-12,25);ctx.fillStyle="#ffecb3";ctx.fillRect(x+5,y+3,9,5);ctx.fillRect(x+w-14,y+3,9,5);ctx.fillStyle="#ff1744";ctx.fillRect(x+5,y+h-7,9,5);ctx.fillRect(x+w-14,y+h-7,9,5)}
-    function flash(s,ms){$("#message").textContent=s;setTimeout(()=>{if($("#message").textContent===s)$("#message").textContent=""},ms)}
-    function endHost(){running=false;updateDb(roomRef("meta"),{status:"ended",updatedAt:serverTimestamp()}).catch(()=>{});gameEnded("×”××©×—×§ ×”×¡×ª×™×™×! × ×™×§×•×“: "+state.score)}
-    function gameEnded(s){running=false;flash(s,1e8);$("#disconnect").hidden=true}
-    function setKey(k,v){pressed[k]=v}
-    addEventListener("keydown",e=>{if(["ArrowLeft","KeyA"].includes(e.code))setKey("left",true);if(["ArrowRight","KeyD"].includes(e.code))setKey("right",true);if(["KeyF","Enter"].includes(e.code))setKey("fire",true)});
-    addEventListener("keyup",e=>{if(["ArrowLeft","KeyA"].includes(e.code))setKey("left",false);if(["ArrowRight","KeyD"].includes(e.code))setKey("right",false);if(["KeyF","Enter"].includes(e.code))setKey("fire",false)});
-    document.querySelectorAll(".touch").forEach(b=>{const k=b.dataset.key;b.onpointerdown=e=>{e.preventDefault();setKey(k,true)};b.onpointerup=b.onpointercancel=b.onpointerleave=()=>setKey(k,false)});
-    $("#disconnect").onclick=async()=>{unsubs.forEach(u=>u());if(isHost)await remove(roomRef()).catch(()=>{});else{await remove(roomRef(`players/${myId}`)).catch(()=>{});await remove(roomRef(`inputs/${myId}`)).catch(()=>{})}location.href=location.pathname};
-  })();
-  </script>
-</body>
-</html>
+<div id="bossHpContainer">
+    <div id="bossTitle">BOSS BATTLE: COMBAT HELI</div>
+    <div id="bossHpBar"><div id="bossHpFill"></div></div>
+    <div id="bossHpText">15 / 15</div>
+</div>
+
+<div id="ui">
+    <div class="ui-line">SCORE: <span id="score" style="color: #00ffcc;">0</span></div>
+    <div class="ui-line" style="font-size: 13px; color: #ffcc00;">HIGH SCORE: <span id="highScoreUi">0</span></div>
+    <div class="ui-line">WAVE: <span id="wave" style="color: #ff9f43;">1</span></div>
+    <div class="ui-line">CARS: <span id="carsCount" style="color: #a533ff;">0 / 8</span></div>
+    <div class="ui-line">HP: <span id="hpUi" style="color: #ff3366;">1 / 1</span></div>
+    <div class="ui-line">AMMO: <span id="ammo" style="color: #ffcc00;">0</span></div>
+    <div class="ui-line">SHIELD: <span id="shieldUi" style="color: #ff3300;">OFF</span></div>
+    <div id="modeUi" style="font-size: 12px; margin-top: 8px; color: #aaa; text-align: center;">MODE: NORMAL</div>
+    <div class="ui-line" style="font-size: 12px; color: #00ffcc; margin-top: 5px;">POLICE KILLS: <span id="policeKillsUi">0 / 5</span></div>
+    <button class="pause-btn" id="pauseBtn">PAUSE GAME â¸ï¸</button>
+</div>
+<div id="msgLayer"><div id="msgText"></div></div>
+<canvas id="gameCanvas"></canvas>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import {initializeAppCheck,ReCaptchaV3Provider} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app-check.js";
+import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import {getDatabase,ref,set,update as updateDb,get,onValue,onDisconnect,remove,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+window.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('gameCanvas'); const ctx = canvas.getContext('2d');
+    let w, h, roadWidth, roadX, sidewalkWidth = 65, score = 0, ammo = 0, currentWave = 1, waveCarsPassed = 0, waveMaxCars = 8;
+    let gameActive = false, isBossStage = false, globalSpeedModifier = 0.8, boss = null, enemySpawnTimer = 0, itemSpawnTimer = 0, bossBoxTimer = 0, bossShootTimer = 0;
+    let roadOffset = 0, keys = {};
+    let player = { x: 0, y: 0, w: 46, h: 85, speed: 5, hasShield: false, hp: 1, maxHp: 1 };
+    let enemies = [], bullets = [], particles = [], items = [], bossProjectiles = [], lastEnemyType = "";
+    let policeSpawnTimer = 0, totalPoliceKilled = 0;
+    let isPaused = false;
+
+    let coins = parseInt(localStorage.getItem('car_coins')) || 0;
+    let highScore = parseInt(localStorage.getItem('car_high_score')) || 0;
+    let upShield = parseInt(localStorage.getItem('up_shield')) || 0;
+    let upSpeed = parseInt(localStorage.getItem('up_speed')) || 0;
+    let upAmmo = parseInt(localStorage.getItem('up_ammo')) || 0;
+    let upHp = parseInt(localStorage.getItem('up_hp')) || 0;
+    let upTriple = parseInt(localStorage.getItem('up_triple')) || 0;
+    
+    // ××©×ª× ×™ ×”×©×“×¨×•×’×™× ×”×—×“×©×™× ×©×œ ×¡×•×£ ×‘×•×¡
+    let upBossShield = parseInt(localStorage.getItem('up_boss_shield')) || 0;
+    let upBossAmmo = parseInt(localStorage.getItem('up_boss_ammo')) || 0;
+
+    let ownPig = localStorage.getItem('own_pig') === 'true';
+    let ownHorse = localStorage.getItem('own_horse') === 'true';
+    let ownTesla = localStorage.getItem('own_tesla') === 'true';
+    let chosenSkin = localStorage.getItem('chosen_skin') || 'default';
+
+    const firebaseConfig = {apiKey:"AIzaSyB2iP1E8ZcKYeagKjhQIiLoPN6o773d6A8",authDomain:"omer-car-race-online.firebaseapp.com",databaseURL:"https://omer-car-race-online-default-rtdb.firebaseio.com",projectId:"omer-car-race-online",×n<îÚ$z{-®éÜj×&ô6÷VçB²³²VÇ6Rv–æF÷ræ6öÖ&ô6÷VçBÒ²v–æF÷ræÆ7D¶–ÆÅF–ÖRÒFFRææ÷r‚“°Ğ¢–b‡v–æF÷ræ6öÖ&ô6÷VçBãÒ2’²6ö–ç2²³²6†÷tÖW76vR‚$4ôÔ$ò‚"²v–æF÷ræ6öÖ&ô6÷VçB²"³4ô”â"Â“²ĞĞ¢–b‡66÷&Râ†–v…66÷&R’²†–v…66÷&RÒ66÷&S²Æö6Å7F÷&vRç6WD—FVÒ‚v6%ö†–v…÷66÷&RrÂ†–v…66÷&R“²ĞĞ¢–b†—4&÷757FvRÓÓÒfÇ6R’²vfT6'576VB²³²–b‡vfT6'576VBãÒvfTÖ„6'2’G&–vvW$æW‡EvfR‚“²ĞĞ¢†—BÒG'VS²'&V³°Ğ¢ĞĞ¢ĞĞ¢–b††—B’6öçF–çVS°Ğ¢ĞĞ¢–b†"ç’ÂÓSÇÂ"ç‚ÂÇÂ"ç‚âr’'VÆÆWG2ç7Æ–6R†’Â“°Ğ¢ĞĞ Ğ¢f÷"†ÆWB’Ò&÷75&ö¦V7F–ÆW2æÆVæwF‚Ò²’ãÒ²’ÒÒ’°Ğ¢ÆWB'Ò&÷75&ö¦V7F–ÆW5¶•Ó²'ç’³Ò'ç7VVC²'ç‚³Ò'çgƒ°Ğ¢6öç7B†—EÆ–W"ÒÆÅÆ–W'2‚’æf–æB‡Óâç‚Â'ç‚²'çrbbç‚²çrâ'ç‚bbç’Â'ç’²'æ‚bbç’²æ‚â'ç’“°Ğ¢–b††—EÆ–W"’°Ğ¢&÷75&ö¦V7F–ÆW2ç7Æ–6R†’Â“°Ğ¢FÖvUÆ–W"††—EÆ–W"“°Ğ¢6öçF–çVS°Ğ¢ĞĞ¢–b†'ç’â‚ÇÂ'ç‚ÂÇÂ'ç‚âr’²&÷75&ö¦V7F–ÆW2ç7Æ–6R†’Â“²ĞĞ¢ĞĞ Ğ¢–b†—4&÷757FvRbb&÷72’°Ğ¢&÷72æÖ÷fUF–ÖW"²³°Ğ¢–b†&÷72çG—RÓÓÒwöÆ–6Uö&÷72r’²&÷72ç’Ò#²&÷72ç‚Ò&öE‚²‡&öEv–GF‚ò"’Ò†&÷72çrò"“²Ò Ğ¢VÇ6R°Ğ¢–b†&÷72ç’ÂS’&÷72ç’³Ò#°Ğ¢–b†&÷72æÖ÷fUF–ÖW"âcR’²&÷72çF&vWE‚Ò&öE‚²ÖF‚ç&æFöÒ‚’¢‡&öEv–GF‚Ò&÷72çr“²&÷72æÖ÷fUF–ÖW"Ò²ĞĞ¢&÷72ç‚³Ò†&÷72çF&vWE‚Ò&÷72ç‚’¢ã#°Ğ¢ĞĞ¢6öç7B&÷74†—EÆ–W"ÒÆÅÆ–W'2‚’æf–æB‡Óâç‚Â&÷72ç‚²&÷72çrbbç‚²çrâ&÷72ç‚bbç’Â&÷72ç’²&÷72æ‚bbç’²æ‚â&÷72ç’“°Ğ¢–b†&÷74†—EÆ–W"’°Ğ¢6öç7B6†–VÆFVBÒ&÷74†—EÆ–W"æ†56†–VÆC²FÖvUÆ–W"†&÷74†—EÆ–W"“²–b‡6†–VÆFVB’&÷72ç‚³ÒCS°Ğ¢ĞĞ¢ĞĞ Ğ¢–b†VæVÖ–W2æÆVæwF‚â’°Ğ¢f÷"†ÆWB’ÒVæVÖ–W2æÆVæwF‚Ò²’ãÒ²’ÒÒ’°Ğ¢ÆWBVâÒVæVÖ–W5¶•Ó²–b‚VâÇÂVâçG—Ræ–æ6ÇVFW2‚v&÷72r’’6öçF–çVS²Vâç’³ÒVâç7VVC°Ğ¢–b†7W'&VçEvfRÃÒ’bbVâç7VVBâ’Vâç7VVBÒVâæ–æ—F–Å7VVB¢ÖF‚æÖ–âƒÂãSR²†7W'&VçEvfR¢ãB’“°Ğ¢–b†VâçG—RÓÓÒw&VBr’²6öç7BF&vWBÒÆÅÆ–W'2‚•³ÒÇÂÆ–W#²Vâç‚³Ò‡F&vWBç‚ÒVâç‚’¢ã3²ĞĞ¢–b†VâçG—RÓÓÒwW'ÆRr’²Vâç‚³ÒVâç¦–tF—"¢B¢vÆö&Å7VVDÖöF–f–W#²–b†Vâç‚ÃÒ&öE‚’²Vâç‚Ò&öEƒ²Vâç¦–tF—"Ò²Ò–b†Vâç‚ãÒ&öE‚²&öEv–GF‚ÒVâçr’²Vâç‚Ò&öE‚²&öEv–GF‚ÒVâçs²Vâç¦–tF—"ÒÓ²ÒĞĞ¢–b†VâçG—RÓÓÒvw&VVâr’Vâç7VVB³Òãc°Ğ Ğ¢6öç7B7&6†VEÆ–W"ÒÆÅÆ–W'2‚’æf–æB‡Óâç‚ÂVâç‚²Vâçrbbç‚²çrâVâç‚bbç’ÂVâç’²Vâæ‚bbç’²æ‚âVâç’“°Ğ¢–b†7&6†VEÆ–W"’°Ğ¢–b†VâçG—RÓÓÒwöÆ–6Rrbb7&6†VEÆ–W"æ†56†–VÆB’°Ğ¢F÷FÅöÆ–6T¶–ÆÆVB²³²Fö7VÖVçBævWDVÆVÖVçD'”–B‚wöÆ–6T¶–ÆÇ5V’r’æ–ææW%FW‡BÒF÷FÅöÆ–6T¶–ÆÆVB²"òR#°Ğ¢7&6†VEÆ–W"æ†56†–VÆBÒfÇ6S²7&VFTW‡Æ÷6–öâ†Vâç‚²†Vâçrò"’ÂVâç’²†Vâæ‚ò"’Âr3C&fbrÂ3RÂb“²VæVÖ–W2ç7Æ–6R†’Â“°Ğ¢–b†—4&÷757FvRÓÓÒfÇ6RbbF÷FÅöÆ–6T¶–ÆÆVBãÒR’²7F'D&÷757FvR‚wöÆ–6Uö&÷72r“²'&V³²Ò6öçF–çVS°Ğ¢ĞĞ¢–b†VâçG—RÓÓÒvw&’rbb7&6†VEÆ–W"æ†56†–VÆB’²VæVÖ–W2ç7Æ–6R†’Â“²7F'D&÷757FvR‚“²'&V³²ĞĞ¢–b†7&6†VEÆ–W"æ†56†–VÆB’²7&6†VEÆ–W"æ†56†–VÆBÒfÇ6S²7&VFTW‡Æ÷6–öâ†Vâç‚²†Vâçrò"’ÂVâç’²†Vâæ‚ò"’Âr3C&fbrÂ3RÂb“²VæVÖ–W2ç7Æ–6R†’Â“²ĞĞ¢VÇ6R²VæVÖ–W2ç7Æ–6R†’Â“²FÖvUÆ–W"†7&6†VEÆ–W"“²–b‚vÖT7F—fR’&WGW&ã²ĞĞ¢6öçF–çVS°Ğ¢ĞĞ¢–b†Vâç’â‚²SÇÂVâç’ÂÓS’²VæVÖ–W2ç7Æ–6R†’Â“²–b‚—4&÷757FvR’²vfT6'576VB²³²–b‡vfT6'576VBãÒvfTÖ„6'2’G&–vvW$æW‡EvfR‚“²ÒĞĞ¢ĞĞ¢ĞĞ¢WFFT‡VB‚“°Ğ¢ĞĞ¢gVæ7F–öâWFFT‡VB‚’°Ğ¢6öç7BÆö6ÅÆ–W"ÒÆ–W#°Ğ¢Fö7VÖVçBævWDVÆVÖVçD'”–B‚w66÷&Rr’æ–ææW%FW‡BÒ66÷&S²Fö7VÖVçBævWDVÆVÖVçD'”–B‚wvfRr’æ–ææW%FW‡BÒ7W'&VçEvfS²Fö7VÖVçBævWDVÆVÖVçD'”–B‚v6'46÷VçBr’æ–ææW%FW‡BÒvfT6'576VB²"ò"²vfTÖ„6'3°Ğ¢Fö7VÖVçBævWDVÆVÖVçD'”–B‚vÖÖòr’æ–ææW%FW‡BÒ—4†÷7BòÖÖò¢†Æö6ÅÆ–W"æÖÖòÇÂ“°Ğ¢Fö7VÖVçBævWDVÆVÖVçD'”–B‚w6†–VÆEV’r’æ–ææW%FW‡BÒÆö6ÅÆ–W"æ†56†–VÆBò$ôâ"¢$ôdb#²Fö7VÖVçBævWDVÆVÖVçD'”–B‚w6†–VÆEV’r’ç7G–ÆRæ6öÆ÷"ÒÆö6ÅÆ–W"æ†56†–VÆBò"3fccb"¢"6fc33#°Ğ¢Fö7VÖVçBævWDVÆVÖVçD'”–B‚v‡V’r’æ–ææW%FW‡BÒÆö6ÅÆ–W"æ‡²"ò"²Æö6ÅÆ–W"æÖ„‡°Ğ¢ÆWB‡4VÂÒFö7VÖVçBævWDVÆVÖVçD'”–B‚v†–v…66÷&UV’r“²–b†‡4VÂ’‡4VÂæ–ææW%FW‡BÒ†–v…66÷&S°Ğ¢ĞĞ¢gVæ7F–öâG&r‚’°Ğ¢7G‚æ6ÆV%&V7BƒÂÂrÂ‚“°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr3CCCCFs²7G‚æf–ÆÅ&V7B‡&öE‚Ò6–FWvÆµv–GF‚ÂÂ6–FWvÆµv–GF‚Â‚“²7G‚æf–ÆÅ&V7B‡&öE‚²&öEv–GF‚ÂÂ6–FWvÆµv–GF‚Â‚“°Ğ¢f÷"†ÆWB’Ò&öDöfg6WBÒƒ²’Âƒ²’³ÒC’²7G‚æf–ÆÅ7G–ÆRÒÖF‚æfÆö÷"†’òC’R"ÓÓÒòr6fc##CBr¢r6fffffbs²7G‚æf–ÆÅ&V7B‡&öE‚ÒbÂ’ÂbÂC“²7G‚æf–ÆÅ&V7B‡&öE‚²&öEv–GF‚Â’ÂbÂC“²ĞĞ¢7G‚æf–ÆÅ7G–ÆRÒr3ƒƒbs²7G‚æf–ÆÅ&V7B‡&öE‚ÂÂ&öEv–GF‚Â‚“²7G‚æf–ÆÅ7G–ÆRÒr6fffffbs²f÷"†ÆWB’Ò&öDöfg6WBÒƒ²’Âƒ²’³Òƒ’²7G‚æf–ÆÅ&V7B‡&öE‚²‡&öEv–GF‚ò"’ÒBÂ’Â‚ÂC“²ĞĞ Ğ¢f÷"†ÆWB’Ò²’Â—FV×2æÆVæwFƒ²’²²’°Ğ¢ÆWB—BÒ—FV×5¶•Ó²7G‚ç6fR‚“²7G‚æf–ÆÅ7G–ÆRÒ—BçG—RÓÓÒw6†–VÆBròw&v&ƒÂ#Â#SRÂã’’r¢w&v&ƒÂ#SRÂ"Âã’’s²7G‚ç6†F÷t&ÇW"ÒS²7G‚ç6†F÷t6öÆ÷"Ò7G‚æf–ÆÅ7G–ÆS²7G‚æ&Vv–åF‚‚“²7G‚æ&2†—Bç‚²†—Bçrò"’Â—Bç’²†—Bæ‚ò"’Â—Bçrò"ÂÂÖF‚å’¢"“²7G‚æf–ÆÂ‚“²7G‚æf–ÆÅ7G–ÆRÒr3s²7G‚æföçBÒv&öÆBW‚6ç2×6W&–bs²7G‚æf–ÆÅFW‡B†—BçG—RÓÓÒw6†–VÆBrò	ùºûˆòr¢	ù¨rÂ—Bç‚²‚Â—Bç’²#2“²7G‚ç&W7F÷&R‚“°Ğ¢ĞĞ¢7G‚æf–ÆÅ7G–ÆRÒr6ffVs²f÷"†ÆWB’Ò²’Â'VÆÆWG2æÆVæwFƒ²’²²’²ÆWB"Ò'VÆÆWG5¶•Ó²7G‚æf–ÆÅ&V7B†"ç‚Â"ç’Â"çrÂ"æ‚“²ĞĞ¢7G‚æf–ÆÅ7G–ÆRÒr6fcs²f÷"†ÆWB’Ò²’Â&÷75&ö¦V7F–ÆW2æÆVæwFƒ²’²²’²ÆWB'Ò&÷75&ö¦V7F–ÆW5¶•Ó²7G‚æ&Vv–åF‚‚“²7G‚æ&2†'ç‚²†'çrò"’Â'ç’²†'æ‚ò"’Â'çrò"ÂÂÖF‚å’¢"“²7G‚æf–ÆÂ‚“²ĞĞ¢f÷"†ÆWB’Ò²’ÂVæVÖ–W2æÆVæwFƒ²’²²’²ÆWBVâÒVæVÖ–W5¶•Ó²G&t6"†Vâç‚ÂVâç’ÂVâçrÂVâæ‚ÂVâæ6öÆ÷"ÂVâçG—R“²ĞĞ Ğ¢–b†—4&÷757FvRbb&÷72’°Ğ¢7G‚ç6fR‚“°Ğ¢–b†&÷72çG—RÓÓÒv&÷75ö†VÆ’r’°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr3&SS3s²7G‚æf–ÆÅ&V7B†&÷72ç‚Â&÷72ç’Â&÷72çrÂ&÷72æ‚“²7G‚æf–ÆÅ7G–ÆRÒr3333Rs²7G‚æf–ÆÅ&V7B†&÷72ç‚²#Â&÷72ç’²3Â&÷72çrÒCÂ&÷72æ‚Òc“°Ğ¢ÆWB&÷FFTævÆRÒ„FFRææ÷r‚’ò#’R„ÖF‚å’¢"“²7G‚çG&ç6ÆFR†&÷72ç‚²†&÷72çrò"’Â&÷72ç’²†&÷72æ‚ò"’“²7G‚ç&÷FFR‡&÷FFTævÆR“°Ğ¢7G‚æf–ÆÅ7G–ÆRÒw&v&ƒ#Â#Â#ÂãR’s²7G‚æf–ÆÅ&V7B‚ÓÂÖ&÷72æ‚Â#Â&÷72æ‚¢"“²7G‚ç6WEG&ç6f÷&ÒƒÂÂÂÂÂ“°Ğ¢ÒVÇ6R–b†&÷72çG—RÓÓÒv&÷75÷G'V6²r’°Ğ¢ÆWB'‚Ò&÷72çƒ²ÆWB'’Ò&÷72ç“²ÆWB'rÒ&÷72çs²ÆWB&‚Ò&÷72æƒ°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr3s²7G‚æf–ÆÅ&V7B†'‚ÒbÂ'’²#ÂbÂ#R“²7G‚æf–ÆÅ&V7B†'‚²'rÂ'’²#ÂbÂ#R“²7G‚æf–ÆÅ&V7B†'‚ÒbÂ'’²&‚ÒCRÂbÂ#R“²7G‚æf–ÆÅ&V7B†'‚²'rÂ'’²&‚ÒCRÂbÂ#R“°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr3†fC6"s²7G‚æf–ÆÅ&V7B†'‚Â'’Â'rÂ&‚“°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr3F6##s²7G‚æf–ÆÅ&V7B†'‚²"Â'’²"Â'rÒ#BÂ3‚“² Ğ¢ÆWB†ÆerÒ†'rÒC’ò"Ò#²7G‚æf–ÆÅ&V7B†'‚²#Â'’²#Â†ÆerÂ"“²7G‚æf–ÆÅ&V7B†'‚²'rò"²"Â'’²#Â†ÆerÂ"“°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr33#cBs²7G‚æf–ÆÅ&V7B†'‚²bÂ'’²sÂ'rÒ3"Â&‚Ò““°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr6ffbs²7G‚æf–ÆÅ&V7B†'‚²#RÂ'’²ƒRÂ"Â&‚Ò#“²7G‚æf–ÆÅ&V7B†'‚²'rò"ÒbÂ'’²ƒRÂ"Â&‚Ò#“²7G‚æf–ÆÅ&V7B†'‚²'rÒ3rÂ'’²ƒRÂ"Â&‚Ò#“°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr6fc##CBs²7G‚æf–ÆÅ&V7B†'‚²#RÂ'’²&‚Ò3RÂ"Â"“²7G‚æf–ÆÅ&V7B†'‚²'rò"ÒbÂ'’²&‚Ò3RÂ"Â"“²7G‚æf–ÆÅ&V7B†'‚²'rÒ3rÂ'’²&‚Ò3RÂ"Â"“°Ğ¢ÒVÇ6R–b†&÷72çG—RÓÓÒv&÷75÷Fæ²r’°Ğ¢ÆWBG‚Ò&÷72çƒ²ÆWBG’Ò&÷72ç“²ÆWBGrÒ&÷72çs²ÆWBF‚Ò&÷72æƒ°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr3Sc‚s²7G‚æf–ÆÅ&V7B‡G‚Ò‚ÂG’²ÂbÂF‚Ò#“²7G‚æf–ÆÅ&V7B‡G‚²GrÒ‚ÂG’²ÂbÂF‚Ò#“°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr366CC"s²f÷"†ÆWBòÒ#²òÂF‚Ò#²ò³ÒR’²7G‚æf–ÆÅ&V7B‡G‚Ò‚ÂG’²òÂbÂB“²7G‚æf–ÆÅ&V7B‡G‚²GrÒ‚ÂG’²òÂbÂB“²ĞĞ¢7G‚æf–ÆÅ7G–ÆRÒr3&336s²7G‚æf–ÆÅ&V7B‡G‚ÂG’ÂGrÂF‚“°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr3S##bs²7G‚æf–ÆÅ&V7B‡G‚²ÂG’²ÂGrÒ#ÂR“²7G‚æf–ÆÅ&V7B‡G‚²RÂG’²3ÂGrÒ3ÂR“°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr3C3C“Sbs²7G‚æf–ÆÅ&V7B‡G‚²#RÂG’²‡F‚ò"’Ò3RÂGrÒSÂs“°Ğ¢7G‚ç7G&ö¶U7G–ÆRÒr3S##bs²7G‚æÆ–æUv–GF‚Ò3²7G‚ç7G&ö¶U&V7B‡G‚²#RÂG’²‡F‚ò"’Ò3RÂGrÒSÂs“°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr33#s²7G‚æf–ÆÅ&V7B‡G‚²‡Grò"’Ò"ÂG’²‡F‚ò"’²RÂ#BÂF‚ò"²“°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr6fc##s²7G‚æf–ÆÅ&V7B‡G‚²‡Grò"’ÒBÂG’²F‚²"Â#‚ÂB“°Ğ¢ÒVÇ6R–b†&÷72çG—RÓÓÒwöÆ–6Uö&÷72r’°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr3Cc#"s²7G‚æf–ÆÅ&V7B†&÷72ç‚Â&÷72ç’Â&÷72çrÂ&÷72æ‚“²7G‚æf–ÆÅ7G–ÆRÒr6fffffbs²7G‚æf–ÆÅ&V7B†&÷72ç‚²"Â&÷72ç’²Â&÷72çrÒ#BÂ&÷72æ‚¢ã#R“² Ğ¢7G‚æf–ÆÅ7G–ÆRÒw&v&ƒÂƒRÂ#SRÂãB’s²7G‚æf–ÆÅ&V7B†&÷72ç‚²RÂ&÷72ç’²†&÷72æ‚¢ã2’Â&÷72çrÒ3Â#R“² Ğ¢ÆWBfÆ6‚ÒÖF‚æfÆö÷"„FFRææ÷r‚’òC’R#²7G‚æf–ÆÅ7G–ÆRÒ†fÆ6‚ÓÓÒ’òr6fc62r¢r3SVfbs²7G‚æf–ÆÅ&V7B†&÷72ç‚²†&÷72çrò"’ÒSRÂ&÷72ç’²†&÷72æ‚¢ãR’ÂÂ‚“°Ğ¢ĞĞ¢7G‚ç&W7F÷&R‚“°Ğ¢ĞĞ Ğ¢f÷"†ÆWB’Ò²’Â'F–6ÆW2æÆVæwFƒ²’²²’²ÆWBÒ'F–6ÆW5¶•Ó²7G‚ç6fR‚“²7G‚ævÆö&ÄÇ†ÒæÇ†²7G‚æf–ÆÅ7G–ÆRÒæ6öÆ÷#²7G‚æ&Vv–åF‚‚“²7G‚æ&2‡ç‚Âç’Âç&F—W2ÂÂÖF‚å’¢"“²7G‚æf–ÆÂ‚“²7G‚ç&W7F÷&R‚“²ĞĞ Ğ¢–b†vÖT7F—fRÓÓÒG'VR’f÷"†6öç7B&6UÆ–W"öbÆÅÆ–W'2‚’’°Ğ¢ÆWB7W'&VçE6¶–äæÖRÒ&6UÆ–W"ç6¶–âÇÂvFVfVÇBs°Ğ¢7G‚ç6fR‚“²7G‚æf–ÆÅ7G–ÆRÒr3s°Ğ¢7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚ÒBÂ&6UÆ–W"ç’²ÂBÂ‚“²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚²&6UÆ–W"çrÂ&6UÆ–W"ç’²ÂBÂ‚“°Ğ¢7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚ÒBÂ&6UÆ–W"ç’²&6UÆ–W"æ‚Ò#‚ÂBÂ‚“²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚²&6UÆ–W"çrÂ&6UÆ–W"ç’²&6UÆ–W"æ‚Ò#‚ÂBÂ‚“°Ğ Ğ¢–b†7W'&VçE6¶–äæÖRÓÓÒw–rr’°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr6ff#6#2s²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚Â&6UÆ–W"ç’Â&6UÆ–W"çrÂ&6UÆ–W"æ‚“²7G‚æf–ÆÅ7G–ÆRÒr6fccccbs²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚²Â&6UÆ–W"ç’²‚Â&6UÆ–W"çrÒ#Âb“² Ğ¢7G‚æf–ÆÅ7G–ÆRÒr3s²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚²bÂ&6UÆ–W"ç’²"ÂBÂB“²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚²&6UÆ–W"çrÒ#Â&6UÆ–W"ç’²"ÂBÂB“² Ğ¢7G‚æf–ÆÅ7G–ÆRÒw&v&ƒ3ÂCÂSÂãƒR’s²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚²BÂ&6UÆ–W"ç’²3"Â&6UÆ–W"çrÒ‚Â‚“²7G‚æf–ÆÅ7G–ÆRÒr6fcƒƒs²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚Ò"Â&6UÆ–W"ç’²&6UÆ–W"æ‚ÒbÂ&6UÆ–W"çr²BÂb“² Ğ¢ÒVÇ6R–b†7W'&VçE6¶–äæÖRÓÓÒv†÷'6Rr’°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr3–3cc3Bs²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚Â&6UÆ–W"ç’Â&6UÆ–W"çrÂ&6UÆ–W"æ‚“²7G‚æf–ÆÅ7G–ÆRÒr3F&cRs²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚²BÂ&6UÆ–W"ç’²‚Â‚Â&6UÆ–W"æ‚Ò‚“²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚²&6UÆ–W"çrÒ#"Â&6UÆ–W"ç’²‚Â‚Â&6UÆ–W"æ‚Ò‚“² Ğ¢7G‚æf–ÆÅ7G–ÆRÒr6ff63s²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚²bÂ&6UÆ–W"ç’²"ÂbÂb“²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚²&6UÆ–W"çrÒ"Â&6UÆ–W"ç’²"ÂbÂb“² Ğ¢7G‚æf–ÆÅ7G–ÆRÒw&v&ƒ3ÂCÂSÂãƒR’s²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚²BÂ&6UÆ–W"ç’²#‚Â&6UÆ–W"çrÒ‚Â#“²7G‚æf–ÆÅ7G–ÆRÒr3F&cRs²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚Ò"Â&6UÆ–W"ç’²&6UÆ–W"æ‚ÒRÂ&6UÆ–W"çr²BÂR“² Ğ¢ÒVÇ6R–b†7W'&VçE6¶–äæÖRÓÓÒwFW6Ær’°Ğ¢7G‚æf–ÆÅ7G–ÆRÒr366CCs²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚Â&6UÆ–W"ç’Â&6UÆ–W"çrÂ&6UÆ–W"æ‚“²7G‚æf–ÆÅ7G–ÆRÒr3cfbs²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚²"Â&6UÆ–W"ç’²BÂ&6UÆ–W"çrÒBÂB“² Ğ¢7G‚æf–ÆÅ7G–ÆRÒw&v&ƒ#Â#RÂ3Âã’’s²7G‚æf–ÆÅ&V7B‡&6UÆ–W"ç‚²BÂ&6UÆ–W"ç’²#"Â&6UÆ–W"çrÒ‚Â#R“²7G‚ç7G&ö¶U7G–ÆRÒr3VVSc"s²7G‚æÆ–æUv–GF‚Ò#²7G‚ç7G&ö¶U&V7B‡&6UÆ–W"ç‚²"Â&6UÆ–W"ç’²"Â&6UÆ–W"çrÒBÂ&6UÆ–W"æ‚ÒB“² Ğ¢ÒVÇ6R²G&t6"‡&6UÆ–W"ç‚Â&6UÆ–W"ç’Â&6UÆ–W"çrÂ&6UÆ–W"æ‚Â&6UÆ–W"æ6öÆ÷"ÇÂr6fffffbrÂwÆ–W"r“²ĞĞ¢7G‚ç&W7F÷&R‚“°Ğ Ğ¢–b‡&6UÆ–W"æ†56†–VÆBÓÓÒG'VR’°Ğ¢7G‚ç6fR‚“²7G‚ç7G&ö¶U7G–ÆRÒr3C&fbs²7G‚æÆ–æUv–GF‚ÒC²7G‚æ&Vv–åF‚‚“²7G‚æ&2‡&6UÆ–W"ç‚²‡&6UÆ–W"çrò"’Â&6UÆ–W"ç’²‡&6UÆ–W"æ‚ò"’Â‡&6UÆ–W"æ‚ò"’²ÂÂÖF‚å’¢"“²7G‚ç7G&ö¶R‚“²7G‚ç&W7F÷&R‚“°Ğ¢ĞĞ¢7G‚ç6fR‚“²7G‚æf–ÆÅ7G–ÆRÒ&6UÆ–W"æ–BÓÓÒ×”–Bòr3ff62r¢r6ffbs²7G‚æföçBÒv&öÆB'‚6ç2×6W&–bs²7G‚çFW‡DÆ–vâÒv6VçFW"s°Ğ¢7G‚æf–ÆÅFW‡B‚‡&6UÆ–W"ææÖRÇÂuÆ–W"r’²‡&6UÆ–W"æ–BÓÓÒ×”–Bòr+r”õRr¢rr’Â&6UÆ–W"ç‚²&6UÆ–W"çrò"Â&6UÆ–W"ç’Ò“²7G‚ç&W7F÷&R‚“°Ğ¢ĞĞ¢ĞĞ Ğ¢gVæ7F–öâvÖTÆö÷‚’°Ğ¢–b†—5W6VBÇÂ—4†÷7B’&WGW&ã°Ğ¢WFFR‚“²G&r‚“²V&Æ—6„æWGv÷&µ7FFR‚“°Ğ¢–b†vÖT7F—fRÓÓÒG'VR’&WVW7Dæ–ÖF–öäg&ÖR†vÖTÆö÷“°Ğ¢ĞĞ Ğ¢Fö7VÖVçBævWDVÆVÖVçD'”–B‚w7F'D'Fâr’æöæ6Æ–6²Ò‚’Óâ°Ğ¢ÆWBÖVçTVÂÒFö7VÖVçBævWDVÆVÖVçD'”–B‚vÖVçU67&VVâr“²–b†ÖVçTVÂ’²ÖVçTVÂç7G–ÆRæF—7Æ’ÒvæöæRs²ĞĞ¢66÷&RÒ²7W'&VçEvfRÒ²vfT6'576VBÒ²vÆö&Å7VVDÖöF–f–W"Òãƒ²—5W6VBÒfÇ6S²F÷FÅöÆ–6T¶–ÆÆVBÒ°Ğ¢VæVÖ–W2ÒµÓ²'VÆÆWG2ÒµÓ²—FV×2ÒµÓ²&÷75&ö¦V7F–ÆW2ÒµÓ²&÷72ÒçVÆÃ²—4&÷757FvRÒfÇ6S²öÆ–6U7våF–ÖW"Ò°Ğ¢ÆWB&÷74‡VÂÒFö7VÖVçBævWDVÆVÖVçD'”–B‚v&÷74‡6öçF–æW"r“²–b†&÷74‡VÂ’²&÷74‡VÂç7G–ÆRæF—7Æ’ÒvæöæRs²ĞĞ¢6öç7B'FâÒFö7VÖVçBævWDVÆVÖVçD'”–B‚wW6T'Fâr“²–b‡'Fâ’'Fâæ–ææW%FW‡BÒ%U4RtÔR(ûûˆò#°Ğ¢ÆWBV•ÒFö7VÖVçBævWDVÆVÖVçD'”–B‚wöÆ–6T¶–ÆÇ5V’r“²–b‡V•’V•æ–ææW%FW‡BÒ#òR#°Ğ¢ Ğ¢–b‚—4†÷7BÇÂö&¦V7Bæ¶W—2‡&ööÕÆ–W'2’æÆVæwF‚Â"’&WGW&ã°Ğ¢Æ–W"æ†56†–VÆBÒ‡W6†–VÆBâ“²Æ–W"ç7VVBÒR²‡W7VVB¢ã‚“²ÖÖòÒWÖÖò¢S²Æ–W"æÖ„‡Ò²W‡²Æ–W"æ‡ÒÆ–W"æÖ„‡°Ğ¢Æ–W"æÖÖòÒÖÖó²Æ–W"çG&—ÆRÒWG&—ÆS²Æ–W"æ&÷756†–VÆBÒW&÷756†–VÆC²Æ–W"æ&÷74ÖÖòÒW&÷74ÖÖó²Æ–W"æÆ—fRÒG'VS°Ğ¢&W6—¦R‚“²7&VFU&VÖ÷FUÆ–W'2‚“²vÖT7F—fRÒG'VS°Ğ¢WFFTF"‡&ööÕ&Vb‚vÖWFr’Â·7FGW3¢w'Vææ–ærrÇWFFVDC§6W'fW%F–ÖW7F×‚—Ò“°Ğ¢6†÷tÖW76vR‚%tdR5D%B"“²V&Æ—6„æWGv÷&µ7FFR‡G'VR“²vÖTÆö÷‚“°Ğ¢Ó°Ğ§Ò“°Ğ£Â÷67&—CàĞ£Âö&öG“àĞ£Âö‡FÖÃàĞ
