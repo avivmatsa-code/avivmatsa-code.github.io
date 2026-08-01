@@ -2,7 +2,20 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>car race</title>
+    <title>Car Race</title>
+    <meta name="description" content="Car Race. By Omer Matsa.">
+    <meta property="og:title" content="Car Race">
+    <meta property="og:description" content="By Omer Matsa">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/car-race-share-20260801.jpg?v=1">
+    <meta property="og:image:secure_url" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/car-race-share-20260801.jpg?v=1">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Car Race">
+    <meta name="twitter:description" content="By Omer Matsa">
+    <meta name="twitter:image" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/car-race-share-20260801.jpg?v=1">
     <style>
         body { margin: 0; overflow: hidden; background: #07070c; font-family: sans-serif; user-select: none; }
         #ui { position: absolute; top: 20px; left: 20px; color: white; background: rgba(10,10,20,0.9); padding: 15px; border-radius: 12px; border: 2px solid #ff0055; z-index: 100; min-width: 160px; }
@@ -14,21 +27,21 @@
         #bossHpBar { width: 100%; height: 16px; background: #330000; border-radius: 4px; overflow: hidden; margin-top: 5px; }
         #bossHpFill { width: 100%; height: 100%; background: #ff3300; transition: width 0.1s; }
         #bossHpText { font-size: 12px; margin-top: 3px; }
-        
+
         .pause-btn { width: 100%; padding: 8px; margin-top: 10px; font-weight: bold; background: #ff9f43; border: none; color: black; border-radius: 6px; cursor: pointer; transition: 0.2s; font-size: 14px; }
         .pause-btn:hover { background: #ffb167; transform: scale(1.02); }
-        
+
         #menuScreen { position: absolute; inset: 0; background: radial-gradient(circle, #1a0826 0%, #050508 100%); z-index: 200; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; overflow-y: auto; padding: 20px 0; }
         .menu-btn { padding: 12px 35px; font-size: 22px; font-weight: bold; background: #ff0055; border: none; color: white; border-radius: 30px; cursor: pointer; margin-bottom: 15px; box-shadow: 0 0 15px #ff0055; transition: 0.2s; }
         .menu-btn:hover { transform: scale(1.05); background: #ff2277; }
         .reset-btn { padding: 8px 20px; font-size: 14px; font-weight: bold; background: #444; border: none; color: #aaa; border-radius: 20px; cursor: pointer; margin-bottom: 20px; transition: 0.2s; }
         .reset-btn:hover { background: #555; color: #fff; }
-       
+
         .shop-container { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); width: 460px; text-align: center; margin-bottom: 15px; }
         .shop-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 8px; }
         .shop-btn { padding: 6px 12px; font-weight: bold; background: #00ffcc; border: none; color: #000; border-radius: 4px; cursor: pointer; }
         .shop-btn:disabled { background: #444; color: #888; cursor: not-allowed; }
-        
+
         .skin-select-container { display: flex; justify-content: space-around; margin-top: 10px; width: 100%; gap: 5px; }
         .skin-box { background: rgba(0,0,0,0.5); padding: 8px; border-radius: 8px; border: 2px solid transparent; cursor: pointer; flex: 1; font-size: 13px; text-align: center; transition: 0.2s; }
         .skin-box:hover { background: rgba(255,255,255,0.1); }
@@ -39,11 +52,12 @@
 </head>
 <body>
 <div id="menuScreen">
-    <h1 style="font-size: 45px; margin: 0 0 5px 0; text-shadow: 0 0 20px #ff0055; font-family: 'Arial Black', sans-serif;">🏎️ car race 🏎️</h1>
+    <h1 style="font-size: 45px; margin: 0 0 5px 0; text-shadow: 0 0 20px #ff0055; font-family: 'Arial Black', sans-serif;">🏎️ Car Race 🏎️</h1>
+    <div style="font-size:20px;color:#ffcc00;font-weight:bold;margin-bottom:8px;">By Omer Matsa</div>
     <div style="font-size: 20px; margin-bottom: 15px; color: #ffcc00; font-weight: bold;">COINS: <span id="menuCoins">0</span> 💰</div>
     <button class="menu-btn" id="startBtn">START GAME</button>
     <button class="reset-btn" id="resetBtn">איפוס התקדמות 🔄</button>
-    
+
     <div class="shop-container">
         <h3 style="margin: 0 0 10px 0; color: #00ffcc; font-size: 18px;">UPGRADES SHOP</h3>
         <div class="shop-item">
@@ -87,7 +101,7 @@
                 <div id="cost_pig" style="color:#ffcc00; font-size:11px; margin-top:4px;">50 💰</div>
             </div>
             <div class="skin-box locked" id="skin_horse">
-                <div>🐎 Horse Style</div>
+                <div>🐅 Neon Panther</div>
                 <div id="cost_horse" style="color:#ffcc00; font-size:11px; margin-top:4px;">75 💰</div>
             </div>
             <div class="skin-box locked" id="skin_tesla">
@@ -137,7 +151,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let upAmmo = parseInt(localStorage.getItem('up_ammo')) || 0;
     let upHp = parseInt(localStorage.getItem('up_hp')) || 0;
     let upTriple = parseInt(localStorage.getItem('up_triple')) || 0;
-    
+
     // משתני השדרוגים החדשים של סוף בוס
     let upBossShield = parseInt(localStorage.getItem('up_boss_shield')) || 0;
     let upBossAmmo = parseInt(localStorage.getItem('up_boss_ammo')) || 0;
@@ -162,7 +176,7 @@ window.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('up_boss_shield', upBossShield); localStorage.setItem('up_boss_ammo', upBossAmmo);
         localStorage.setItem('own_pig', ownPig); localStorage.setItem('own_horse', ownHorse);
         localStorage.setItem('own_tesla', ownTesla); localStorage.setItem('chosen_skin', chosenSkin);
-        
+
         let coinsEl = document.getElementById('menuCoins'); if (coinsEl) { coinsEl.innerText = coins; }
         setupShopBtn('buyShield', 'lvlShield', upShield, 1, 'shield');
         setupShopBtn('buySpeed', 'lvlSpeed', upSpeed, 3, 'speed');
@@ -179,7 +193,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const btn = document.getElementById(btnId); if (!btn) return;
         let actualLvlToCheck = (btnId === 'buyHp') ? currentLvl - 1 : currentLvl;
         let maxLvlToCheck = (btnId === 'buyHp') ? 2 : maxLvl;
-        if (actualLvlToCheck >= maxLvlToCheck) { btn.innerText = "MAX"; btn.disabled = true; } 
+        if (actualLvlToCheck >= maxLvlToCheck) { btn.innerText = "MAX"; btn.disabled = true; }
         else { let cost = getUpgradeCost(type, actualLvlToCheck); btn.innerText = "Upgrade [" + cost + "]"; btn.disabled = (coins < cost); }
     }
 
@@ -213,7 +227,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function selectSkin(skinName, isOwned, price) {
-        if (isOwned) { chosenSkin = skinName; updateShopUI(); } 
+        if (isOwned) { chosenSkin = skinName; updateShopUI(); }
         else if (coins >= price) {
             coins -= price; if (skinName === 'pig') ownPig = true; if (skinName === 'horse') ownHorse = true; if (skinName === 'tesla') ownTesla = true;
             chosenSkin = skinName; updateShopUI();
@@ -243,18 +257,18 @@ window.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('buyBossAmmo')) document.getElementById('buyBossAmmo').onclick = () => buyUpgrade('bossAmmo');
     updateShopUI();
     function resize() {
-        w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; 
+        w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight;
         roadWidth = 650; roadX = (w - roadWidth) / 2; player.x = w / 2 - player.w / 2; player.y = h - 160;
     }
     window.addEventListener('resize', resize); resize();
 
     function togglePause() {
         if (!gameActive) return; isPaused = !isPaused; const pBtn = document.getElementById('pauseBtn');
-        if (isPaused) { if (pBtn) pBtn.innerText = "RESUME GAME ▶️"; showMessage("GAME PAUSED", 60000); } 
+        if (isPaused) { if (pBtn) pBtn.innerText = "RESUME GAME ▶️"; showMessage("GAME PAUSED", 60000); }
         else { if (pBtn) pBtn.innerText = "PAUSE GAME ⏸️"; const msgEl = document.getElementById('msgText'); if (msgEl) msgEl.style.display = 'none'; requestAnimationFrame(gameLoop); }
     }
 
-    window.onkeydown = (e) => { if (e.code === 'Space') { e.preventDefault(); togglePause(); } else { keys[e.code] = true; } };
+    window.onkeydown = (e) => { if (e.code === 'Space') { e.preventDefault(); if (!e.repeat) fireWeapon(); } else if (e.code === 'KeyP') { togglePause(); } else { keys[e.code] = true; } };
     window.onkeyup = (e) => keys[e.code] = false;
 
     window.onmousedown = (e) => {
@@ -293,7 +307,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (availableTypes.length === 0) availableTypes.push(types);
         let t = availableTypes[Math.floor(Math.random() * availableTypes.length)]; lastEnemyType = t.t;
         let startX = roadX + Math.random() * (roadWidth - 55); startY = -100; carW = 45; carH = 85;
-        if (t.t === 'police') { startY = h + 100; carW = 54; carH = 100; startX = roadX + Math.random() * (roadWidth - 60); } 
+        if (t.t === 'police') { startY = h + 100; carW = 54; carH = 100; startX = roadX + Math.random() * (roadWidth - 60); }
         else if (t.t === 'red' || t.t === 'purple') { startX = roadX + (roadWidth / 2) - 22.5; } else if (t.t === 'gray') { startX = Math.random() > 0.5 ? roadX : roadX + roadWidth - 45; }
         enemies.push({ x: startX, y: startY, w: carW, h: carH, color: t.c, type: t.t, speed: t.s * globalSpeedModifier, initialSpeed: t.s * globalSpeedModifier, zigDir: Math.random() > 0.5 ? 1 : -1 });
     }
@@ -304,7 +318,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let fillBar = document.getElementById('bossHpFill'); if (fillBar) fillBar.style.width = '100%';
         let titleEl = document.getElementById('bossTitle'); let textBar = document.getElementById('bossHpText');
         let modeUi = document.getElementById('modeUi'); if (modeUi) { modeUi.innerText = "MODE: BOSS"; modeUi.style.color = "#ff3300"; }
-        
+
         if (forcedType === 'police_boss') {
             if (titleEl) titleEl.innerText = "SECRET BOSS: MEGA POLICE"; if (textBar) textBar.innerText = "50 / 50";
             boss = { x: roadX + (roadWidth / 2) - 80, y: -240, w: 160, h: 240, hp: 50, maxHp: 50, targetX: roadX + (roadWidth / 2) - 80, targetY: 20, moveTimer: 0, type: 'police_boss' };
@@ -319,8 +333,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 boss = { x: roadX + (roadWidth / 2) - 75, y: -220, w: 150, h: 220, hp: 40, maxHp: 40, targetX: roadX + (roadWidth / 2) - 75, moveTimer: 0, type: 'boss_truck' };
                 showMessage("BOSS STAGE: WAR TRUCK!");
             } else if (currentWave === 15) {
-                if (titleEl) titleEl.innerText = "FINAL BOSS: MEGA TANK"; if (textBar) textBar.innerText = "135 / 135";
-                boss = { x: roadX + (roadWidth / 2) - 85, y: -250, w: 170, h: 250, hp: 135, maxHp: 135, targetX: roadX + (roadWidth / 2) - 85, moveTimer: 0, type: 'boss_tank' };
+                if (titleEl) titleEl.innerText = "FINAL BOSS: MEGA TANK"; if (textBar) textBar.innerText = "100 / 100";
+                boss = { x: roadX + (roadWidth / 2) - 85, y: -250, w: 170, h: 250, hp: 100, maxHp: 100, targetX: roadX + (roadWidth / 2) - 85, moveTimer: 0, type: 'boss_tank' };
                 showMessage("MEGA TANK!");
             } else {
                 if (currentWave < 5) {
@@ -330,8 +344,8 @@ window.addEventListener('DOMContentLoaded', () => {
                     if (titleEl) titleEl.innerText = "BOSS 2: MISSILE TRUCK"; if (textBar) textBar.innerText = "40 / 40";
                     boss = { x: roadX + (roadWidth / 2) - 75, y: -220, w: 150, h: 220, hp: 40, maxHp: 40, targetX: roadX + (roadWidth / 2) - 75, moveTimer: 0, type: 'boss_truck' };
                 } else {
-                    if (titleEl) titleEl.innerText = "FINAL BOSS: MEGA TANK"; if (textBar) textBar.innerText = "135 / 135";
-                    boss = { x: roadX + (roadWidth / 2) - 85, y: -250, w: 170, h: 250, hp: 135, maxHp: 135, targetX: roadX + (roadWidth / 2) - 85, moveTimer: 0, type: 'boss_tank' };
+                    if (titleEl) titleEl.innerText = "FINAL BOSS: MEGA TANK"; if (textBar) textBar.innerText = "100 / 100";
+                    boss = { x: roadX + (roadWidth / 2) - 85, y: -250, w: 170, h: 250, hp: 100, maxHp: 100, targetX: roadX + (roadWidth / 2) - 85, moveTimer: 0, type: 'boss_tank' };
                 }
             }
         }
@@ -350,10 +364,10 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function endBossStage(killed) {
-        isBossStage = false; 
+        isBossStage = false;
         let bossHpContainer = document.getElementById('bossHpContainer'); if (bossHpContainer) bossHpContainer.style.display = 'none';
         let modeUi = document.getElementById('modeUi'); if (modeUi) { modeUi.innerText = "MODE: NORMAL"; modeUi.style.color = "#aaa"; }
-        
+
         if (killed === true) {
             if (boss && boss.type === 'police_boss') {
                 coins = coins + 20; score = score + 100; totalPoliceKilled = 0; let uiP = document.getElementById('policeKillsUi'); if (uiP) uiP.innerText = "0 / 5"; showMessage("SECRET BOSS DEFEATED! +20 COINS");
@@ -361,7 +375,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 let reward = boss && boss.type === 'boss_tank' ? 50 : (boss && boss.type === 'boss_truck' ? 25 : 15);
                 coins = coins + reward; score = score + (reward * 4); showMessage("BOSS DEFEATED! +" + reward + " COINS");
             }
-            
+
             // לוגיקת שדרוג מגן אחרי בוס
             if (upBossShield === 1) {
                 player.hasShield = true;
@@ -376,17 +390,17 @@ window.addEventListener('DOMContentLoaded', () => {
             else if (upBossAmmo === 3) ammo += 20;
 
             currentWave = currentWave + 1; globalSpeedModifier = globalSpeedModifier + 0.04; showMessage("WAVE " + currentWave + " START");
-        } else { 
+        } else {
             if (boss && boss.type === 'police_boss') { totalPoliceKilled = 0; let uiP = document.getElementById('policeKillsUi'); if (uiP) uiP.innerText = "0 / 5"; }
         }
         boss = null; enemies = []; bossProjectiles = []; waveCarsPassed = 0;
     }
-    function triggerNextWave() { 
-        coins = coins + 5; score = score + 5; waveCarsPassed = 0; 
-        if (currentWave === 4 || currentWave === 9 || currentWave === 14) { 
-            currentWave = currentWave + 1; globalSpeedModifier = globalSpeedModifier + 0.04; startBossStage(); 
+    function triggerNextWave() {
+        coins = coins + 5; score = score + 5; waveCarsPassed = 0;
+        if (currentWave === 4 || currentWave === 9 || currentWave === 14) {
+            currentWave = currentWave + 1; globalSpeedModifier = globalSpeedModifier + 0.04; startBossStage();
         } else {
-            showMessage("WAVE " + currentWave + " COMPLETE! +5 COINS", 2000); currentWave = currentWave + 1; globalSpeedModifier = globalSpeedModifier + 0.04; 
+            showMessage("WAVE " + currentWave + " COMPLETE! +5 COINS", 2000); currentWave = currentWave + 1; globalSpeedModifier = globalSpeedModifier + 0.04;
         }
     }
 
@@ -410,7 +424,7 @@ window.addEventListener('DOMContentLoaded', () => {
             itemSpawnTimer++; if (itemSpawnTimer > 300) { items.push({ x: roadX + Math.random() * (roadWidth - 34), y: -50, w: 34, h: 34, type: Math.random() > 0.7 ? 'shield' : 'ammo' }); itemSpawnTimer = 0; }
         } else {
             bossBoxTimer++; if (bossBoxTimer > (60 * (10 + Math.random() * 5))) { items.push({ x: roadX + Math.random() * (roadWidth - 34), y: -50, w: 34, h: 34, type: Math.random() > 0.6 ? 'shield' : 'ammo' }); bossBoxTimer = 0; }
-            
+
             if (boss && boss.type === 'police_boss') {
                 policeSpawnTimer++;
                 if (policeSpawnTimer === 60 || policeSpawnTimer === 120) {
@@ -425,23 +439,26 @@ window.addEventListener('DOMContentLoaded', () => {
 
             if (boss) {
                 bossShootTimer++;
-                let targetCooldown = boss.type === 'boss_tank' ? 18 : (boss.type === 'police_boss' ? 100 : 75);
+                let targetCooldown = boss.type === 'boss_tank' ? 32 : (boss.type === 'police_boss' ? 50 : (boss.type === 'boss_truck' ? 60 : 75));
 
                 if (bossShootTimer > targetCooldown) {
                     let bossCenterX = boss.x + (boss.w / 2); let bossCenterY = boss.y + boss.h;
                     let playerCenterX = player.x + (player.w / 2); let playerCenterY = player.y + (player.h / 2);
-                    let dx = playerCenterX - bossCenterX; let dy = playerCenterY - bossCenterY; 
+                    let dx = playerCenterX - bossCenterX; let dy = playerCenterY - bossCenterY;
                     let distance = Math.sqrt(dx * dx + dy * dy) || 1;
 
                     if (boss.type === 'police_boss') {
-                        let bulletSpeed = 5.5; 
+                        let bulletSpeed = 6.5;
                         bossProjectiles.push({ x: bossCenterX - 15, y: bossCenterY, w: 30, h: 30, vx: (dx / distance) * bulletSpeed, speed: (dy / distance) * bulletSpeed });
+                    } else if (boss.type === 'boss_truck') {
+                        let missileSpeed = 7.5;
+                        bossProjectiles.push({ x: bossCenterX - 10, y: bossCenterY, w: 22, h: 35, vx: (dx / distance) * missileSpeed, speed: (dy / distance) * missileSpeed, isMissile: true });
                     } else if (boss.type === 'boss_tank') {
-                        if (Math.random() < 0.25) {
-                            let giantSpeed = 6.0;
+                        if (Math.random() < 0.20) {
+                            let giantSpeed = 5.0;
                             bossProjectiles.push({ x: bossCenterX - 30, y: bossCenterY, w: 60, h: 60, vx: (dx / distance) * giantSpeed, speed: (dy / distance) * giantSpeed });
                         } else {
-                            bossProjectiles.push({ x: bossCenterX - 10, y: bossCenterY, w: 20, h: 20, vx: (Math.random() - 0.5) * 3, speed: 7.5 });
+                            bossProjectiles.push({ x: bossCenterX - 10, y: bossCenterY, w: 20, h: 20, vx: (Math.random() - 0.5) * 2.5, speed: 6.5 });
                         }
                     } else {
                         bossProjectiles.push({ x: boss.x + (boss.w / 2) - 15, y: boss.h + boss.y, w: 30, h: 30, vx: 0, speed: 4.5 });
@@ -451,7 +468,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
         for (let i = particles.length - 1; i >= 0; i--) { let p = particles[i]; p.x += p.vx; p.y += p.vy; p.alpha -= p.decay; if (p.alpha <= 0) particles.splice(i, 1); }
-        
+
         // בדיקת פיצוצי מגן כפול ואיסוף חפצים
         for (let i = items.length - 1; i >= 0; i--) {
             let it = items[i]; it.y += (4 * globalSpeedModifier);
@@ -513,7 +530,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if (isBossStage && boss) {
             boss.moveTimer++;
-            if (boss.type === 'police_boss') { boss.y = 20; boss.x = roadX + (roadWidth / 2) - (boss.w / 2); } 
+            if (boss.type === 'police_boss') { boss.y = 20; boss.x = roadX + (roadWidth / 2) - (boss.w / 2); }
             else {
                 if (boss.y < 50) boss.y += 2;
                 if (boss.moveTimer > 65) { boss.targetX = roadX + Math.random() * (roadWidth - boss.w); boss.moveTimer = 0; }
@@ -562,7 +579,16 @@ window.addEventListener('DOMContentLoaded', () => {
             let it = items[i]; ctx.save(); ctx.fillStyle = it.type === 'shield' ? 'rgba(0, 210, 255, 0.9)' : 'rgba(0, 255, 102, 0.9)'; ctx.shadowBlur = 15; ctx.shadowColor = ctx.fillStyle; ctx.beginPath(); ctx.arc(it.x + (it.w / 2), it.y + (it.h / 2), it.w / 2, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#000000'; ctx.font = 'bold 15px sans-serif'; ctx.fillText(it.type === 'shield' ? '🛡️' : '🚀', it.x + 8, it.y + 23); ctx.restore();
         }
         ctx.fillStyle = '#ffea00'; for (let i = 0; i < bullets.length; i++) { let b = bullets[i]; ctx.fillRect(b.x, b.y, b.w, b.h); }
-        ctx.fillStyle = '#ff0000'; for (let i = 0; i < bossProjectiles.length; i++) { let bp = bossProjectiles[i]; ctx.beginPath(); ctx.arc(bp.x + (bp.w / 2), bp.y + (bp.h / 2), bp.w / 2, 0, Math.PI * 2); ctx.fill(); }
+        for (let i = 0; i < bossProjectiles.length; i++) {
+            let bp = bossProjectiles[i]; ctx.save();
+            if (bp.isMissile) {
+                ctx.fillStyle = '#ff2d2d'; ctx.fillRect(bp.x, bp.y, bp.w, bp.h);
+                ctx.fillStyle = '#ffa500'; ctx.fillRect(bp.x + 3, bp.y + bp.h, bp.w - 6, 8);
+            } else {
+                ctx.fillStyle = '#ff0000'; ctx.beginPath(); ctx.arc(bp.x + (bp.w / 2), bp.y + (bp.h / 2), bp.w / 2, 0, Math.PI * 2); ctx.fill();
+            }
+            ctx.restore();
+        }
         for (let i = 0; i < enemies.length; i++) { let en = enemies[i]; drawCar(en.x, en.y, en.w, en.h, en.color, en.type); }
 
         if (isBossStage && boss) {
@@ -575,7 +601,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 let bx = boss.x; let by = boss.y; let bw = boss.w; let bh = boss.h;
                 ctx.fillStyle = '#111'; ctx.fillRect(bx - 6, by + 20, 6, 25); ctx.fillRect(bx + bw, by + 20, 6, 25); ctx.fillRect(bx - 6, by + bh - 45, 6, 25); ctx.fillRect(bx + bw, by + bh - 45, 6, 25);
                 ctx.fillStyle = '#8a6d3b'; ctx.fillRect(bx, by, bw, bh);
-                ctx.fillStyle = '#4a3b20'; ctx.fillRect(bx + 12, by + 12, bw - 24, 38); 
+                ctx.fillStyle = '#4a3b20'; ctx.fillRect(bx + 12, by + 12, bw - 24, 38);
                 let halfW = (bw - 40) / 2 - 2; ctx.fillRect(bx + 20, by + 20, halfW, 12); ctx.fillRect(bx + bw / 2 + 2, by + 20, halfW, 12);
                 ctx.fillStyle = '#302614'; ctx.fillRect(bx + 16, by + 70, bw - 32, bh - 90);
                 ctx.fillStyle = '#fff'; ctx.fillRect(bx + 25, by + 85, 12, bh - 120); ctx.fillRect(bx + bw / 2 - 6, by + 85, 12, bh - 120); ctx.fillRect(bx + bw - 37, by + 85, 12, bh - 120);
@@ -591,8 +617,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 ctx.fillStyle = '#1a1c21'; ctx.fillRect(tx + (tw / 2) - 12, ty + (th / 2) + 15, 24, th / 2 + 10);
                 ctx.fillStyle = '#ff2200'; ctx.fillRect(tx + (tw / 2) - 14, ty + th + 2, 28, 4);
             } else if (boss.type === 'police_boss') {
-                ctx.fillStyle = '#1d1f22'; ctx.fillRect(boss.x, boss.y, boss.w, boss.h); ctx.fillStyle = '#ffffff'; ctx.fillRect(boss.x + 12, boss.y + 10, boss.w - 24, boss.h * 0.25); 
-                ctx.fillStyle = 'rgba(0, 85, 255, 0.4)'; ctx.fillRect(boss.x + 15, boss.y + (boss.h * 0.3), boss.w - 30, 25); 
+                ctx.fillStyle = '#1d1f22'; ctx.fillRect(boss.x, boss.y, boss.w, boss.h); ctx.fillStyle = '#ffffff'; ctx.fillRect(boss.x + 12, boss.y + 10, boss.w - 24, boss.h * 0.25);
+                ctx.fillStyle = 'rgba(0, 85, 255, 0.4)'; ctx.fillRect(boss.x + 15, boss.y + (boss.h * 0.3), boss.w - 30, 25);
                 let flash = Math.floor(Date.now() / 40) % 2; ctx.fillStyle = (flash === 0) ? '#ff003c' : '#0055ff'; ctx.fillRect(boss.x + (boss.w / 2) - 55, boss.y + (boss.h * 0.5), 110, 18);
             }
             ctx.restore();
@@ -607,16 +633,26 @@ window.addEventListener('DOMContentLoaded', () => {
             ctx.fillRect(player.x - 4, player.y + player.h - 28, 4, 18); ctx.fillRect(player.x + player.w, player.y + player.h - 28, 4, 18);
 
             if (currentSkinName === 'pig') {
-                ctx.fillStyle = '#ffb3b3'; ctx.fillRect(player.x, player.y, player.w, player.h); ctx.fillStyle = '#ff6666'; ctx.fillRect(player.x + 10, player.y + 8, player.w - 20, 16); 
-                ctx.fillStyle = '#000000'; ctx.fillRect(player.x + 16, player.y + 12, 4, 4); ctx.fillRect(player.x + player.w - 20, player.y + 12, 4, 4); 
-                ctx.fillStyle = 'rgba(30, 40, 50, 0.85)'; ctx.fillRect(player.x + 4, player.y + 32, player.w - 8, 18); ctx.fillStyle = '#ff8080'; ctx.fillRect(player.x - 2, player.y + player.h - 6, player.w + 4, 6); 
+                ctx.fillStyle = '#ffb3b3'; ctx.fillRect(player.x, player.y, player.w, player.h); ctx.fillStyle = '#ff6666'; ctx.fillRect(player.x + 10, player.y + 8, player.w - 20, 16);
+                ctx.fillStyle = '#000000'; ctx.fillRect(player.x + 16, player.y + 12, 4, 4); ctx.fillRect(player.x + player.w - 20, player.y + 12, 4, 4);
+                ctx.fillStyle = 'rgba(30, 40, 50, 0.85)'; ctx.fillRect(player.x + 4, player.y + 32, player.w - 8, 18); ctx.fillStyle = '#ff8080'; ctx.fillRect(player.x - 2, player.y + player.h - 6, player.w + 4, 6);
             } else if (currentSkinName === 'horse') {
-                ctx.fillStyle = '#9c6634'; ctx.fillRect(player.x, player.y, player.w, player.h); ctx.fillStyle = '#4a2f15'; ctx.fillRect(player.x + 14, player.y + 8, 8, player.h - 8); ctx.fillRect(player.x + player.w - 22, player.y + 8, 8, player.h - 8); 
-                ctx.fillStyle = '#ffcc00'; ctx.fillRect(player.x + 6, player.y + 2, 6, 6); ctx.fillRect(player.x + player.w - 12, player.y + 2, 6, 6); 
-                ctx.fillStyle = 'rgba(30, 40, 50, 0.85)'; ctx.fillRect(player.x + 4, player.y + 28, player.w - 8, 20); ctx.fillStyle = '#4a2f15'; ctx.fillRect(player.x - 2, player.y + player.h - 5, player.w + 4, 5); 
+                ctx.save(); ctx.shadowBlur = 18; ctx.shadowColor = '#ff6600';
+                ctx.fillStyle = '#ff6600'; ctx.fillRect(player.x, player.y, player.w, player.h); ctx.restore();
+                ctx.fillStyle = '#e64d00'; ctx.fillRect(player.x + 4, player.y + 4, player.w - 8, player.h - 8);
+                ctx.fillStyle = '#17120f';
+                ctx.fillRect(player.x + 5, player.y + 14, player.w - 10, 5);
+                ctx.fillRect(player.x + 10, player.y + 27, player.w - 20, 5);
+                ctx.fillRect(player.x + 5, player.y + 63, player.w - 10, 6);
+                ctx.fillStyle = '#ffe600'; ctx.fillRect(player.x + 7, player.y + 4, 7, 4); ctx.fillRect(player.x + player.w - 14, player.y + 4, 7, 4);
+                ctx.fillStyle = 'rgba(12,20,28,.9)'; ctx.fillRect(player.x + 6, player.y + 36, player.w - 12, 19);
+                ctx.fillStyle = '#ff6600'; ctx.fillRect(player.x - 5, player.y + 12, 4, 14); ctx.fillRect(player.x + player.w + 1, player.y + 12, 4, 14);
+                ctx.fillRect(player.x - 5, player.y + player.h - 26, 4, 14); ctx.fillRect(player.x + player.w + 1, player.y + player.h - 26, 4, 14);
             } else if (currentSkinName === 'tesla') {
-                ctx.fillStyle = '#3a3d40'; ctx.fillRect(player.x, player.y, player.w, player.h); ctx.fillStyle = '#00f0ff'; ctx.fillRect(player.x + 2, player.y + 4, player.w - 4, 4); 
-                ctx.fillStyle = 'rgba(20, 25, 30, 0.9)'; ctx.fillRect(player.x + 4, player.y + 22, player.w - 8, 25); ctx.strokeStyle = '#5a5e62'; ctx.lineWidth = 2; ctx.strokeRect(player.x + 2, player.y + 2, player.w - 4, player.h - 4); 
+                ctx.fillStyle = '#2c3e50'; ctx.fillRect(player.x, player.y, player.w, player.h);
+                ctx.strokeStyle = '#00cea6'; ctx.lineWidth = 2; ctx.strokeRect(player.x + 2, player.y + 2, player.w - 4, player.h - 4);
+                ctx.fillStyle = 'rgba(0, 240, 255, 0.3)'; ctx.fillRect(player.x + 5, player.y + 15, player.w - 10, 45);
+                ctx.fillStyle = '#fff'; ctx.fillRect(player.x + 4, player.y + 2, 8, 3); ctx.fillRect(player.x + player.w - 12, player.y + 2, 8, 3);
             } else { drawCar(player.x, player.y, player.w, player.h, '#ffffff', 'player'); }
             ctx.restore();
 
@@ -635,7 +671,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let bossHpEl = document.getElementById('bossHpContainer'); if (bossHpEl) { bossHpEl.style.display = 'none'; }
         const pBtn = document.getElementById('pauseBtn'); if (pBtn) pBtn.innerText = "PAUSE GAME ⏸️";
         let uiP = document.getElementById('policeKillsUi'); if (uiP) uiP.innerText = "0 / 5";
-        
+
         player.hasShield = (upShield > 0); player.speed = 5 + (upSpeed * 0.8); ammo = upAmmo * 5; player.maxHp = 1 + upHp; player.hp = player.maxHp;
         resize(); gameActive = true; showMessage("WAVE 1 START"); gameLoop();
     };
