@@ -19,7 +19,7 @@
         },
         "inputs": {
           "$playerId": {
-            ".write": "auth != null && ((newData.exists() && newData.child('authUid').val() === auth.uid && root.child('rooms').child($room).child('players').child($playerId).child('authUid').val() === auth.uid && root.child('rooms').child($room).child('meta').child('status').val() === 'running') || (!newData.exists() && data.child('authUid').val() === auth.uid))",
+            ".write": "auth != null && ((newData.exists() && newData.child('authUid').val() === auth.uid && root.child('rooms').child($room).child('players').child($playerId).child('authUid').val() === auth.uid && root.child('rooms').child($room).child('meta').child('status').val() === 'running') || (!newData.exists() && (data.child('authUid').val() === auth.uid || root.child('rooms').child($room).child('players').child($playerId).child('authUid').val() === auth.uid)))",
             ".validate": "newData.hasChildren(['authUid', 'left', 'right', 'fire']) && newData.child('authUid').isString() && newData.child('authUid').val() === auth.uid && newData.child('left').isBoolean() && newData.child('right').isBoolean() && newData.child('fire').isBoolean()"
           }
         },
