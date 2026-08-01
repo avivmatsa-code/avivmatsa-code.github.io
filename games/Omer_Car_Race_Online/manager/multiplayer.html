@@ -297,7 +297,7 @@ window.addEventListener('DOMContentLoaded', () => {
         await set(roomRef(`players/${myId}`), playerProfile());
         await onDisconnect(roomRef()).remove();
         document.getElementById('roomInfo').hidden = false; document.getElementById('roomCode').innerText = room;
-        const inviteUrl = `${new URL('../join/game.html', location.href).href}?room=${encodeURIComponent(room)}`;
+        const inviteUrl = `${new URL('../join/', location.href).href}?room=${encodeURIComponent(room)}`;
         document.getElementById('managerRoomCode').innerText = room;
         document.getElementById('inviteLink').value = inviteUrl;
         document.getElementById('managerRoomPanel').style.display = 'block';
