@@ -14,7 +14,7 @@
   <meta name="twitter:image" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/multiplayer-police-laser-preview.jpg">
   <script>
     const room = (new URLSearchParams(location.search).get('room') || '').toUpperCase();
-    const target = '../?role=guest' + (/^[A-Z0-9]{6}$/.test(room) ? '&room=' + encodeURIComponent(room) : '');
+    const target = '../play-v2/?role=guest' + (/^[A-Z0-9]{6}$/.test(room) ? '&room=' + encodeURIComponent(room) : '');
     location.replace(target);
   </script>
 </head>
