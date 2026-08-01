@@ -232,6 +232,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const managerMode = true;
     let myId = crypto.randomUUID().replace(/-/g, '').slice(0, 20);
     let authUid = '', room = '', isHost = false, roomPlayers = {}, remotePlayers = {}, remoteInputs = {}, netUnsubs = [], lastNetWrite = 0;
+    let stateWriteInFlight = false, queuedState = null, animationFrameId = 0, lastHostFrameAt = 0, lastSnapshotAt = 0, guestFrameAt = performance.now();
     let localInput = {left:false,right:false,up:false,down:false,fire:false}, lastFireByPlayer = {};
     const authReady = signInAnonymously(auth).then(result => { authUid = result.user.uid; return result.user; }).catch(() => setNetworkStatus('Firebase connection failed', true));
     const lobbyEl = document.getElementById('networkLobby'), managerControls = document.getElementById('managerControls'), guestControls = document.getElementById('guestControls');
@@ -285,7 +286,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }));
         if (!isHost) netUnsubs.push(onValue(roomRef('state'), snap => {
-            const data = snap.val(); if (data) { applyNetworkState(data); draw(); }
+            const data = snap.val(); if (data) { lastSnapshotAt = Date.now(); applyNetworkState(data); hideConnectionBanner(); }
         }));
     }
     async function createOnlineRoom() {
@@ -471,7 +472,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (mine) player = {...mine};
         remotePlayers = {};
         Object.entries(syncedPlayers).forEach(([id, p]) => { if (id !== myId) remotePlayers[id] = {...p}; });
-        gameActive = data.gameActive !== false;
+        gameActive = data.gameActive !== false; isPaused = data.isPaused === true;
         const bossUi = document.getElementById('bossHpContainer');
         if (bossUi) bossUi.style.display = isBossStage && boss ? 'block' : 'none';
         if (boss) {
@@ -495,19 +496,30 @@ window.addEventListener('DOMContentLoaded', () => {
             players:syncedPlayers,score,wave:currentWave,lives:Math.max(0, player.hp),
             spawn:enemySpawnTimer,itemSpawn:itemSpawnTimer,road:roadOffset,currentWave,
             waveCarsPassed,waveMaxCars,globalSpeedModifier,isBossStage,boss,enemies,
-            bullets,items,bossProjectiles,totalPoliceKilled,gameActive
+            bullets,items,bossProjectiles,totalPoliceKilled,gameActive,isPaused
         }));
     }
     function publishNetworkState(force = false) {
         if (!isHost || !room) return;
         const now = Date.now(); if (!force && now - lastNetWrite < 140) return;
-        lastNetWrite = now; set(roomRef('state'), networkSnapshot()).catch(() => {});
+        const snapshot = networkSnapshot();
+        if (stateWriteInFlight) { queuedState = snapshot; return; }
+        lastNetWrite = now; stateWriteInFlight = true;
+        set(roomRef('state'), snapshot).catch(() => {
+            showConnectionBanner('Connection interrupted — the host game is continuing locally');
+        }).finally(() => {
+            stateWriteInFlight = false;
+            if (queuedState) { const latest = queuedState; queuedState = null; lastNetWrite = Date.now(); stateWriteInFlight = true;
+                set(roomRef('state'), latest).catch(() => showConnectionBanner('Connection interrupted — retrying automatically')).finally(() => { stateWriteInFlight = false; });
+            } else { hideConnectionBanner(); }
+        });
     }
 
     function togglePause() {
-        if (!gameActive) return; isPaused = !isPaused; const pBtn = document.getElementById('pauseBtn');
+        if (!gameActive || !isHost) return; isPaused = !isPaused; const pBtn = document.getElementById('pauseBtn');
         if (isPaused) { if (pBtn) pBtn.innerText = "RESUME GAME ▶️"; showMessage("GAME PAUSED", 60000); }
-        else { if (pBtn) pBtn.innerText = "PAUSE GAME ⏸️"; const msgEl = document.getElementById('msgText'); if (msgEl) msgEl.style.display = 'none'; requestAnimationFrame(gameLoop); }
+        else { if (pBtn) pBtn.innerText = "PAUSE GAME ⏸️"; const msgEl = document.getElementById('msgText'); if (msgEl) msgEl.style.display = 'none'; ensureHostLoop(); }
+        publishNetworkState(true);
     }
 
     function pushInput() {
@@ -520,12 +532,12 @@ window.addEventListener('DOMContentLoaded', () => {
         if (code === 'KeyD' || code === 'ArrowRight') localInput.right = value;
         if (code === 'KeyW' || code === 'ArrowUp') localInput.up = value;
         if (code === 'KeyS' || code === 'ArrowDown') localInput.down = value;
-        if (code === 'Space') localInput.fire = value;
+        if (code === 'Space') return;
         pushInput();
     }
     window.onkeydown = (e) => {
         if (['Space','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.code)) e.preventDefault();
-        if (e.code === 'KeyP' && isHost) togglePause(); else setInput(e.code, true);
+        if (e.code === 'Space') { if (isHost && !e.repeat) togglePause(); } else setInput(e.code, true);
     };
     window.onkeyup = (e) => setInput(e.code, false);
     window.onmousedown = (e) => { if (e.button === 0) { localInput.fire = true; pushInput(); setTimeout(() => { localInput.fire = false; pushInput(); }, 80); } };
@@ -721,9 +733,9 @@ window.addEventListener('DOMContentLoaded', () => {
             enemySpawnTimer++; let spawnDelay = Math.max(30, 95 - (currentWave * 6));
             if (currentWave === 1) spawnDelay = 180; else if (currentWave === 2) spawnDelay = 150; else if (currentWave === 3) spawnDelay = 120;
             if (enemySpawnTimer > spawnDelay) { spawnEnemy(); enemySpawnTimer = 0; }
-            itemSpawnTimer++; if (itemSpawnTimer > 300) { items.push({ x: roadX + Math.random() * (roadWidth - 34), y: -50, w: 34, h: 34, type: Math.random() > 0.7 ? 'shield' : 'ammo' }); itemSpawnTimer = 0; }
+            itemSpawnTimer++; const itemDelay = Math.max(90, 210 - (currentWave * 10)); if (itemSpawnTimer > itemDelay) { const ammoChance = Math.min(0.92, 0.76 + (currentWave * 0.012)); items.push({ x: roadX + Math.random() * (roadWidth - 34), y: -50, w: 34, h: 34, type: Math.random() < ammoChance ? 'ammo' : 'shield' }); itemSpawnTimer = 0; }
         } else {
-            bossBoxTimer++; if (bossBoxTimer > (60 * (10 + Math.random() * 5))) { items.push({ x: roadX + Math.random() * (roadWidth - 34), y: -50, w: 34, h: 34, type: Math.random() > 0.6 ? 'shield' : 'ammo' }); bossBoxTimer = 0; }
+            bossBoxTimer++; if (bossBoxTimer > (60 * (5 + Math.random() * 3))) { items.push({ x: roadX + Math.random() * (roadWidth - 34), y: -50, w: 34, h: 34, type: Math.random() < 0.82 ? 'ammo' : 'shield' }); bossBoxTimer = 0; }
 
             if (boss && boss.type === 'police_boss') {
                 policeSpawnTimer++;
@@ -971,11 +983,62 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function gameLoop() {
-        if (isPaused || !isHost) return;
-        update(); draw(); publishNetworkState();
-        if (gameActive === true) requestAnimationFrame(gameLoop);
+    function ensureHostLoop() {
+        if (!isHost || !gameActive || isPaused || animationFrameId) return;
+        animationFrameId = requestAnimationFrame(gameLoop);
     }
+    function gameLoop(timestamp) {
+        animationFrameId = 0;
+        if (!isHost || !gameActive || isPaused) return;
+        lastHostFrameAt = Date.now();
+        // Schedule first: one malformed frame can no longer stop the game forever.
+        animationFrameId = requestAnimationFrame(gameLoop);
+        try { update(); draw(); publishNetworkState(); }
+        catch (error) {
+            console.error('Recovered multiplayer frame error', error);
+            showConnectionBanner('The game recovered from a temporary error');
+        }
+    }
+    function showConnectionBanner(message) {
+        let banner = document.getElementById('connectionBanner');
+        if (!banner) {
+            banner = document.createElement('div'); banner.id = 'connectionBanner';
+            banner.style.cssText = 'position:fixed;right:18px;bottom:18px;z-index:500;background:rgba(40,8,20,.94);border:2px solid #ffcc00;color:#fff;padding:10px 14px;border-radius:10px;font-weight:bold;max-width:340px';
+            document.body.appendChild(banner);
+        }
+        banner.textContent = message; banner.style.display = 'block';
+    }
+    function hideConnectionBanner() { const banner = document.getElementById('connectionBanner'); if (banner) banner.style.display = 'none'; }
+    function guestVisualLoop(timestamp) {
+        const dt = Math.min(0.05, Math.max(0, (timestamp - guestFrameAt) / 1000)); guestFrameAt = timestamp;
+        if (!isHost && gameActive) {
+            const stale = lastSnapshotAt && Date.now() - lastSnapshotAt > 650;
+            if (!isPaused) {
+                roadOffset = (roadOffset + (10 * globalSpeedModifier * dt * 60)) % 80;
+                if (stale) {
+                    for (const en of enemies) en.y += (en.speed || 0) * dt * 60;
+                    for (const it of items) it.y += 4 * globalSpeedModifier * dt * 60;
+                    for (const b of bullets) { b.y -= (b.speed || 0) * dt * 60; b.x += (b.vx || 0) * dt * 60; }
+                    for (const bp of bossProjectiles) { bp.y += (bp.speed || 0) * dt * 60; bp.x += (bp.vx || 0) * dt * 60; }
+                    const input = localInput;
+                    if (input.left && player.x > roadX) player.x -= player.speed * dt * 60;
+                    if (input.right && player.x < roadX + roadWidth - player.w) player.x += player.speed * dt * 60;
+                    if (input.up && player.y > 0) player.y -= player.speed * dt * 60;
+                    if (input.down && player.y < h - player.h) player.y += player.speed * dt * 60;
+                    showConnectionBanner('Server response delayed — continuing locally and resynchronizing automatically');
+                }
+            }
+            draw();
+        }
+        requestAnimationFrame(guestVisualLoop);
+    }
+    requestAnimationFrame(guestVisualLoop);
+    setInterval(() => {
+        if (isHost && gameActive && !isPaused && Date.now() - lastHostFrameAt > 1200) {
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            animationFrameId = 0; ensureHostLoop();
+        }
+    }, 500);
 
     document.getElementById('startBtn').onclick = async () => {
         if (!isHost || Object.keys(roomPlayers).length < 2) return;
@@ -991,7 +1054,7 @@ window.addEventListener('DOMContentLoaded', () => {
         player.ammo = ammo; player.triple = upTriple; player.bossShield = upBossShield; player.bossAmmo = upBossAmmo; player.alive = true;
         resize(); createRemotePlayers(); gameActive = true;
         await updateDb(roomRef('meta'), {status:'running',closed:false,updatedAt:serverTimestamp()});
-        showMessage("WAVE 1 START"); publishNetworkState(true); gameLoop();
+        showMessage("WAVE 1 START"); publishNetworkState(true); ensureHostLoop();
     };
     document.getElementById('playAgainBtn').onclick = () => {
         if (isHost && Object.keys(roomPlayers).length >= 2) document.getElementById('startBtn').click();
