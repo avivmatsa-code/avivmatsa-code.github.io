@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>׳׳¨׳•׳¥ ׳”׳׳›׳•׳ ׳™׳•׳× ׳©׳ ׳¢׳•׳׳¨ ג€” ׳׳•׳ ׳׳™׳™׳</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07070c;color:#fff;font-family:Arial,sans-serif;user-select:none}
+    canvas{display:block;width:100%;height:100%;touch-action:none}
+    .panel{position:fixed;z-index:10;background:#0a0a14e8;border:2px solid #ff0055;border-radius:14px;box-shadow:0 0 24px #ff005544}
+    #hud{top:12px;right:12px;padding:11px 14px;min-width:180px;font-weight:700;line-height:1.65}
+    #players{top:12px;left:12px;padding:10px 13px;min-width:170px}
+    .player-line{display:flex;align-items:center;gap:8px;margin:5px 0;font-weight:700}.dot{width:12px;height:12px;border-radius:50%}
+    #lobby{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#1a0826,#050508)}
+    .card{width:min(92vw,520px);padding:28px;text-align:center;background:#10101eeF;border:2px solid #ff0055;border-radius:24px;box-shadow:0 0 45px #ff005555}
+    h1{margin:0 0 8px;font-size:clamp(30px,7vw,48px);text-shadow:0 0 18px #ff0055}.sub{color:#ffcc00;margin-bottom:22px}
+    input{width:100%;padding:12px 14px;margin:6px 0 12px;border:1px solid #666;border-radius:10px;background:#202030;color:#fff;font-size:18px;text-align:center}
+    .row{display:flex;gap:10px}.btn{flex:1;padding:12px;border:0;border-radius:24px;background:#ff0055;color:#fff;font-size:18px;font-weight:800;cursor:pointer;box-shadow:0 0 12px #ff005588}.btn.alt{background:#00bfa5;color:#04110f}.btn:disabled{filter:grayscale(1);opacity:.45;cursor:not-allowed}
+    #roomBox{display:none;margin-top:18px;padding:14px;background:#0008;border-radius:12px}#roomCode{direction:ltr;font-size:28px;letter-spacing:5px;color:#00ffcc;font-weight:900}
+    #status{min-height:24px;color:#ffcc00;margin-top:10px}.small{font-size:13px;color:#aaa;line-height:1.5}
+    #message{position:fixed;inset:0;z-index:9;display:flex;align-items:center;justify-content:center;pointer-events:none;font-size:clamp(32px,8vw,64px);font-weight:900;text-shadow:0 0 20px #ff0055}
+    #controls{position:fixed;z-index:12;inset:auto 0 14px;display:none;justify-content:space-between;padding:0 16px;direction:ltr;pointer-events:none}
+    .pad{display:grid;grid-template-columns:58px 58px;gap:8px;pointer-events:auto}.touch{height:58px;border:0;border-radius:50%;background:#ffffff2e;color:#fff;font-size:24px;font-weight:900;touch-action:none}.fire{width:72px;height:72px;background:#ff005599}
+    #disconnect{position:fixed;z-index:13;bottom:10px;left:50%;transform:translateX(-50%);border:0;border-radius:16px;padding:7px 13px;background:#333b;color:#fff;cursor:pointer}
+    @media(pointer:coarse){#controls{display:flex}}@media(max-width:600px){#players{top:auto;bottom:98px;font-size:12px;min-width:130px}#hud{font-size:13px;min-width:145px}}
+  </style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <div id="hud" class="panel">׳ ׳™׳§׳•׳“: <span id="score">0</span><br>׳’׳: <span id="wave">1</span><br>׳—׳™׳™׳ ׳§׳‘׳•׳¦׳×׳™׳™׳: <span id="lives">3</span><br>׳×׳—׳׳•׳©׳×: <span id="ammo">0</span></div>
+  <div id="players" class="panel"></div>
+  <div id="message"></div>
+  <button id="disconnect" hidden>׳™׳¦׳™׳׳” ׳׳”׳—׳“׳¨</button>
+  <div id="controls"><div class="pad"><button class="touch" data-key="left">ג—€</button><button class="touch" data-key="right">ג–¶</button></div><button class="touch fire" data-key="fire">נ”¥</button></div>
+
+  <div id="lobby">
+    <div class="card">
+      <h1>נן¸ ׳”׳׳¨׳•׳¥ ׳©׳ ׳¢׳•׳׳¨</h1>
+      <div class="sub">׳׳©׳—׳§ ׳׳•׳ ׳׳™׳™׳ ׳ײ¾2ג€“4 ׳©׳—׳§׳ ׳™׳</div>
+      <input id="name" maxlength="12" placeholder="׳”׳©׳ ׳©׳׳">
+      <div class="row"><button id="host" class="btn">׳™׳¦׳™׳¨׳× ׳—׳“׳¨</button><button id="showJoin" class="btn alt">׳”׳¦׳˜׳¨׳₪׳•׳×</button></div>
+      <div id="joinArea" hidden><input id="joinCode" maxlength="6" placeholder="׳§׳•׳“ ׳—׳“׳¨" dir="ltr"><button id="join" class="btn alt">׳”׳¦׳˜׳¨׳£ ׳׳—׳“׳¨</button></div>
+      <div id="roomBox">׳§׳•׳“ ׳”׳—׳“׳¨:<div id="roomCode"></div><button id="copy" class="btn alt">׳”׳¢׳×׳§׳× ׳§׳™׳©׳•׳¨</button><div id="waiting" class="small"></div><button id="start" class="btn" disabled>׳”׳×׳—׳׳× ׳”׳׳©׳—׳§</button></div>
+      <div id="status"></div>
+      <p class="small">׳”׳׳׳¨׳— ׳׳©׳׳™׳¨ ׳׳× ׳”׳—׳׳•׳ ׳₪׳×׳•׳—. ׳׳•׳׳׳¥ ׳—׳™׳‘׳•׳¨ Wiג€‘Fi ׳™׳¦׳™׳‘. ׳׳§׳©׳™׳: ׳—׳¦׳™׳ ׳׳• A/D, ׳™׳¨׳™ ׳‘ײ¾F.</p>
+    </div>
+  </div>
+
+  <script type="module">
+  import {initializeApp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+  import {getDatabase,ref,set,update as updateDb,get,onValue,onDisconnect,remove,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+  (() => {
+    "use strict";
+    const firebaseConfig={apiKey:"AIzaSyB2iP1E8ZcKYeagKjhQIiLoPN6o773d6A8",authDomain:"omer-car-race-online.firebaseapp.com",databaseURL:"https://omer-car-race-online-default-rtdb.firebaseio.com",projectId:"omer-car-race-online",storageBucket:"omer-car-race-online.firebasestorage.app",messagingSenderId:"650092645345",appId:"1:650092645345:web:ee49b518b78f1f1edbe0a0"};
+    const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app);
+    const $=s=>document.querySelector(s), canvas=$("#game"),ctx=canvas.getContext("2d");
+    const COLORS=["#fff","#ff3355","#00e5ff","#ffd600"], MAX=4;
+    let W=innerWidth,H=innerHeight,roadW=650,roadX=0,isHost=false,myId="",room="",running=false,last=0,lastNet=0;
+    let inputs={},snapshot=null,pressed={left:false,right:false,fire:false},unsubs=[],inputBusy=false;
+    let state={players:{},enemies:[],bullets:[],items:[],particles:[],score:0,wave:1,lives:3,spawn:0,itemSpawn:0,road:0};
+    const authReady=signInAnonymously(auth).then(r=>{myId=r.user.uid;return r.user}).catch(()=>{setStatus("׳׳ ׳ ׳™׳×׳ ׳׳”׳×׳—׳‘׳¨ ׳׳©׳™׳¨׳•׳× ׳”׳׳©׳—׳§",true);throw new Error("Firebase auth failed")});
+    const cleanName=()=>($("#name").value.trim()||"׳©׳—׳§׳").slice(0,12);
+    function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;roadW=Math.min(650,W*.82);roadX=(W-roadW)/2}
+    addEventListener("resize",resize);resize();
+    const code=()=>Math.random().toString(36).slice(2,8).toUpperCase();
+    function setStatus(s,bad=false){$("#status").textContent=s;$("#status").style.color=bad?"#ff5577":"#ffcc00"}
+    function roster(){return Object.values(state.players).map(p=>({id:p.id,name:p.name,color:p.color,alive:p.alive}))}
+    function updateRoster(list=roster()){
+      $("#players").innerHTML="<b>׳©׳—׳§׳ ׳™׳ ׳‘׳—׳“׳¨</b>"+list.map(p=>`<div class="player-line"><i class="dot" style="background:${p.color}"></i>${escapeHtml(p.name)}${p.id===myId?" (׳׳ ׳™)":""}${p.alive===false?" ג€” ׳ ׳₪׳¡׳":""}</div>`).join("");
+      if(isHost&&!running){$("#waiting").textContent=`${list.length}/4 ׳©׳—׳§׳ ׳™׳ ׳׳—׳•׳‘׳¨׳™׳`;$("#start").disabled=list.length<2}
+    }
+    function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+    function playerColor(id){let n=0;for(const c of id)n=(n*31+c.charCodeAt(0))>>>0;return COLORS[n%COLORS.length]}
+    function addPlayer(id,name,color){
+      const n=Object.keys(state.players).length;
+      state.players[id]={id,name,color:color||playerColor(id),x:roadX+roadW*(n+1)/(Math.min(MAX,n+2))-23,y:H-135,w:46,h:84,ammo:5,alive:true,cool:0,shield:false};
+      inputs[id]={left:false,right:false,fire:false};
+    }
+    function roomRef(path=""){return ref(db,`rooms/${room}${path?"/"+path:""}`)}
+    function listenRoom(){
+      unsubs.push(onValue(roomRef("players"),snap=>{
+        const players=snap.val()||{},ids=new Set(Object.keys(players));
+        if(isHost){
+          for(const [id,p] of Object.entries(players))if(!state.players[id])addPlayer(id,String(p.name||"׳©׳—׳§׳").slice(0,12),p.color);
+          for(const id of Object.keys(state.players))if(!ids.has(id)){delete state.players[id];delete inputs[id]}
+        }
+        const list=Object.entries(players).map(([id,p])=>({id,name:String(p.name||"׳©׳—׳§׳").slice(0,12),color:p.color||playerColor(id),alive:state.players[id]?.alive??true}));
+        updateRoster(list);
+      }));
+      unsubs.push(onValue(roomRef("meta"),snap=>{
+        const m=snap.val();if(!m){if(running)gameEnded("׳”׳—׳“׳¨ ׳ ׳¡׳’׳¨");return}
+        if(!isHost&&m.status==="running"&&!running){running=true;$("#lobby").style.display="none";$("#disconnect").hidden=false;flash("׳׳×׳—׳™׳׳™׳!",1200);last=performance.now();requestAnimationFrame(loop)}
+        if(!isHost&&m.status==="ended"&&running)gameEnded("׳”׳׳©׳—׳§ ׳”׳¡׳×׳™׳™׳")
+      }));
+      if(isHost)unsubs.push(onValue(roomRef("inputs"),snap=>{inputs=snap.val()||{}}));
+      else unsubs.push(onValue(roomRef("state"),snap=>{const v=snap.val();if(v){snapshot=v;running=true}}));
+    }
+    async function enterRoom(hosting){
+      const color=playerColor(myId);
+      await set(roomRef(`players/${myId}`),{name:cleanName(),color,joinedAt:serverTimestamp()});
+      await onDisconnect(roomRef(`players/${myId}`)).remove();
+      await onDisconnect(roomRef(`inputs/${myId}`)).remove();
+      listenRoom();showRoom(hosting);
+    }
+    $("#host").onclick=async()=>{
+      try{
+        await authReady;isHost=true;setStatus("׳™׳•׳¦׳¨ ׳—׳“׳¨...");
+        for(let i=0;i<5;i++){room=code();if(!(await get(roomRef("meta"))).exists())break}
+        await set(roomRef("meta"),{hostId:myId,status:"waiting",createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
+        await onDisconnect(roomRef()).remove();await enterRoom(true);
+        setStatus("׳”׳—׳“׳¨ ׳׳•׳›׳ ג€” ׳©׳׳—׳• ׳׳× ׳”׳§׳•׳“ ׳׳—׳‘׳¨׳™׳");
+      }catch(e){setStatus("׳׳ ׳ ׳™׳×׳ ׳׳™׳¦׳•׳¨ ׳—׳“׳¨ ׳›׳¨׳’׳¢",true)}
+    };
+    $("#showJoin").onclick=()=>{$("#joinArea").hidden=false;$("#joinCode").focus()};
+    $("#join").onclick=async()=>{
+      room=$("#joinCode").value.trim().toUpperCase();if(room.length!==6){setStatus("׳™׳© ׳׳”׳–׳™׳ ׳§׳•׳“ ׳‘׳ 6 ׳×׳•׳•׳™׳",true);return}
+      try{
+        await authReady;isHost=false;setStatus("׳׳×׳—׳‘׳¨ ׳׳—׳“׳¨...");
+        const meta=(await get(roomRef("meta"))).val(),players=(await get(roomRef("players"))).val()||{};
+        if(!meta)throw new Error("missing");if(meta.status!=="waiting")throw new Error("started");if(Object.keys(players).length>=MAX)throw new Error("full");
+        await enterRoom(false);setStatus("׳׳—׳•׳‘׳¨! ׳׳׳×׳™׳ ׳™׳ ׳©׳”׳׳׳¨׳— ׳™׳×׳—׳™׳");
+      }catch(e){setStatus(e.message==="started"?"׳”׳׳©׳—׳§ ׳›׳‘׳¨ ׳”׳×׳—׳™׳":e.message==="full"?"׳”׳—׳“׳¨ ׳׳׳":"׳”׳—׳“׳¨ ׳׳ ׳ ׳׳¦׳",true)}
+    };
+    function showRoom(hosting){$("#roomBox").style.display="block";$("#roomCode").textContent=room;$("#host").disabled=$("#showJoin").disabled=true;$("#joinArea").hidden=true;$("#start").style.display=hosting?"block":"none"}
+    $("#copy").onclick=async()=>{const u=new URL(location.href);u.searchParams.set("room",room);try{await navigator.clipboard.writeText(u.href);setStatus("׳”׳§׳™׳©׳•׳¨ ׳”׳•׳¢׳×׳§!")}catch{prompt("׳”׳¢׳×׳™׳§׳• ׳׳× ׳”׳§׳™׳©׳•׳¨:",u.href)}};
+    $("#start").onclick=()=>{if(Object.keys(state.players).length<2)return;startHost()};
+    async function startHost(){
+      running=true;state.score=0;state.wave=1;state.lives=3;state.enemies=[];state.bullets=[];state.items=[];state.spawn=0;
+      Object.values(state.players).forEach((p,i)=>{p.x=roadX+roadW*(i+1)/(Object.keys(state.players).length+1)-23;p.y=H-135;p.ammo=5;p.alive=true;p.shield=false});
+      await updateDb(roomRef("meta"),{status:"running",updatedAt:serverTimestamp()});
+      $("#lobby").style.display="none";$("#disconnect").hidden=false;flash("׳’׳ 1",1200);last=performance.now();requestAnimationFrame(loop);
+    }
+    const urlRoom=new URLSearchParams(location.search).get("room");if(urlRoom){$("#joinArea").hidden=false;$("#joinCode").value=urlRoom.toUpperCase()}
+    function update(dt){
+      state.road=(state.road+280*dt)%80;state.spawn+=dt;state.itemSpawn+=dt;
+      const speed=260+state.wave*14;
+      Object.values(state.players).forEach(p=>{
+        const inp=p.id===myId?pressed:inputs[p.id]||{};if(!p.alive)return;
+        if(inp.left)p.x-=310*dt;if(inp.right)p.x+=310*dt;p.x=Math.max(roadX,Math.min(roadX+roadW-p.w,p.x));
+        p.cool-=dt;if(inp.fire&&p.ammo>0&&p.cool<=0){state.bullets.push({x:p.x+p.w/2-4,y:p.y,w:8,h:22,owner:p.id});p.ammo--;p.cool=.25}
+      });
+      if(state.spawn>Math.max(.28,1.02-state.wave*.045)){state.spawn=0;const w=42+Math.random()*14;state.enemies.push({x:roadX+Math.random()*(roadW-w),y:-100,w,h:80+Math.random()*22,s:speed*(.7+Math.random()*.55),color:["#e53935","#8e24aa","#43a047","#546e7a"][Math.floor(Math.random()*4)]})}
+      if(state.itemSpawn>6){state.itemSpawn=0;state.items.push({x:roadX+Math.random()*(roadW-32),y:-40,w:32,h:32,type:Math.random()<.25?"shield":"ammo"})}
+      state.bullets.forEach(b=>b.y-=620*dt);state.enemies.forEach(e=>e.y+=e.s*dt);state.items.forEach(i=>i.y+=speed*.75*dt);
+      for(let bi=state.bullets.length-1;bi>=0;bi--){const b=state.bullets[bi];let hit=false;for(let ei=state.enemies.length-1;ei>=0;ei--){const e=state.enemies[ei];if(overlap(b,e)){state.enemies.splice(ei,1);state.bullets.splice(bi,1);state.score+=2;burst(e.x+e.w/2,e.y+e.h/2,e.color);hit=true;break}}if(!hit&&b.y<-30)state.bullets.splice(bi,1)}
+      for(let ii=state.items.length-1;ii>=0;ii--){const it=state.items[ii];for(const p of Object.values(state.players)){if(p.alive&&overlap(p,it)){if(it.type==="ammo")p.ammo+=5;else p.shield=true;state.items.splice(ii,1);burst(it.x,it.y,"#00e5ff");break}}if(it.y>H+30)state.items.splice(ii,1)}
+      for(let ei=state.enemies.length-1;ei>=0;ei--){const e=state.enemies[ei];let gone=false;for(const p of Object.values(state.players)){if(p.alive&&overlap(p,e)){state.enemies.splice(ei,1);gone=true;if(p.shield){p.shield=false;burst(p.x,p.y,"#00e5ff")}else{state.lives--;burst(p.x,p.y,"#ff1744");if(state.lives<=0){endHost();return}}break}}if(!gone&&e.y>H+110){state.enemies.splice(ei,1);state.score++;if(state.score>=state.wave*30){state.wave++;flash("׳’׳ "+state.wave,1000)}}}
+      state.particles.forEach(q=>{q.x+=q.vx*dt;q.y+=q.vy*dt;q.a-=dt*1.8});state.particles=state.particles.filter(q=>q.a>0);
+    }
+    function overlap(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
+    function burst(x,y,color){for(let i=0;i<14;i++)state.particles.push({x,y,vx:(Math.random()-.5)*260,vy:(Math.random()-.5)*260,a:1,color})}
+    function netState(){return JSON.parse(JSON.stringify(state))}
+    function loop(t){
+      if(!running)return;const dt=Math.min(.033,(t-last)/1000||.016);last=t;
+      if(isHost){update(dt);snapshot=state;if(t-lastNet>100){set(roomRef("state"),netState()).catch(()=>{});lastNet=t}}
+      else if(t-lastNet>80&&!inputBusy){inputBusy=true;set(roomRef(`inputs/${myId}`),pressed).catch(()=>{}).finally(()=>inputBusy=false);lastNet=t}
+      draw(snapshot||state);requestAnimationFrame(loop)
+    }
+    function draw(s){
+      ctx.clearRect(0,0,W,H);ctx.fillStyle="#44444a";ctx.fillRect(roadX-55,0,55,H);ctx.fillRect(roadX+roadW,0,55,H);ctx.fillStyle="#18181f";ctx.fillRect(roadX,0,roadW,H);
+      ctx.fillStyle="#fff";for(let y=(s.road||0)-80;y<H;y+=80)ctx.fillRect(roadX+roadW/2-4,y,8,40);
+      for(let y=(s.road||0)-40;y<H;y+=40){ctx.fillStyle=((y/40)|0)%2?"#fff":"#ff2244";ctx.fillRect(roadX-6,y,6,40);ctx.fillRect(roadX+roadW,y,6,40)}
+      (s.items||[]).forEach(i=>{ctx.fillStyle=i.type==="ammo"?"#ffd600":"#00e5ff";ctx.beginPath();ctx.arc(i.x+16,i.y+16,16,0,7);ctx.fill();ctx.fillStyle="#111";ctx.font="18px Arial";ctx.fillText(i.type==="ammo"?"ג—":"ג—†",i.x+10,i.y+23)});
+      (s.enemies||[]).forEach(e=>car(e.x,e.y,e.w,e.h,e.color));ctx.fillStyle="#ffe600";(s.bullets||[]).forEach(b=>ctx.fillRect(b.x,b.y,b.w,b.h));
+      Object.values(s.players||{}).forEach(p=>{if(!p.alive)return;car(p.x,p.y,p.w,p.h,p.color);ctx.fillStyle=p.color;ctx.font="bold 13px Arial";ctx.textAlign="center";ctx.fillText(p.name,p.x+p.w/2,p.y-7);if(p.shield){ctx.strokeStyle="#00e5ff";ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.x+p.w/2,p.y+p.h/2,p.h*.58,0,7);ctx.stroke()}});
+      (s.particles||[]).forEach(p=>{ctx.globalAlpha=p.a;ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,5,5)});ctx.globalAlpha=1;ctx.textAlign="start";
+      $("#score").textContent=s.score||0;$("#wave").textContent=s.wave||1;$("#lives").textContent=s.lives??3;$("#ammo").textContent=(s.players&&s.players[myId]?.ammo)??0;
+    }
+    function car(x,y,w,h,color){ctx.fillStyle="#08080b";ctx.fillRect(x-4,y+10,4,18);ctx.fillRect(x+w,y+10,4,18);ctx.fillRect(x-4,y+h-28,4,18);ctx.fillRect(x+w,y+h-28,4,18);ctx.fillStyle=color;ctx.fillRect(x,y,w,h);ctx.fillStyle="#202b38";ctx.fillRect(x+6,y+17,w-12,25);ctx.fillStyle="#ffecb3";ctx.fillRect(x+5,y+3,9,5);ctx.fillRect(x+w-14,y+3,9,5);ctx.fillStyle="#ff1744";ctx.fillRect(x+5,y+h-7,9,5);ctx.fillRect(x+w-14,y+h-7,9,5)}
+    function flash(s,ms){$("#message").textContent=s;setTimeout(()=>{if($("#message").textContent===s)$("#message").textContent=""},ms)}
+    function endHost(){running=false;updateDb(roomRef("meta"),{status:"ended",updatedAt:serverTimestamp()}).catch(()=>{});gameEnded("׳”׳׳©׳—׳§ ׳”׳¡׳×׳™׳™׳! ׳ ׳™׳§׳•׳“: "+state.score)}
+    function gameEnded(s){running=false;flash(s,1e8);$("#disconnect").hidden=true}
+    function setKey(k,v){pressed[k]=v}
+    addEventListener("keydown",e=>{if(["ArrowLeft","KeyA"].includes(e.code))setKey("left",true);if(["ArrowRight","KeyD"].includes(e.code))setKey("right",true);if(["KeyF","Enter"].includes(e.code))setKey("fire",true)});
+    addEventListener("keyup",e=>{if(["ArrowLeft","KeyA"].includes(e.code))setKey("left",false);if(["ArrowRight","KeyD"].includes(e.code))setKey("right",false);if(["KeyF","Enter"].includes(e.code))setKey("fire",false)});
+    document.querySelectorAll(".touch").forEach(b=>{const k=b.dataset.key;b.onpointerdown=e=>{e.preventDefault();setKey(k,true)};b.onpointerup=b.onpointercancel=b.onpointerleave=()=>setKey(k,false)});
+    $("#disconnect").onclick=async()=>{unsubs.forEach(u=>u());if(isHost)await remove(roomRef()).catch(()=>{});else{await remove(roomRef(`players/${myId}`)).catch(()=>{});await remove(roomRef(`inputs/${myId}`)).catch(()=>{})}location.href=location.pathname};
+  })();
+  </script>
+</body>
+</html>
+
