@@ -472,7 +472,12 @@ window.addEventListener('DOMContentLoaded', () => {
         if (mine) player = {...mine};
         remotePlayers = {};
         Object.entries(syncedPlayers).forEach(([id, p]) => { if (id !== myId) remotePlayers[id] = {...p}; });
-        gameActive = data.gameActive !== false; isPaused = data.isPaused === true;
+        gameActive = data.gameActive !== false;
+        const wasPaused = isPaused; isPaused = data.isPaused === true;
+        const pauseButton = document.getElementById('pauseBtn');
+        if (pauseButton) pauseButton.innerText = isPaused ? "RESUME GAME ▶️" : "PAUSE GAME ⏸️";
+        if (isPaused && !wasPaused) showMessage("GAME PAUSED", 60000);
+        if (!isPaused && wasPaused) { const message = document.getElementById('msgText'); if (message) message.style.display = 'none'; }
         const bossUi = document.getElementById('bossHpContainer');
         if (bossUi) bossUi.style.display = isBossStage && boss ? 'block' : 'none';
         if (boss) {
@@ -604,7 +609,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let availableTypes = []; for (let i = 0; i < types.length; i = i + 1) { if (types[i].t !== lastEnemyType) { if (types[i].t === 'police' && policeCount > 0) continue; availableTypes.push(types[i]); } }
         if (availableTypes.length === 0) availableTypes.push(types);
         let t = availableTypes[Math.floor(Math.random() * availableTypes.length)]; lastEnemyType = t.t;
-        let startX = roadX + Math.random() * (roadWidth - 55); startY = -100; carW = 45; carH = 85;
+        let startX = roadX + Math.random() * (roadWidth - 55), startY = -100, carW = 45, carH = 85;
         if (t.t === 'police') { startY = h + 100; carW = 54; carH = 100; startX = roadX + Math.random() * (roadWidth - 60); }
         else if (t.t === 'red' || t.t === 'purple') { startX = roadX + (roadWidth / 2) - 22.5; } else if (t.t === 'gray') { startX = Math.random() > 0.5 ? roadX : roadX + roadWidth - 45; }
         enemies.push({ x: startX, y: startY, w: carW, h: carH, color: t.c, type: t.t, speed: t.s * globalSpeedModifier, initialSpeed: t.s * globalSpeedModifier, zigDir: Math.random() > 0.5 ? 1 : -1 });
