@@ -67,12 +67,15 @@
 
   <script type="module">
   import {initializeApp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import {initializeAppCheck,ReCaptchaV3Provider} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app-check.js";
   import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
   import {getDatabase,ref,set,update as updateDb,get,onValue,onDisconnect,remove,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
   (() => {
     "use strict";
     const firebaseConfig={apiKey:"AIzaSyB2iP1E8ZcKYeagKjhQIiLoPN6o773d6A8",authDomain:"omer-car-race-online.firebaseapp.com",databaseURL:"https://omer-car-race-online-default-rtdb.firebaseio.com",projectId:"omer-car-race-online",storageBucket:"omer-car-race-online.firebasestorage.app",messagingSenderId:"650092645345",appId:"1:650092645345:web:ee49b518b78f1f1edbe0a0"};
-    const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app);
+    const app=initializeApp(firebaseConfig);
+    initializeAppCheck(app,{provider:new ReCaptchaV3Provider("6LchLnAtAAAAAMV5VgDsw1MDv7X-o717ZtbnrrZX"),isTokenAutoRefreshEnabled:true});
+    const auth=getAuth(app),db=getDatabase(app);
     const $=s=>document.querySelector(s), canvas=$("#game"),ctx=canvas.getContext("2d");
     const COLORS=["#fff","#ff3355","#00e5ff","#ffd600"], MAX=4;
     let W=innerWidth,H=innerHeight,roadW=650,roadX=0,isHost=false,myId="",room="",running=false,last=0,lastNet=0;

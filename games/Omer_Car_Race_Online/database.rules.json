@@ -4,11 +4,11 @@
     ".write": false,
     "rooms": {
       "$room": {
-        ".read": "auth != null && data.child('meta').exists()",
+        ".read": "auth != null && $room.matches(/^[A-Z0-9]{6}$/) && data.child('meta').exists()",
         ".write": "auth != null && !newData.exists() && data.child('meta').child('hostId').val() === auth.uid",
         "meta": {
           ".read": "auth != null",
-          ".write": "auth != null && ((!data.exists() && newData.child('hostId').val() === auth.uid && newData.child('status').val() === 'waiting') || (data.child('hostId').val() === auth.uid && newData.child('hostId').val() === auth.uid))",
+          ".write": "auth != null && $room.matches(/^[A-Z0-9]{6}$/) && ((!data.exists() && newData.child('hostId').val() === auth.uid && newData.child('status').val() === 'waiting') || (data.child('hostId').val() === auth.uid && newData.child('hostId').val() === auth.uid))",
           ".validate": "newData.hasChildren(['hostId', 'status', 'createdAt', 'updatedAt']) && newData.child('hostId').isString() && newData.child('hostId').val().length <= 128 && newData.child('status').isString() && (newData.child('status').val() === 'waiting' || newData.child('status').val() === 'running' || newData.child('status').val() === 'ended') && newData.child('createdAt').isNumber() && newData.child('updatedAt').isNumber()"
         },
         "players": {
@@ -25,10 +25,9 @@
         },
         "state": {
           ".write": "auth != null && root.child('rooms').child($room).child('meta').child('hostId').val() === auth.uid && root.child('rooms').child($room).child('meta').child('status').val() === 'running'",
-          ".validate": "newData.hasChildren(['players', 'score', 'wave', 'lives', 'spawn', 'itemSpawn', 'road']) && newData.child('score').isNumber() && newData.child('wave').isNumber() && newData.child('lives').isNumber()"
+          ".validate": "newData.hasChildren(['players', 'score', 'wave', 'lives', 'spawn', 'itemSpawn', 'road']) && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('wave').isNumber() && newData.child('wave').val() >= 1 && newData.child('wave').val() <= 1000 && newData.child('lives').isNumber() && newData.child('lives').val() >= 0 && newData.child('lives').val() <= 3 && newData.child('spawn').isNumber() && newData.child('itemSpawn').isNumber() && newData.child('road').isNumber()"
         }
       }
     }
   }
 }
-
