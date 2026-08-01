@@ -3,20 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Multiplayer Car Race | Game Manager</title>
-  <meta name="description" content="Create and manage a Multiplayer Car Race room. By Omer Matsa.">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Multiplayer Car Race | By Omer Matsa">
-  <meta property="og:description" content="Car racing, laser fire and a police chase — play online with 2–4 players.">
-  <meta property="og:url" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/manager/">
-  <meta property="og:image" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/multiplayer-police-laser-preview.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Multiplayer Car Race | By Omer Matsa">
-  <meta name="twitter:description" content="Car racing, laser fire and a police chase — play online with 2–4 players.">
-  <meta name="twitter:image" content="https://avivmatsa-code.github.io/games/Omer_Car_Race_Online/multiplayer-police-laser-preview.jpg">
-  <meta http-equiv="refresh" content="0;url=../?role=manager">
+  <title>Omer's Car Race | Choose Game</title>
+  <meta name="robots" content="noindex,nofollow">
+  <style>
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle,#28103c,#07070c 70%);font-family:Arial,sans-serif;color:#fff;text-align:center}
+    main{width:min(92vw,650px);padding:38px 25px;border:2px solid #ff0055;border-radius:28px;background:rgba(12,12,25,.96);box-shadow:0 0 50px #ff005555}
+    h1{font-size:clamp(34px,8vw,58px);margin:0;text-shadow:0 0 20px #ff0055}.by{color:#ffcc00;font-size:21px;font-weight:800;margin:7px 0 30px}
+    .choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.choice{display:flex;min-height:145px;flex-direction:column;justify-content:center;padding:22px 14px;border-radius:22px;text-decoration:none;color:#fff;font-size:26px;font-weight:900;background:linear-gradient(145deg,#ff0055,#8b003c);box-shadow:0 8px 25px #0008;transition:.2s}
+    .choice.multi{background:linear-gradient(145deg,#00a98b,#004e69)}.choice:hover{transform:translateY(-4px) scale(1.02)}small{display:block;margin-top:9px;font-size:14px;font-weight:500;color:#eee}
+    @media(max-width:560px){.choices{grid-template-columns:1fr}.choice{min-height:115px}}
+  </style>
 </head>
-<body><p><a href="../?role=manager">Open the manager game</a></p></body>
+<body>
+  <main>
+    <h1>🏎️ Omer's Car Race</h1>
+    <div class="by">By Omer Matsa</div>
+    <div class="choices">
+      <a class="choice" href="../../Omer_Car_Race/">SINGLE PLAYER<small>The original offline game · no server connection</small></a>
+      <a class="choice multi" href="../?role=manager">MULTI PLAYER<small>Create a room · invite up to 3 friends</small></a>
+    </div>
+  </main>
+</body>
 </html>
-
-<!-- deployment refresh 2026-08-01 -->
