@@ -68,6 +68,11 @@
         #managerRoomPanel { display:none; position:absolute; top:20px; right:20px; z-index:220; width:min(360px,calc(100vw - 40px)); box-sizing:border-box; padding:14px; color:#fff; background:rgba(10,10,20,.96); border:2px solid #ffcc00; border-radius:12px; text-align:center; }
         #managerRoomPanel input { width:100%; box-sizing:border-box; margin:8px 0; padding:8px; color:#00ffcc; background:#202030; border:1px solid #666; border-radius:7px; }
         #managerRoomPanel button { margin:3px; padding:8px 13px; border:0; border-radius:18px; background:#ff0055; color:#fff; font-weight:800; cursor:pointer; }
+        #endGamePanel { display:none; position:fixed; inset:0; z-index:700; align-items:center; justify-content:center; padding:20px; background:rgba(5,5,12,.92); color:#fff; text-align:center; }
+        .end-card { width:min(92vw,520px); padding:30px; border:2px solid #ff0055; border-radius:24px; background:#111120; box-shadow:0 0 40px #ff005555; }
+        .end-card h2 { margin:0 0 14px; font-size:38px; }
+        .end-card button { margin:7px; padding:12px 20px; border:0; border-radius:24px; background:#ff0055; color:#fff; font-size:18px; font-weight:900; cursor:pointer; }
+        .end-card button.secondary { background:#444; }
     </style>
 </head>
 <body>
@@ -94,6 +99,16 @@
     <input id="inviteLink" readonly aria-label="Guest invitation link">
     <button id="copyInvite">COPY INVITE LINK</button>
     <button id="shareInvite">SHARE</button>
+</div>
+<div id="endGamePanel">
+    <div class="end-card">
+        <h2 id="endGameTitle">GAME OVER</h2>
+        <div id="endGameMessage"></div>
+        <div id="hostEndActions">
+            <button id="playAgainBtn">PLAY AGAIN</button>
+            <button class="secondary" id="backToMenuBtn">BACK TO MENU</button>
+        </div>
+    </div>
 </div>
 <div id="menuScreen">
     <h1 style="font-size: 45px; margin: 0 0 0 0; text-shadow: 0 0 20px #ff0055; font-family: 'Arial Black', sans-serif;">🏎️ Multiplayer Car Race 🏎️</h1>
@@ -215,9 +230,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const auth = getAuth(firebaseApp), db = getDatabase(firebaseApp);
     const params = new URLSearchParams(location.search);
     const managerMode = true;
-    let myId = '', room = '', isHost = false, roomPlayers = {}, remotePlayers = {}, remoteInputs = {}, netUnsubs = [], lastNetWrite = 0;
+    let myId = crypto.randomUUID().replace(/-/g, '').slice(0, 20);
+    let authUid = '', room = '', isHost = false, roomPlayers = {}, remotePlayers = {}, remoteInputs = {}, netUnsubs = [], lastNetWrite = 0;
     let localInput = {left:false,right:false,up:false,down:false,fire:false}, lastFireByPlayer = {};
-    const authReady = signInAnonymously(auth).then(result => { myId = result.user.uid; return result.user; }).catch(() => setNetworkStatus('Firebase connection failed', true));
+    const authReady = signInAnonymously(auth).then(result => { authUid = result.user.uid; return result.user; }).catch(() => setNetworkStatus('Firebase connection failed', true));
     const lobbyEl = document.getElementById('networkLobby'), managerControls = document.getElementById('managerControls'), guestControls = document.getElementById('guestControls');
     managerControls.style.display = managerMode ? 'block' : 'none';
     guestControls.style.display = managerMode ? 'none' : 'block';
@@ -236,7 +252,7 @@ window.addEventListener('DOMContentLoaded', () => {
     function cleanName() { return (document.getElementById('playerName').value.trim() || 'Player').slice(0, 12); }
     function makeRoomCode() { return Math.random().toString(36).slice(2, 8).toUpperCase(); }
     function playerProfile() {
-        return {name:cleanName(),color:'#fff',joinedAt:serverTimestamp(),skin:chosenSkin,upSpeed,upAmmo,upHp,upTriple,upShield,upBossShield,upBossAmmo};
+        return {authUid,name:cleanName(),color:'#fff',joinedAt:serverTimestamp(),skin:chosenSkin,upSpeed,upAmmo,upHp,upTriple,upShield,upBossShield,upBossAmmo};
     }
     function renderRoster() {
         const list = Object.entries(roomPlayers);
@@ -258,19 +274,26 @@ window.addEventListener('DOMContentLoaded', () => {
         netUnsubs.push(onValue(roomRef('meta'), snap => {
             const meta = snap.val();
             if (!meta) { if (room) setNetworkStatus('Room closed', true); return; }
-            if (!isHost && meta.status === 'running' && !gameActive) beginGuestGame();
-            if (!isHost && meta.status === 'ended') { gameActive = false; showMessage('GAME OVER', 60000); }
+            if (!isHost && meta.status === 'running' && !gameActive) {
+                hideEndGamePanel(); beginGuestGame();
+            }
+            if (!isHost && meta.status === 'ended' && !meta.closed) {
+                gameActive = false; showRoundEndedForGuest(meta.hostName || 'Omer');
+            }
+            if (!isHost && meta.closed) {
+                gameActive = false; showClosedGame(meta.hostName || 'Omer'); clearNetListeners();
+            }
         }));
         if (!isHost) netUnsubs.push(onValue(roomRef('state'), snap => {
             const data = snap.val(); if (data) { applyNetworkState(data); draw(); }
         }));
     }
     async function createOnlineRoom() {
-        await authReady; if (!myId) return;
+        await authReady; if (!authUid) return;
         room = makeRoomCode();
         const existing = await get(roomRef('meta')); if (existing.exists()) { room = makeRoomCode(); }
         isHost = true;
-        await set(roomRef('meta'), {hostId:myId,status:'waiting',createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
+        await set(roomRef('meta'), {hostId:authUid,hostPlayerId:myId,hostName:cleanName(),status:'waiting',closed:false,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
         await set(roomRef(`players/${myId}`), playerProfile());
         await onDisconnect(roomRef()).remove();
         document.getElementById('roomInfo').hidden = false; document.getElementById('roomCode').innerText = room;
@@ -283,7 +306,7 @@ window.addEventListener('DOMContentLoaded', () => {
         listenRoom(); setNetworkStatus('Room created');
     }
     async function joinOnlineRoom() {
-        await authReady; if (!myId) return;
+        await authReady; if (!authUid) return;
         room = document.getElementById('joinCode').value.trim().toUpperCase();
         if (!/^[A-Z0-9]{6}$/.test(room)) { setNetworkStatus('Enter a valid room code', true); return; }
         const meta = (await get(roomRef('meta'))).val();
@@ -490,7 +513,7 @@ window.addEventListener('DOMContentLoaded', () => {
     function pushInput() {
         if (!room || !myId) return;
         if (isHost) remoteInputs[myId] = {...localInput};
-        else set(roomRef(`inputs/${myId}`), localInput).catch(() => {});
+        else set(roomRef(`inputs/${myId}`), {...localInput,authUid}).catch(() => {});
     }
     function setInput(code, value) {
         if (code === 'KeyA' || code === 'ArrowLeft') localInput.left = value;
@@ -531,6 +554,25 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function showMessage(txt, duration = 2000) { const el = document.getElementById('msgText'); if (el) { el.innerText = txt; el.style.display = 'block'; if (duration < 60000) { setTimeout(() => { if (!isPaused) el.style.display = 'none'; }, duration); } } }
+    function hideEndGamePanel() { document.getElementById('endGamePanel').style.display = 'none'; }
+    function showHostEndActions() {
+        document.getElementById('endGameTitle').innerText = 'GAME OVER';
+        document.getElementById('endGameMessage').innerText = 'Choose whether to play again with the same players or end the room.';
+        document.getElementById('hostEndActions').style.display = 'block';
+        document.getElementById('endGamePanel').style.display = 'flex';
+    }
+    function showRoundEndedForGuest(hostName) {
+        document.getElementById('endGameTitle').innerText = 'GAME OVER';
+        document.getElementById('endGameMessage').innerText = `Waiting for ${hostName} to choose Play Again or end the game.`;
+        document.getElementById('hostEndActions').style.display = 'none';
+        document.getElementById('endGamePanel').style.display = 'flex';
+    }
+    function showClosedGame(hostName) {
+        document.getElementById('endGameTitle').innerText = 'This game ended.';
+        document.getElementById('endGameMessage').innerText = `Thank you for playing with ${hostName}.\nYou need a new invitation to start a new game.`;
+        document.getElementById('hostEndActions').style.display = 'none';
+        document.getElementById('endGamePanel').style.display = 'flex';
+    }
     function createExplosion(x, y, color, count = 25, maxV = 6) { for (let i = 0; i < count; i++) { particles.push({ x: x, y: y, vx: (Math.random() - 0.5) * maxV, vy: (Math.random() - 0.5) * maxV, radius: Math.random() * 4 + 1, color: color, alpha: 1, decay: Math.random() * 0.02 + 0.015 }); } }
     function drawCar(x, y, width, height, color, type) {
         ctx.save();
@@ -654,7 +696,8 @@ window.addEventListener('DOMContentLoaded', () => {
         showMessage("GAME OVER", 60000);
         if (isHost && room) {
             publishNetworkState(true);
-            updateDb(roomRef('meta'), {status:'ended',updatedAt:serverTimestamp()}).catch(() => {});
+            updateDb(roomRef('meta'), {status:'ended',closed:false,updatedAt:serverTimestamp()}).catch(() => {});
+            showHostEndActions();
         }
     }
     document.getElementById('pauseBtn').onclick = () => { togglePause(); };
@@ -912,7 +955,9 @@ window.addEventListener('DOMContentLoaded', () => {
         if (gameActive === true) requestAnimationFrame(gameLoop);
     }
 
-    document.getElementById('startBtn').onclick = () => {
+    document.getElementById('startBtn').onclick = async () => {
+        if (!isHost || Object.keys(roomPlayers).length < 2) return;
+        hideEndGamePanel();
         let menuEl = document.getElementById('menuScreen'); if (menuEl) { menuEl.style.display = 'none'; }
         score = 0; currentWave = 1; waveCarsPassed = 0; globalSpeedModifier = 0.8; isPaused = false; totalPoliceKilled = 0;
         enemies = []; bullets = []; items = []; bossProjectiles = []; boss = null; isBossStage = false; policeSpawnTimer = 0;
@@ -920,12 +965,22 @@ window.addEventListener('DOMContentLoaded', () => {
         const pBtn = document.getElementById('pauseBtn'); if (pBtn) pBtn.innerText = "PAUSE GAME ⏸️";
         let uiP = document.getElementById('policeKillsUi'); if (uiP) uiP.innerText = "0 / 5";
         
-        if (!isHost || Object.keys(roomPlayers).length < 2) return;
         player.hasShield = (upShield > 0); player.speed = 5 + (upSpeed * 0.8); ammo = upAmmo * 5; player.maxHp = 1 + upHp; player.hp = player.maxHp;
         player.ammo = ammo; player.triple = upTriple; player.bossShield = upBossShield; player.bossAmmo = upBossAmmo; player.alive = true;
         resize(); createRemotePlayers(); gameActive = true;
-        updateDb(roomRef('meta'), {status:'running',updatedAt:serverTimestamp()});
+        await updateDb(roomRef('meta'), {status:'running',closed:false,updatedAt:serverTimestamp()});
         showMessage("WAVE 1 START"); publishNetworkState(true); gameLoop();
+    };
+    document.getElementById('playAgainBtn').onclick = () => {
+        if (isHost && Object.keys(roomPlayers).length >= 2) document.getElementById('startBtn').click();
+    };
+    document.getElementById('backToMenuBtn').onclick = async () => {
+        if (!isHost || !room) return;
+        const hostName = roomPlayers[myId]?.name || cleanName() || 'Omer';
+        await updateDb(roomRef('meta'), {status:'ended',closed:true,hostName,updatedAt:serverTimestamp()});
+        await new Promise(resolve => setTimeout(resolve, 900));
+        await remove(roomRef()).catch(() => {});
+        clearNetListeners(); room = ''; location.href = 'index.html';
     };
 });
 </script>
