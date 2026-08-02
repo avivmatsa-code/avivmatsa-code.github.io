@@ -60,6 +60,9 @@
         .network-card input { width: 100%; box-sizing: border-box; padding: 12px 14px; margin: 6px 0 12px; border: 1px solid #666; border-radius: 10px; background: #202030; color: #fff; font-size: 18px; text-align: center; }
         .network-btn { padding: 12px 22px; border: 0; border-radius: 24px; background: #ff0055; color: #fff; font-size: 18px; font-weight: 800; cursor: pointer; }
         .network-btn:disabled { filter: grayscale(1); opacity: .45; cursor: not-allowed; }
+        .skin-picker { margin: 10px 0; color: #00ffcc; font-weight: 800; }
+        .skin-picker select { margin-left: 7px; padding: 7px; border: 1px solid #00ffcc; border-radius: 8px; background: #202030; color: #fff; font-weight: 700; }
+        #gameSkinControl { margin-top: 8px; font-size: 12px; text-align: center; }
         #networkStatus { min-height: 24px; margin-top: 12px; color: #ffcc00; }
         #roomCode { direction: ltr; font-size: 30px; letter-spacing: 5px; color: #00ffcc; font-weight: 900; }
         #onlineRoster { position: absolute; top: 20px; right: 20px; z-index: 110; min-width: 170px; padding: 12px; color: #fff; background: rgba(10,10,20,.9); border: 2px solid #00ffcc; border-radius: 12px; }
@@ -77,6 +80,9 @@
         <div class="network-byline">By Omer Matsa</div>
         <div id="roleBadge"></div>
         <input id="playerName" maxlength="12" placeholder="Player name">
+        <label class="skin-picker">VEHICLE SKIN
+            <select id="lobbySkinSelect"><option value="default">Default</option><option value="pig">Pig Style</option><option value="horse">Neon Panther</option><option value="tesla">Tesla Cyber</option></select>
+        </label>
         <div id="managerControls"><button class="network-btn" id="createRoom">CREATE ROOM</button></div>
         <div id="guestControls">
             <input id="joinCode" maxlength="6" placeholder="ROOM CODE">
@@ -172,6 +178,9 @@
     <div class="ui-line">SHIELD: <span id="shieldUi" style="color: #ff3300;">OFF</span></div>
     <div id="modeUi" style="font-size: 12px; margin-top: 8px; color: #aaa; text-align: center;">MODE: NORMAL</div>
     <span id="policeKillsUi" hidden>0 / 5</span>
+    <label class="skin-picker" id="gameSkinControl">SKIN
+        <select id="gameSkinSelect"><option value="default">Default</option><option value="pig">Pig Style</option><option value="horse">Neon Panther</option><option value="tesla">Tesla Cyber</option></select>
+    </label>
     <button class="pause-btn" id="pauseBtn">PAUSE GAME ⏸️</button>
 </div>
 <div id="msgLayer"><div id="msgText"></div></div>
@@ -482,7 +491,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     function publishNetworkState(force = false) {
         if (!isHost || !room) return;
-        const now = Date.now(); if (!force && now - lastNetWrite < 46) return;
+        const now = Date.now(); if (!force && now - lastNetWrite < 33) return;
         const snapshot = networkSnapshot();
         if (stateWriteInFlight) { queuedState = snapshot; return; }
         lastNetWrite = now; stateWriteInFlight = true;

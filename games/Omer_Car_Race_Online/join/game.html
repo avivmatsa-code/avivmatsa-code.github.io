@@ -60,6 +60,9 @@
         .network-card input { width: 100%; box-sizing: border-box; padding: 12px 14px; margin: 6px 0 12px; border: 1px solid #666; border-radius: 10px; background: #202030; color: #fff; font-size: 18px; text-align: center; }
         .network-btn { padding: 12px 22px; border: 0; border-radius: 24px; background: #ff0055; color: #fff; font-size: 18px; font-weight: 800; cursor: pointer; }
         .network-btn:disabled { filter: grayscale(1); opacity: .45; cursor: not-allowed; }
+        .skin-picker { margin: 10px 0; color: #00ffcc; font-weight: 800; }
+        .skin-picker select { margin-left: 7px; padding: 7px; border: 1px solid #00ffcc; border-radius: 8px; background: #202030; color: #fff; font-weight: 700; }
+        #gameSkinControl { margin-top: 8px; font-size: 12px; text-align: center; }
         #networkStatus { min-height: 24px; margin-top: 12px; color: #ffcc00; }
         #roomCode { direction: ltr; font-size: 30px; letter-spacing: 5px; color: #00ffcc; font-weight: 900; }
         #onlineRoster { position: absolute; top: 20px; right: 20px; z-index: 110; min-width: 170px; padding: 12px; color: #fff; background: rgba(10,10,20,.9); border: 2px solid #00ffcc; border-radius: 12px; }
@@ -82,6 +85,9 @@
         <div class="network-byline">By Omer Matsa</div>
         <div id="roleBadge"></div>
         <input id="playerName" maxlength="12" placeholder="Player name">
+        <label class="skin-picker">VEHICLE SKIN
+            <select id="lobbySkinSelect"><option value="default">Default</option><option value="pig">Pig Style</option><option value="horse">Neon Panther</option><option value="tesla">Tesla Cyber</option></select>
+        </label>
         <div id="managerControls"><button class="network-btn" id="createRoom">CREATE ROOM</button></div>
         <div id="guestControls">
             <input id="joinCode" maxlength="6" placeholder="ROOM CODE">
@@ -187,6 +193,9 @@
     <div class="ui-line">SHIELD: <span id="shieldUi" style="color: #ff3300;">OFF</span></div>
     <div id="modeUi" style="font-size: 12px; margin-top: 8px; color: #aaa; text-align: center;">MODE: NORMAL</div>
     <span id="policeKillsUi" hidden>0 / 5</span>
+    <label class="skin-picker" id="gameSkinControl">SKIN
+        <select id="gameSkinSelect"><option value="default">Default</option><option value="pig">Pig Style</option><option value="horse">Neon Panther</option><option value="tesla">Tesla Cyber</option></select>
+    </label>
     <button class="pause-btn" id="pauseBtn">PAUSE GAME ⏸️</button>
 </div>
 <div id="msgLayer"><div id="msgText"></div></div>
@@ -232,8 +241,24 @@ window.addEventListener('DOMContentLoaded', () => {
     const managerMode = false;
     let myId = crypto.randomUUID().replace(/-/g, '').slice(0, 20);
     let authUid = '', room = '', isHost = false, roomPlayers = {}, remotePlayers = {}, remoteInputs = {}, netUnsubs = [], lastNetWrite = 0;
-    let stateWriteInFlight = false, queuedState = null, animationFrameId = 0, lastHostFrameAt = 0, lastSnapshotAt = 0, guestFrameAt = performance.now();
+    let stateWriteInFlight = false, queuedState = null, animationFrameId = 0, lastHostFrameAt = 0, lastSnapshotAt = 0, guestFrameAt = performance.now(), visualStateReady = false;
     let localInput = {left:false,right:false,up:false,down:false,fire:false}, lastFireByPlayer = {};
+    const lobbySkinSelect = document.getElementById('lobbySkinSelect'), gameSkinSelect = document.getElementById('gameSkinSelect');
+    function applyChosenSkin(value) {
+        const hostOwnsSkin = value === 'default' || (value === 'pig' && ownPig) || (value === 'horse' && ownHorse) || (value === 'tesla' && ownTesla);
+        if (managerMode && !hostOwnsSkin) { lobbySkinSelect.value = chosenSkin; gameSkinSelect.value = chosenSkin; return; }
+        chosenSkin = ['default','pig','horse','tesla'].includes(value) ? value : 'default';
+        localStorage.setItem('chosen_skin', chosenSkin);
+        lobbySkinSelect.value = chosenSkin; gameSkinSelect.value = chosenSkin;
+        player.skin = chosenSkin;
+        if (room && authUid) updateDb(roomRef(`players/${myId}`), {skin:chosenSkin}).catch(() => {});
+    }
+    lobbySkinSelect.value = chosenSkin; gameSkinSelect.value = chosenSkin;
+    if (managerMode) [lobbySkinSelect, gameSkinSelect].forEach(select => [...select.options].forEach(option => {
+        option.disabled = option.value === 'pig' ? !ownPig : (option.value === 'horse' ? !ownHorse : (option.value === 'tesla' ? !ownTesla : false));
+    }));
+    lobbySkinSelect.onchange = () => applyChosenSkin(lobbySkinSelect.value);
+    gameSkinSelect.onchange = () => applyChosenSkin(gameSkinSelect.value);
     const authReady = signInAnonymously(auth).then(result => { authUid = result.user.uid; return result.user; }).catch(() => setNetworkStatus('Firebase connection failed', true));
     const lobbyEl = document.getElementById('networkLobby'), managerControls = document.getElementById('managerControls'), guestControls = document.getElementById('guestControls');
     managerControls.style.display = managerMode ? 'block' : 'none';
@@ -269,6 +294,10 @@ window.addEventListener('DOMContentLoaded', () => {
         clearNetListeners();
         netUnsubs.push(onValue(roomRef('players'), snap => {
             roomPlayers = snap.val() || {}; renderRoster();
+            if (isHost && gameActive) Object.entries(roomPlayers).forEach(([id, profile]) => {
+                if (id === myId) player.skin = profile.skin || player.skin;
+                else if (remotePlayers[id]) remotePlayers[id].skin = profile.skin || remotePlayers[id].skin;
+            });
             if (isHost && Object.keys(roomPlayers).length > 4) setNetworkStatus('Room is full', true);
         }));
         netUnsubs.push(onValue(roomRef('inputs'), snap => { if (isHost) remoteInputs = snap.val() || {}; }));
@@ -401,10 +430,10 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function selectSkin(skinName, isOwned, price) {
-        if (isOwned) { chosenSkin = skinName; updateShopUI(); }
+        if (isOwned) { chosenSkin = skinName; updateShopUI(); applyChosenSkin(chosenSkin); }
         else if (coins >= price) {
             coins -= price; if (skinName === 'pig') ownPig = true; if (skinName === 'horse') ownHorse = true; if (skinName === 'tesla') ownTesla = true;
-            chosenSkin = skinName; updateShopUI();
+            chosenSkin = skinName; updateShopUI(); applyChosenSkin(chosenSkin);
         }
     }
 
@@ -457,21 +486,31 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function safeList(value) { return Array.isArray(value) ? value : Object.values(value || {}); }
+    function visualEntity(current, next) {
+        if (!next) return null;
+        const result = {...next};
+        if (current && Number.isFinite(current.x) && Number.isFinite(next.x)) { result.x = current.x; result._targetX = next.x; }
+        if (current && Number.isFinite(current.y) && Number.isFinite(next.y)) { result.y = current.y; result._targetY = next.y; }
+        return result;
+    }
+    function visualList(current, incoming) { return safeList(incoming).map((next, index) => visualEntity(current[index], next)); }
     function applyNetworkState(data) {
         score = data.score || 0; currentWave = data.currentWave || data.wave || 1;
         waveCarsPassed = data.waveCarsPassed || 0; waveMaxCars = data.waveMaxCars || 8;
-        globalSpeedModifier = data.globalSpeedModifier || .8; roadOffset = data.road || 0;
+        globalSpeedModifier = data.globalSpeedModifier || .8; if (!visualStateReady) roadOffset = data.road || 0;
         enemySpawnTimer = data.spawn || 0; itemSpawnTimer = data.itemSpawn || 0;
-        isBossStage = !!data.isBossStage; boss = data.boss || null;
-        enemies = safeList(data.enemies); bullets = safeList(data.bullets);
-        particles = safeList(data.particles); items = safeList(data.items);
-        bossProjectiles = safeList(data.bossProjectiles);
+        isBossStage = !!data.isBossStage; boss = visualEntity(boss, data.boss);
+        enemies = visualList(enemies, data.enemies); bullets = visualList(bullets, data.bullets);
+        particles = safeList(data.particles);
+        items = visualList(items, data.items); bossProjectiles = visualList(bossProjectiles, data.bossProjectiles);
         totalPoliceKilled = data.totalPoliceKilled || 0;
         const syncedPlayers = data.players || {};
+        const currentPlayers = {[player.id]:player, ...remotePlayers};
         const mine = syncedPlayers[myId];
-        if (mine) player = {...mine};
+        if (mine) player = visualEntity(currentPlayers[myId], mine);
         remotePlayers = {};
-        Object.entries(syncedPlayers).forEach(([id, p]) => { if (id !== myId) remotePlayers[id] = {...p}; });
+        Object.entries(syncedPlayers).forEach(([id, p]) => { if (id !== myId) remotePlayers[id] = visualEntity(currentPlayers[id], p); });
+        visualStateReady = true;
         gameActive = data.gameActive !== false;
         const wasPaused = isPaused; isPaused = data.isPaused === true;
         const pauseButton = document.getElementById('pauseBtn');
@@ -506,7 +545,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     function publishNetworkState(force = false) {
         if (!isHost || !room) return;
-        const now = Date.now(); if (!force && now - lastNetWrite < 46) return;
+        const now = Date.now(); if (!force && now - lastNetWrite < 33) return;
         const snapshot = networkSnapshot();
         if (stateWriteInFlight) { queuedState = snapshot; return; }
         lastNetWrite = now; stateWriteInFlight = true;
@@ -680,17 +719,16 @@ window.addEventListener('DOMContentLoaded', () => {
             }
 
             // לוגיקת שדרוג מגן אחרי בוס
-            if (upBossShield === 1) {
-                player.hasShield = true;
-            } else if (upBossShield === 2) {
-                player.hasShield = true;
-                triggerDoubleShieldExplosion();
-            }
+            [player, ...Object.values(remotePlayers)].forEach(racePlayer => {
+                const shieldLevel = racePlayer === player ? upBossShield : (racePlayer.bossShield || 0);
+                const ammoLevel = racePlayer === player ? upBossAmmo : (racePlayer.bossAmmo || 0);
+                if (shieldLevel >= 1) racePlayer.hasShield = true;
+                if (shieldLevel >= 2) triggerDoubleShieldExplosion(racePlayer);
+                const ammoReward = ammoLevel === 1 ? 5 : (ammoLevel === 2 ? 10 : (ammoLevel >= 3 ? 20 : 0));
+                if (racePlayer === player) ammo += ammoReward; else racePlayer.ammo = (racePlayer.ammo || 0) + ammoReward;
+            });
 
             // לוגיקת שדרוג יריות אחרי בוס
-            if (upBossAmmo === 1) ammo += 5;
-            else if (upBossAmmo === 2) ammo += 10;
-            else if (upBossAmmo === 3) ammo += 20;
 
             currentWave = currentWave + 1; globalSpeedModifier = globalSpeedModifier + 0.04; showMessage("WAVE " + currentWave + " START");
         } else {
@@ -1020,16 +1058,24 @@ window.addEventListener('DOMContentLoaded', () => {
             const stale = lastSnapshotAt && Date.now() - lastSnapshotAt > 650;
             if (!isPaused) {
                 roadOffset = (roadOffset + (10 * globalSpeedModifier * dt * 60)) % 80;
+                const alpha = 1 - Math.exp(-22 * dt);
+                const smooth = entity => {
+                    if (!entity) return;
+                    if (Number.isFinite(entity._targetX)) entity.x += (entity._targetX - entity.x) * alpha;
+                    if (Number.isFinite(entity._targetY)) entity.y += (entity._targetY - entity.y) * alpha;
+                };
+                smooth(player); Object.values(remotePlayers).forEach(smooth); smooth(boss);
+                enemies.forEach(smooth); items.forEach(smooth); bullets.forEach(smooth); bossProjectiles.forEach(smooth);
+                const input = localInput;
+                if (input.left && player.x > roadX) player.x -= player.speed * dt * 60;
+                if (input.right && player.x < roadX + roadWidth - player.w) player.x += player.speed * dt * 60;
+                if (input.up && player.y > 0) player.y -= player.speed * dt * 60;
+                if (input.down && player.y < h - player.h) player.y += player.speed * dt * 60;
                 if (stale) {
                     for (const en of enemies) en.y += (en.speed || 0) * dt * 60;
                     for (const it of items) it.y += 4 * globalSpeedModifier * dt * 60;
                     for (const b of bullets) { b.y -= (b.speed || 0) * dt * 60; b.x += (b.vx || 0) * dt * 60; }
                     for (const bp of bossProjectiles) { bp.y += (bp.speed || 0) * dt * 60; bp.x += (bp.vx || 0) * dt * 60; }
-                    const input = localInput;
-                    if (input.left && player.x > roadX) player.x -= player.speed * dt * 60;
-                    if (input.right && player.x < roadX + roadWidth - player.w) player.x += player.speed * dt * 60;
-                    if (input.up && player.y > 0) player.y -= player.speed * dt * 60;
-                    if (input.down && player.y < h - player.h) player.y += player.speed * dt * 60;
                     showConnectionBanner('Server response delayed — continuing locally and resynchronizing automatically');
                 }
             }
