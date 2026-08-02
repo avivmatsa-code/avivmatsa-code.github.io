@@ -482,7 +482,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     function publishNetworkState(force = false) {
         if (!isHost || !room) return;
-        const now = Date.now(); if (!force && now - lastNetWrite < 93) return;
+        const now = Date.now(); if (!force && now - lastNetWrite < 46) return;
         const snapshot = networkSnapshot();
         if (stateWriteInFlight) { queuedState = snapshot; return; }
         lastNetWrite = now; stateWriteInFlight = true;
