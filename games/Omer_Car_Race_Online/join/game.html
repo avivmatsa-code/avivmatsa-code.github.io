@@ -186,7 +186,7 @@
     <div class="ui-line">AMMO: <span id="ammo" style="color: #ffcc00;">0</span></div>
     <div class="ui-line">SHIELD: <span id="shieldUi" style="color: #ff3300;">OFF</span></div>
     <div id="modeUi" style="font-size: 12px; margin-top: 8px; color: #aaa; text-align: center;">MODE: NORMAL</div>
-    <div class="ui-line" style="font-size: 12px; color: #00ffcc; margin-top: 5px;">POLICE KILLS: <span id="policeKillsUi">0 / 5</span></div>
+    <span id="policeKillsUi" hidden>0 / 5</span>
     <button class="pause-btn" id="pauseBtn">PAUSE GAME ⏸️</button>
 </div>
 <div id="msgLayer"><div id="msgText"></div></div>
@@ -506,7 +506,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     function publishNetworkState(force = false) {
         if (!isHost || !room) return;
-        const now = Date.now(); if (!force && now - lastNetWrite < 140) return;
+        const now = Date.now(); if (!force && now - lastNetWrite < 93) return;
         const snapshot = networkSnapshot();
         if (stateWriteInFlight) { queuedState = snapshot; return; }
         lastNetWrite = now; stateWriteInFlight = true;
