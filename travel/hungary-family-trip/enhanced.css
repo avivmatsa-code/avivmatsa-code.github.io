@@ -249,6 +249,7 @@ a:focus-visible {
 .card,
 .flight-box {
   position: relative;
+  min-width: 0;
   border: 1px solid rgba(18, 60, 70, 0.11);
   border-radius: 22px;
   background: var(--card-bg);
@@ -506,6 +507,11 @@ footer {
 
   .container {
     padding-inline: 16px;
+  }
+
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .nav-bar {
