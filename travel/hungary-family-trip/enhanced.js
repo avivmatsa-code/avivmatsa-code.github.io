@@ -76,6 +76,43 @@
       link("BalatoniBob", "https://balatonibob.hu/en/"),
       link("SkyLine Resort במפה", maps("SkyLine Resort Balatonalmádi")),
     ],
+    "טיהאני, Echo & פארק מים": [
+      link("מנזר טיהאני", "https://tihanyiapatsag.hu/en/"),
+      link("Bebo Aquapark", "https://beboaquapark.hu/en/"),
+      link("Echo במפה", maps("Echo Restaurant & Cafe Tihany")),
+    ],
+    "Annagora Aquapark": [
+      link("האתר הרשמי", "https://annagora.com/en/"),
+      link("כרטיסי ALL IN", "https://ticket.annagora.com/en/shopping/category/all-in-tickets"),
+    ],
+    "Sobri Jóska Adventure Park": [
+      link("האתר הרשמי", "https://sobrielmenypark.hu/"),
+      link("ניווט לפארק", maps("Sobri Jóska Bakonyi Kalandpark Kislőd")),
+    ],
+    "Zalakaros & Keszthely": [
+      link("פארק המים Zalakaros", "https://zalakarosfurdo.hu/en/"),
+      link("ארמון Festetics", "https://festeticskastely.hu/en"),
+    ],
+    "מעבר לבודפשט": [
+      link("7Seasons Apartments", "https://www.7seasonsapartments.com/"),
+      link("ניווט למלון", maps("7Seasons Apartments Budapest")),
+    ],
+    "שוק, גשרים, קרקס ושייט לילי": [
+      link("הקרקס של בודפשט", "https://fnc.hu/en/"),
+      link("השוק המרכזי במפה", maps("Central Market Hall Budapest")),
+      link("שייט בדנובה", maps("Budapest Danube cruise")),
+    ],
+    "יום חופשי בבודפשט": [
+      link("רעיונות למשפחות", "https://www.budapestinfo.hu/"),
+      link("אטרקציות במפה", maps("family attractions Budapest")),
+    ],
+    "Arena Mall & טיסה חזרה": [
+      link("Arena Mall", "https://arenamall.hu/en/"),
+      link("נמל התעופה בודפשט", "https://www.bud.hu/en"),
+    ],
+    "נחיתה בישראל": [
+      link("מידע על נחיתות", "https://www.iaa.gov.il/airports/ben-gurion/flight-board/"),
+    ],
     "Annagora Aquapark & בלטונפורד": [
       link("האתר הרשמי", "https://annagora.com/en/"),
       link("Tigris Bisztró במפה", maps("Tigris Reggeliző és Bisztró Balatonfüred")),
@@ -126,6 +163,10 @@
       link("מידע רשמי", "https://annagora.com/en/"),
       link("כרטיסי ALL IN", "https://ticket.annagora.com/en/shopping/category/all-in-tickets"),
     ],
+    "Annagora Aquapark (Balatonfüred)": [
+      link("מידע רשמי", "https://annagora.com/en/"),
+      link("כרטיסי ALL IN", "https://ticket.annagora.com/en/shopping/category/all-in-tickets"),
+    ],
     "BalatoniBob & Sherpa Adventure Park": [
       link("פרטים ושעות", "https://balatonibob.hu/en/"),
       link("ניווט", maps("BalatoniBob Leisure Park Balatonfűzfő")),
@@ -149,6 +190,27 @@
       link("Tropicarium", "https://tropicarium.hu/en/home/"),
       link("Neverland", "https://neverland.hu/en/"),
     ],
+    "טיהאני, Echo ו‑Bebo Aquapark": [
+      link("מנזר טיהאני", "https://tihanyiapatsag.hu/en/"),
+      link("Bebo Aquapark", "https://beboaquapark.hu/en/"),
+    ],
+    "Tapolca, Sümeg & Keszthely": [
+      link("מערת טפולצה", "https://www.bfnp.hu/en/latogatohely-1/tapolca-lake-cave-visitor-centre-tapolca-tapolca"),
+      link("טירת שומג", "https://sumegvar.hu/en/"),
+      link("ארמון Festetics", "https://festeticskastely.hu/en"),
+    ],
+    "Sobri Jóska Bakonyi Kalandpark": [
+      link("האתר הרשמי", "https://sobrielmenypark.hu/"),
+      link("ניווט", maps("Sobri Jóska Bakonyi Kalandpark Kislőd")),
+    ],
+    "Zalakaros Thermal Bath": [
+      link("האתר הרשמי", "https://zalakarosfurdo.hu/en/"),
+      link("ניווט", maps("Zalakaros Thermal Bath")),
+    ],
+    "יום בודפשט המרכזי": [
+      link("הקרקס של בודפשט", "https://fnc.hu/en/"),
+      link("השוק המרכזי", maps("Central Market Hall Budapest")),
+    ],
     "Tigris Reggeliző és Bisztró": [
       link("פתיחה במפות", maps("Tigris Reggeliző és Bisztró Balatonfüred")),
     ],
@@ -164,6 +226,23 @@
     "Kék Öböl Étterem & M71 Bistro": [
       link("Kék Öböl במפות", maps("Kék Öböl Étterem Balatonfűzfő")),
       link("M71 Bistro במפות", maps("M71 Bistro Hungary")),
+    ],
+    "Tigris Bisztró & Pizza Pazza": [
+      link("Tigris במפות", maps("Tigris Reggeliző és Bisztró Balatonfüred")),
+      link("Pizza Pazza במפות", maps("Pizza Pazza Zamárdi Hungary")),
+    ],
+    "Várpalota Múzeumkert Étterem": [
+      link("פתיחה במפות", maps("Múzeumkert Étterem Várpalota")),
+    ],
+    "VITEZ & Echo Restaurant & Café": [
+      link("VITEZ במפות", maps("Vitéz Kürtős Tihany gluten free")),
+      link("Echo במפות", maps("Echo Restaurant & Cafe Tihany")),
+    ],
+    "Green Magic Café & Snack": [
+      link("פתיחה במפות", maps("Green Magic Café Snack Hungary")),
+    ],
+    "Anna Café – Zalakaros": [
+      link("פתיחה במפות", maps("Anna Café Zalakaros")),
     ],
     "מסעדת הפארק (BalatoniBob)": [
       link("המסעדה באתר הפארק", "https://balatonibob.hu/en/"),
@@ -318,6 +397,194 @@
     );
     sections.forEach((section) => observer.observe(section));
   }
+
+  const weatherLocations = {
+    balaton: {
+      label: "אגם בלטון",
+      detail: "Balatonalmádi",
+      latitude: 47.032,
+      longitude: 18.022,
+    },
+    budapest: {
+      label: "בודפשט",
+      detail: "Budapest",
+      latitude: 47.4979,
+      longitude: 19.0402,
+    },
+  };
+
+  const weatherDescriptions = {
+    0: ["שמים בהירים", "☀️"],
+    1: ["בהיר לרוב", "🌤️"],
+    2: ["מעונן חלקית", "⛅"],
+    3: ["מעונן", "☁️"],
+    45: ["ערפל", "🌫️"],
+    48: ["ערפל קפוא", "🌫️"],
+    51: ["טפטוף קל", "🌦️"],
+    53: ["טפטוף", "🌦️"],
+    55: ["טפטוף חזק", "🌧️"],
+    56: ["טפטוף קפוא", "🌧️"],
+    57: ["טפטוף קפוא חזק", "🌧️"],
+    61: ["גשם קל", "🌦️"],
+    63: ["גשם", "🌧️"],
+    65: ["גשם חזק", "🌧️"],
+    66: ["גשם קפוא", "🌧️"],
+    67: ["גשם קפוא חזק", "🌧️"],
+    71: ["שלג קל", "🌨️"],
+    73: ["שלג", "❄️"],
+    75: ["שלג כבד", "❄️"],
+    77: ["גרגירי שלג", "🌨️"],
+    80: ["ממטרים קלים", "🌦️"],
+    81: ["ממטרים", "🌧️"],
+    82: ["ממטרים חזקים", "⛈️"],
+    85: ["ממטרי שלג", "🌨️"],
+    86: ["ממטרי שלג חזקים", "❄️"],
+    95: ["סופת רעמים", "⛈️"],
+    96: ["סופת רעמים וברד", "⛈️"],
+    99: ["סופה חזקה וברד", "⛈️"],
+  };
+
+  const weatherStatus = document.querySelector("#weather-status");
+  const weatherCurrent = document.querySelector("#weather-current");
+  const weatherDays = document.querySelector("#weather-days");
+  const weatherUpdated = document.querySelector("#weather-updated");
+  const weatherButtons = [...document.querySelectorAll("[data-weather-location]")];
+
+  const describeWeather = (code) =>
+    weatherDescriptions[code] || ["מזג אוויר משתנה", "🌡️"];
+
+  const formatWeatherDay = (isoDate, index) => {
+    if (index === 0) return "היום";
+    if (index === 1) return "מחר";
+    return new Intl.DateTimeFormat("he-IL", { weekday: "short" }).format(
+      new Date(`${isoDate}T12:00:00`)
+    );
+  };
+
+  const requestForecast = async (url, attempts = 2) => {
+    let lastError;
+    for (let attempt = 1; attempt <= attempts; attempt += 1) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Weather request failed: ${response.status}`);
+        }
+        return response.json();
+      } catch (error) {
+        lastError = error;
+        if (attempt < attempts) {
+          await new Promise((resolve) => window.setTimeout(resolve, 700));
+        }
+      }
+    }
+    throw lastError;
+  };
+
+  const renderWeatherError = (locationKey) => {
+    const location = weatherLocations[locationKey];
+    weatherStatus.textContent = "לא הצלחנו לטעון כרגע את התחזית.";
+    weatherCurrent.className = "weather-current weather-error";
+    weatherCurrent.innerHTML = `
+      <span class="weather-error-icon">🌦️</span>
+      <div>
+        <strong>התחזית ל${location.label} לא זמינה</strong>
+        <p>בדקו את החיבור ונסו שוב בעוד רגע.</p>
+      </div>
+      <button type="button" class="weather-retry">נסו שוב</button>
+    `;
+    weatherDays.replaceChildren();
+    weatherCurrent
+      .querySelector(".weather-retry")
+      ?.addEventListener("click", () => loadWeather(locationKey));
+  };
+
+  const loadWeather = async (locationKey) => {
+    const location = weatherLocations[locationKey] || weatherLocations.balaton;
+    weatherButtons.forEach((button) => {
+      const active = button.dataset.weatherLocation === locationKey;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+    weatherStatus.textContent = `טוען תחזית עדכנית עבור ${location.label}…`;
+    weatherCurrent.className = "weather-current weather-loading";
+    weatherCurrent.setAttribute("aria-busy", "true");
+    weatherCurrent.innerHTML = '<span class="weather-loader" aria-hidden="true"></span>';
+    weatherDays.replaceChildren();
+
+    const params = new URLSearchParams({
+      latitude: location.latitude,
+      longitude: location.longitude,
+      current:
+        "temperature_2m,apparent_temperature,weather_code,wind_speed_10m",
+      daily:
+        "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max",
+      timezone: "Europe/Budapest",
+      forecast_days: "7",
+    });
+
+    try {
+      const forecast = await requestForecast(
+        `https://api.open-meteo.com/v1/forecast?${params}`
+      );
+      const [description, icon] = describeWeather(forecast.current.weather_code);
+
+      weatherStatus.textContent = `תחזית חיה — ${location.label} (${location.detail})`;
+      weatherCurrent.className = "weather-current";
+      weatherCurrent.removeAttribute("aria-busy");
+      weatherCurrent.innerHTML = `
+        <div class="weather-now-icon" aria-hidden="true">${icon}</div>
+        <div class="weather-now-main">
+          <span class="weather-now-label">עכשיו</span>
+          <strong>${Math.round(forecast.current.temperature_2m)}°</strong>
+          <span>${description}</span>
+        </div>
+        <div class="weather-now-facts">
+          <span>מרגיש כמו <b>${Math.round(forecast.current.apparent_temperature)}°</b></span>
+          <span>רוח <b>${Math.round(forecast.current.wind_speed_10m)} קמ״ש</b></span>
+        </div>
+      `;
+
+      const fragment = document.createDocumentFragment();
+      forecast.daily.time.forEach((date, index) => {
+        const [dayDescription, dayIcon] = describeWeather(
+          forecast.daily.weather_code[index]
+        );
+        const day = document.createElement("article");
+        day.className = "weather-day";
+        day.innerHTML = `
+          <strong>${formatWeatherDay(date, index)}</strong>
+          <span class="weather-day-date">${new Intl.DateTimeFormat("he-IL", {
+            day: "numeric",
+            month: "numeric",
+          }).format(new Date(`${date}T12:00:00`))}</span>
+          <span class="weather-day-icon" title="${dayDescription}">${dayIcon}</span>
+          <span class="weather-day-temp">${Math.round(
+            forecast.daily.temperature_2m_max[index]
+          )}° <small>${Math.round(forecast.daily.temperature_2m_min[index])}°</small></span>
+          <span class="weather-day-rain">💧 ${Math.round(
+            forecast.daily.precipitation_probability_max[index] || 0
+          )}%</span>
+        `;
+        fragment.append(day);
+      });
+      weatherDays.append(fragment);
+      weatherUpdated.textContent = `עודכן ${new Intl.DateTimeFormat("he-IL", {
+        dateStyle: "short",
+        timeStyle: "short",
+      }).format(new Date())} · התחזית היא ל־7 הימים הקרובים.`;
+    } catch (error) {
+      console.error(error);
+      renderWeatherError(locationKey);
+    }
+  };
+
+  weatherButtons.forEach((button) =>
+    button.addEventListener("click", () =>
+      loadWeather(button.dataset.weatherLocation)
+    )
+  );
+
+  if (weatherCurrent && weatherDays && weatherStatus) loadWeather("balaton");
 
   const footer = document.querySelector("footer");
   if (footer) {
