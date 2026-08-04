@@ -282,8 +282,8 @@
     border-top: 1px solid var(--border-color);
   }
 </style>
-<link rel="stylesheet" href="enhanced.css?v=3">
-<script src="enhanced.js?v=1" defer></script>
+<link rel="stylesheet" href="enhanced.css?v=4">
+<script src="enhanced.js?v=2" defer></script>
 </head>
 <body>
 
@@ -295,6 +295,7 @@
 <div class="container">
 
   <div class="nav-bar">
+    <a href="#weather" class="nav-btn">🌤️ מזג אוויר</a>
     <a href="#flights" class="nav-btn">✈️ טיסות</a>
     <a href="#itinerary" class="nav-btn">📅 תוכנייה יומית</a>
     <a href="#attractions" class="nav-btn">🎡 אטרקציות</a>
@@ -302,349 +303,351 @@
     <a href="#gf-budapest" class="nav-btn">🌾 מסעדות בודפשט</a>
   </div>
 
+  <div id="weather" class="section-block weather-section">
+    <div class="section-header">
+      <h2 class="section-title">🌤️ תחזית מזג אוויר חיה</h2>
+    </div>
+    <div class="weather-shell" aria-live="polite">
+      <div class="weather-toolbar">
+        <div>
+          <span class="weather-kicker">מתעדכן אוטומטית</span>
+          <h3>מזג האוויר לשבעת הימים הקרובים</h3>
+        </div>
+        <div class="weather-location-switch" role="group" aria-label="בחירת אזור לתחזית">
+          <button type="button" class="weather-location is-active" data-weather-location="balaton">אגם בלטון</button>
+          <button type="button" class="weather-location" data-weather-location="budapest">בודפשט</button>
+        </div>
+      </div>
+      <div id="weather-status" class="weather-status">טוען תחזית עדכנית…</div>
+      <div id="weather-current" class="weather-current weather-loading" aria-busy="true"></div>
+      <div id="weather-days" class="weather-days"></div>
+      <div class="weather-meta">
+        <span id="weather-updated">התחזית מתייחסת לימים הקרובים ולא לתאריכי הטיול המקוריים.</span>
+        <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">נתונים: Open‑Meteo</a>
+      </div>
+    </div>
+  </div>
+
   <div id="flights" class="section-block">
     <div class="section-header">
-      <h2 class="section-title">✈️ פרטי הטיסות</h2>
+      <h2 class="section-title">✈️ פרטי הטיסות המעודכנים</h2>
     </div>
-
     <div class="grid-2">
       <div class="flight-box">
         <div class="flight-header">
           <span class="flight-title">טיסת הלוך (תל אביב ← בודפשט)</span>
-          <span class="gf-badge">ארקיע - Arkia</span>
+          <span class="gf-badge">ארקיע · Arkia</span>
         </div>
         <ul class="timeline">
           <li class="timeline-item"><span class="time-tag">IZ 291</span> <strong>מספר טיסה:</strong> Arkia 291</li>
-          <li class="timeline-item"><span class="time-tag">07/08</span> <strong>תאריך:</strong> יום חמישי</li>
-          <li class="timeline-item"><span class="time-tag">09:10</span> <strong>המראה מתל אביב (TLV):</strong> 09:10 AM</li>
-          <li class="timeline-item"><span class="time-tag">11:45</span> <strong>נחיתה בבודפשט (BUD):</strong> 11:45 AM</li>
+            <li class="timeline-item"><span class="time-tag">07/08</span> <strong>תאריך:</strong> יום שישי</li>
+            <li class="timeline-item"><span class="time-tag">09:10</span> <strong>המראה מתל אביב (TLV)</strong></li>
+            <li class="timeline-item"><span class="time-tag">11:45</span> <strong>נחיתה בבודפשט (BUD)</strong></li>
         </ul>
       </div>
-
       <div class="flight-box">
         <div class="flight-header">
           <span class="flight-title">טיסת חזור (בודפשט ← תל אביב)</span>
-          <span class="gf-badge">ארקיע - Arkia</span>
+          <span class="gf-badge">ארקיע · Arkia</span>
         </div>
         <ul class="timeline">
           <li class="timeline-item"><span class="time-tag">IZ 292</span> <strong>מספר טיסה:</strong> Arkia 292</li>
-          <li class="timeline-item"><span class="time-tag">17/08</span> <strong>תאריך:</strong> יום ראשון (לפנות בוקר)</li>
-          <li class="timeline-item"><span class="time-tag">00:45</span> <strong>המראה מבודפשט (BUD):</strong> 00:45 AM</li>
-          <li class="timeline-item"><span class="time-tag">05:15</span> <strong>נחיתה משוערת בתל אביב (TLV):</strong> 05:15 AM</li>
+            <li class="timeline-item"><span class="time-tag">16/08</span> <strong>תאריך המראה:</strong> יום ראשון</li>
+            <li class="timeline-item"><span class="time-tag">20:40</span> <strong>המראה מבודפשט (BUD)</strong></li>
+            <li class="timeline-item"><span class="time-tag">00:45</span> <strong>נחיתה בתל אביב (TLV), 17/08</strong></li>
         </ul>
       </div>
     </div>
   </div>
 
-  <div id="itinerary" class="section-block">
+<div id="itinerary" class="section-block">
     <div class="section-header">
-      <h2 class="section-title">📅 תוכנית טיול יומית לפי שעות</h2>
+      <h2 class="section-title">🗓️ תוכנית הטיול המעודכנת</h2>
     </div>
-
     <div class="grid-3">
 
       <div class="card">
         <div class="card-img-container">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/HUNGARY-Lake_Balaton_Region.jpg/1920px-HUNGARY-Lake_Balaton_Region.jpg" data-image-key="images/day1.jpg" alt="נחיתה ונסיעה" class="card-img">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/HUNGARY-Lake_Balaton_Region.jpg/1920px-HUNGARY-Lake_Balaton_Region.jpg" data-image-key="images/day1.jpg" alt="אגם בלטון" class="card-img" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
-          <span class="badge-date">07/08 • יום שישי</span>
+          <span class="badge-date">07/08 · יום שישי</span>
           <h3 class="card-title">נחיתה ונסיעה לאגם בלטון</h3>
           <ul class="timeline">
-            <li class="timeline-item"><span class="time-tag">09:10</span> המראה מתל אביב (טיסת Arkia 291)</li>
-            <li class="timeline-item"><span class="time-tag">11:45</span> נחיתה בבודפשט</li>
-            <li class="timeline-item"><span class="time-tag">12:30</span> איסוף רכב שכור (Avalon) ונסיעה לבלטון</li>
-            <li class="timeline-item"><span class="time-tag">14:00</span> עצירת ארוחת צהריים בדרך</li>
-            <li class="timeline-item"><span class="time-tag">15:30</span> גלישה במזחלות ההרים BalatoniBob</li>
-            <li class="timeline-item"><span class="time-tag">18:00</span> צ'ק-אין ב-SkyLine Resort (Balatonalmádi)</li>
+            <li class="timeline-item"><span class="time-tag">09:10</span> המראה מתל אביב בטיסת Arkia 291</li>
+            <li class="timeline-item"><span class="time-tag">11:45</span> נחיתה בבודפשט ואיסוף רכב Avalon</li>
+            <li class="timeline-item"><span class="time-tag">12:30</span> נסיעה ל‑Balatonalmádi וארוחת צהריים בדרך ב‑Kék Öböl / M71 Bistro</li>
+            <li class="timeline-item"><span class="time-tag">14:30</span> מזחלות הרים BalatoniBob</li>
+            <li class="timeline-item"><span class="time-tag">17:00</span> צ׳ק‑אין ב‑SkyLine Resort</li>
+            <li class="timeline-item"><span class="time-tag">18:00</span> קניות בסופר וארוחת ערב ביתית</li>
           </ul>
         </div>
       </div>
 
       <div class="card">
         <div class="card-img-container">
-          <img src="https://annagora.com/wp-content/uploads/2020/02/medencek_side.png" data-image-key="images/annagora.jpg" alt="Annagora Aquapark" class="card-img">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Tihany%2C_Hungary_-_September_2022.jpg/1920px-Tihany%2C_Hungary_-_September_2022.jpg" data-image-key="images/tihany.jpg" alt="טיהאני" class="card-img" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
-          <span class="badge-date">08/08 • יום שבת</span>
-          <h3 class="card-title">Annagora Aquapark & בלטונפורד</h3>
+          <span class="badge-date">08/08 · יום שבת</span>
+          <h3 class="card-title">טיהאני, Echo & פארק מים</h3>
           <ul class="timeline">
-            <li class="timeline-item"><span class="time-tag">09:00</span> הגעה מוקדמת לפארק המים Annagora (כרטיסי ALL IN)</li>
-            <li class="timeline-item"><span class="time-tag">13:00</span> מגלשות קמיקזה, בריכת גלים ומשחק צייד האוצרות</li>
-            <li class="timeline-item"><span class="time-tag">17:00</span> חזרה למלון והתארגנות</li>
-            <li class="timeline-item"><span class="time-tag">19:00</span> ארוחת ערב ב-Tigris Bisztro בטיילת בלטונפורד</li>
-            <li class="timeline-item"><span class="time-tag">20:30</span> סיבוב ערב רגלי בטיילת בלטונפורד</li>
+            <li class="timeline-item"><span class="time-tag">09:30</span> טיול בחצי האי טיהאני, מנזר ונקודת Echo Hill</li>
+            <li class="timeline-item"><span class="time-tag">12:00</span> ארוחת צהריים ב‑Echo Restaurant & Café</li>
+            <li class="timeline-item"><span class="time-tag">15:30</span> Bebo Aquapark דרך המעבורת, או חוף רגוע ליד המלון</li>
           </ul>
         </div>
       </div>
 
       <div class="card">
         <div class="card-img-container">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Tihany%2C_Hungary_-_September_2022.jpg/1920px-Tihany%2C_Hungary_-_September_2022.jpg" data-image-key="images/tihany.jpg" alt="חצי האי טיהאני" class="card-img">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Lake_Cave%2CTapolca_2.jpg/1920px-Lake_Cave%2CTapolca_2.jpg" data-image-key="images/tapolca.jpg" alt="מערת טפולצה" class="card-img" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
-          <span class="badge-date">09/08 • יום ראשון</span>
-          <h3 class="card-title">חצי האי טיהאני & זמארדי</h3>
-          <ul class="timeline">
-            <li class="timeline-item"><span class="time-tag">09:30</span> טיול בטיהאני: אגמי המכתש הגעשי וגבעת הקול החוזר</li>
-            <li class="timeline-item"><span class="time-tag">11:30</span> בית הלבנדר ותצפית המנזר</li>
-            <li class="timeline-item"><span class="time-tag">13:00</span> עצירה בדוכן VITEZ בטיילת לקיורטוש ללא גלוטן</li>
-            <li class="timeline-item"><span class="time-tag">15:00</span> מנוחה ורחצה בחוף Bebo Aquapark / מעבורת בזמארדי</li>
-            <li class="timeline-item"><span class="time-tag">18:30</span> ארוחת ערב ב-Pizza Pazza בזמארדי (פיצה/פסטה GF)</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Lake_Cave%2CTapolca_2.jpg/1920px-Lake_Cave%2CTapolca_2.jpg" data-image-key="images/tapolca.jpg" alt="מערת טפולצה" class="card-img">
-        </div>
-        <div class="card-body">
-          <span class="badge-date">10/08 • יום שני</span>
+          <span class="badge-date">09/08 · יום ראשון</span>
           <h3 class="card-title">מערת טפולצה & טירת שומג</h3>
           <ul class="timeline">
-            <li class="timeline-item"><span class="time-tag">10:00</span> הגעה למערת טפולצה (Tapolca Cave)</li>
-            <li class="timeline-item"><span class="time-tag">10:40</span> שייט בסירות באגם התת-קרקעי (הזמנה מאושרת)</li>
-            <li class="timeline-item"><span class="time-tag">12:30</span> ארוחת צהריים ב-Tópart Bisztró על שפת האגם</li>
-            <li class="timeline-item"><span class="time-tag">15:00</span> נסיעה לטירת שומג (Sümeg Castle)</li>
-            <li class="timeline-item"><span class="time-tag">16:00</span> צפייה במופע אבירים וטורנירי סוסים תקופתי</li>
+            <li class="timeline-item"><span class="time-tag">10:40</span> כניסה מוזמנת למערת טפולצה ושייט באגם התת‑קרקעי</li>
+            <li class="timeline-item"><span class="time-tag">12:30</span> ארוחת צהריים ב‑Tópart Bisztró</li>
+            <li class="timeline-item"><span class="time-tag">16:00</span> טירת Sümeg ומופע אבירים; אם חם מאוד — Keszthely במקום</li>
           </ul>
         </div>
       </div>
 
       <div class="card">
         <div class="card-img-container">
-          <img src="https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&amp;fit=crop&amp;w=1600&amp;q=84" data-image-key="images/sherpa.jpg" alt="פארק שרפה" class="card-img">
+          <img src="https://annagora.com/wp-content/uploads/2020/02/medencek_side.png" data-image-key="images/annagora.jpg" alt="Annagora Aquapark" class="card-img" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
-          <span class="badge-date">11/08 • יום שלישי</span>
-          <h3 class="card-title">פארק אקסטרים בלטונפיוזפיה</h3>
+          <span class="badge-date">10/08 · יום שני</span>
+          <h3 class="card-title">Annagora Aquapark</h3>
           <ul class="timeline">
-            <li class="timeline-item"><span class="time-tag">10:00</span> גלישה במזחלות ההרים BalatoniBob</li>
-            <li class="timeline-item"><span class="time-tag">12:00</span> אקסטרים ב-Sherpa Park: פארק חבלים, Zip Line וטיפוס</li>
-            <li class="timeline-item"><span class="time-tag">15:00</span> ירידה לחוף באגם בלטון למנוחה ורחצה</li>
-            <li class="timeline-item"><span class="time-tag">18:30</span> ארוחת ערב ב-Kék Öböl Étterem / Várpalota Múzeumkert</li>
+            <li class="timeline-item"><span class="time-tag">09:00</span> הגעה מוקדמת לפארק המים ב‑Balatonfüred</li>
+            <li class="timeline-item"><span class="time-tag">יום מלא</span> כרטיסי ALL IN, בריכות, מגלשות ופעילויות משפחתיות</li>
+            <li class="timeline-item"><span class="time-tag">מראש</span> מומלץ לרכוש כרטיסים אונליין לפני ההגעה</li>
           </ul>
         </div>
       </div>
 
       <div class="card">
         <div class="card-img-container">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Budapest_Eye.jpg/1920px-Budapest_Eye.jpg" data-image-key="images/budapest_eye.jpg" alt="גלגל ענק בודפשט" class="card-img">
+          <img src="https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=1600&q=84" data-image-key="images/sherpa.jpg" alt="פארק אתגרי" class="card-img" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
-          <span class="badge-date">12/08 • יום רביעי</span>
-          <h3 class="card-title">מעבר לבודפשט, קרקס & גלגל ענק</h3>
+          <span class="badge-date">11/08 · יום שלישי</span>
+          <h3 class="card-title">Sobri Jóska Adventure Park</h3>
           <ul class="timeline">
-            <li class="timeline-item"><span class="time-tag">09:30</span> יציאה מבלטון ונסיעה לבודפשט (כשעתיים)</li>
-            <li class="timeline-item"><span class="time-tag">12:00</span> צ'ק-אין בדירות 7Seasons Apartments</li>
-            <li class="timeline-item"><span class="time-tag">15:00</span> מופע בקרקס הגדול של בודפשט (Capital Circus)</li>
-            <li class="timeline-item"><span class="time-tag">18:00</span> נסיעה בגלגל הענק של בודפשט (Budapest Eye)</li>
-            <li class="timeline-item"><span class="time-tag">20:00</span> סיור ערב רגלי במרכז העיר והפרלמנט</li>
+            <li class="timeline-item"><span class="time-tag">10:00</span> יום בפארק האתגרי Sobri Jóska Bakonyi Kalandpark</li>
+            <li class="timeline-item"><span class="time-tag">בפארק</span> מתקנים, מסלולי אתגר ופעילויות לכל המשפחה</li>
+            <li class="timeline-item"><span class="time-tag">18:30</span> ערב בטיילת Balatonfüred</li>
           </ul>
         </div>
       </div>
 
       <div class="card">
         <div class="card-img-container">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Visegr%C3%A1d_Castle%2C_2006_%2802%29.jpg/1920px-Visegr%C3%A1d_Castle%2C_2006_%2802%29.jpg" data-image-key="images/visegrad.jpg" alt="ויזגראד" class="card-img">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Paracanthurus_hepatus_in_Tropicarium-Oceanarium_Budapest.jpg/1920px-Paracanthurus_hepatus_in_Tropicarium-Oceanarium_Budapest.jpg" data-image-key="images/tropicarium.jpg" alt="יום מים ומשפחה" class="card-img" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
-          <span class="badge-date">13/08 • יום חמישי</span>
-          <h3 class="card-title">יום טיול לוויזגראד & סגווי</h3>
+          <span class="badge-date">12/08 · יום רביעי</span>
+          <h3 class="card-title">Zalakaros & Keszthely</h3>
           <ul class="timeline">
-            <li class="timeline-item"><span class="time-tag">09:00</span> נסיעה לעיר ויזגראד (שעה מבודפשט)</li>
-            <li class="timeline-item"><span class="time-tag">10:30</span> גלישה במזחלות ההרים Visegrád Bob ביער</li>
-            <li class="timeline-item"><span class="time-tag">13:00</span> תצפית מרהיבה מטירת ויזגראד על עיקול הדנובה</li>
-            <li class="timeline-item"><span class="time-tag">16:00</span> חזרה לבודפשט וסיור סגווי חווייתי במרכז העיר</li>
-            <li class="timeline-item"><span class="time-tag">19:00</span> ארוחת ערב במרכז העיר</li>
+            <li class="timeline-item"><span class="time-tag">09:30</span> יום בפארק המים והמרחצאות Zalakaros</li>
+            <li class="timeline-item"><span class="time-tag">אחה״צ</span> Keszthely והטיילת, אם טרם ביקרנו</li>
+            <li class="timeline-item"><span class="time-tag">גמיש</span> להתאים את היום למזג האוויר ולעומס</li>
           </ul>
         </div>
       </div>
 
       <div class="card">
         <div class="card-img-container">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Paracanthurus_hepatus_in_Tropicarium-Oceanarium_Budapest.jpg/1920px-Paracanthurus_hepatus_in_Tropicarium-Oceanarium_Budapest.jpg" data-image-key="images/tropicarium.jpg" alt="Tropicarium" class="card-img">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Visegr%C3%A1d_Castle%2C_2006_%2802%29.jpg/1920px-Visegr%C3%A1d_Castle%2C_2006_%2802%29.jpg" data-image-key="images/visegrad.jpg" alt="מעבר לבודפשט" class="card-img" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
-          <span class="badge-date">14/08 • יום שישי</span>
-          <h3 class="card-title">Tropicarium, שוק וחדר בריחה</h3>
+          <span class="badge-date">13/08 · יום חמישי</span>
+          <h3 class="card-title">מעבר לבודפשט</h3>
           <ul class="timeline">
-            <li class="timeline-item"><span class="time-tag">10:00</span> ביקור ב-Tropicarium (מנהרת כרישים וליטוף חתולי ים)</li>
-            <li class="timeline-item"><span class="time-tag">13:00</span> סיבוב בשוק המרכזי (Nagycsarnok) וגשר השלשלאות</li>
-            <li class="timeline-item"><span class="time-tag">16:00</span> חדר בריחה אתגרי ברמה עולמית (Neverland / Parapark)</li>
-            <li class="timeline-item"><span class="time-tag">20:00</span> שייט ערב מרהיב על הדנובה מול הפרלמנט המוארים</li>
+            <li class="timeline-item"><span class="time-tag">09:30</span> Keszthely, אם טרם הספקנו</li>
+            <li class="timeline-item"><span class="time-tag">11:30</span> יציאה לכיוון בודפשט — כשעתיים נסיעה</li>
+            <li class="timeline-item"><span class="time-tag">14:00</span> צ׳ק‑אין ב‑7Seasons Apartments</li>
           </ul>
         </div>
       </div>
 
       <div class="card">
         <div class="card-img-container">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Fisherman%27s_Bastion_2014.jpg/1920px-Fisherman%27s_Bastion_2014.jpg" data-image-key="images/fishermans.jpg" alt="מצודת הדייגים" class="card-img">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Budapest_Eye.jpg/1920px-Budapest_Eye.jpg" data-image-key="images/budapest_eye.jpg" alt="בודפשט" class="card-img" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
-          <span class="badge-date">15/08 • יום שבת</span>
-          <h3 class="card-title">ארמון בודה, מצודת הדייגים והטיילת</h3>
+          <span class="badge-date">14/08 · יום שישי</span>
+          <h3 class="card-title">שוק, גשרים, קרקס ושייט לילי</h3>
           <ul class="timeline">
-            <li class="timeline-item"><span class="time-tag">10:00</span> סיור במצודת הדייגים ובכנסיית מתיאש</li>
-            <li class="timeline-item"><span class="time-tag">12:30</span> ביקור במתחם ארמון בודה ותצפית על העיר</li>
-            <li class="timeline-item"><span class="time-tag">15:30</span> טיול רגלי בטיילת הדנובה והאנדרטה "נעליים על הדנובה"</li>
-            <li class="timeline-item"><span class="time-tag">18:30</span> ארוחת ערב שישי חגיגית במסעדה מותאמת</li>
+            <li class="timeline-item"><span class="time-tag">09:30</span> השוק המרכזי, גשר השלשלאות וטיילת הדנובה</li>
+            <li class="timeline-item"><span class="time-tag">15:00</span> מופע בקרקס הגדול של בודפשט</li>
+            <li class="timeline-item"><span class="time-tag">20:00</span> שייט ערב מול הגשרים והפרלמנט המוארים</li>
           </ul>
         </div>
       </div>
 
       <div class="card">
         <div class="card-img-container">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Arena_Mall%2C_Pusk%C3%A1s_Ar%C3%A9na%2C_von_Pr%C3%A1terstrasse_56%2C_2024_J%C3%B3zsefv%C3%A1ros.jpg/1920px-Arena_Mall%2C_Pusk%C3%A1s_Ar%C3%A9na%2C_von_Pr%C3%A1terstrasse_56%2C_2024_J%C3%B3zsefv%C3%A1ros.jpg" data-image-key="images/arena.jpg" alt="קניות במול" class="card-img">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Fisherman%27s_Bastion_2014.jpg/1920px-Fisherman%27s_Bastion_2014.jpg" data-image-key="images/fishermans.jpg" alt="בודפשט" class="card-img" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
-          <span class="badge-date">16/08 • יום ראשון</span>
-          <h3 class="card-title">קניות ב-Arena Mall והחזרת רכב</h3>
+          <span class="badge-date">15/08 · יום שבת</span>
+          <h3 class="card-title">יום חופשי בבודפשט</h3>
           <ul class="timeline">
-            <li class="timeline-item"><span class="time-tag">10:30</span> קניות בקניון Arena Mall (כולל סניף Primark הענקי)</li>
-            <li class="timeline-item"><span class="time-tag">15:00</span> מנוחה, אריזה והתארגנות בדירה</li>
-            <li class="timeline-item"><span class="time-tag">21:00</span> החזרת הרכב השכור (Avalon)</li>
-            <li class="timeline-item"><span class="time-tag">22:00</span> יציאה לכיוון שדה התעופה בבודפשט</li>
+            <li class="timeline-item"><span class="time-tag">גמיש</span> היום נשאר פתוח בתוכנית המעודכנת</li>
+            <li class="timeline-item"><span class="time-tag">אפשרות</span> השלמות, מנוחה, קניות או טיול רגוע בעיר</li>
           </ul>
         </div>
       </div>
 
       <div class="card">
         <div class="card-img-container">
-          <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&amp;fit=crop&amp;w=1600&amp;q=84" data-image-key="images/flight_home.jpg" alt="טיסה חזרה" class="card-img">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Arena_Mall%2C_Pusk%C3%A1s_Ar%C3%A9na%2C_von_Pr%C3%A1terstrasse_56%2C_2024_J%C3%B3zsefv%C3%A1ros.jpg/1920px-Arena_Mall%2C_Pusk%C3%A1s_Ar%C3%A9na%2C_von_Pr%C3%A1terstrasse_56%2C_2024_J%C3%B3zsefv%C3%A1ros.jpg" data-image-key="images/arena.jpg" alt="Arena Mall" class="card-img" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
-          <span class="badge-date">17/08 • יום שני (לפנות בוקר)</span>
-          <h3 class="card-title">טיסה חזרה לישראל</h3>
+          <span class="badge-date">16/08 · יום ראשון</span>
+          <h3 class="card-title">Arena Mall & טיסה חזרה</h3>
           <ul class="timeline">
-            <li class="timeline-item"><span class="time-tag">00:45</span> המראה מבודפשט (טיסת Arkia 292)</li>
-            <li class="timeline-item"><span class="time-tag">05:15</span> נחיתה משוערת בנמל התעופה בן גוריון</li>
+            <li class="timeline-item"><span class="time-tag">10:30</span> Arena Mall, Primark וקניות לסיום</li>
+            <li class="timeline-item"><span class="time-tag">17:30</span> איסוף מזוודות ויציאה לשדה התעופה</li>
+            <li class="timeline-item"><span class="time-tag">20:40</span> המראה מבודפשט בטיסת Arkia 292</li>
           </ul>
         </div>
       </div>
 
+      <div class="card">
+        <div class="card-img-container">
+          <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1600&q=84" data-image-key="images/flight_home.jpg" alt="טיסה חזרה" class="card-img" loading="lazy" decoding="async">
+        </div>
+        <div class="card-body">
+          <span class="badge-date">17/08 · יום שני</span>
+          <h3 class="card-title">נחיתה בישראל</h3>
+          <ul class="timeline">
+            <li class="timeline-item"><span class="time-tag">00:45</span> נחיתה משוערת בנמל התעופה בן גוריון</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div id="attractions" class="section-block">
+<div id="attractions" class="section-block">
     <div class="section-header">
-      <h2 class="section-title">🎡 פירוט האטרקציות המרכזיות</h2>
+      <h2 class="section-title">🎡 האטרקציות בתוכנית</h2>
     </div>
-
     <div class="grid-2">
+
       <div class="card">
         <div class="card-body">
-          <h3 class="card-title">Annagora Aquapark (בלטונפורד)</h3>
-          <p>פארק מים מודרני בבלטונפורד. כולל מגלשות קמיקזה, בריכות תרמיות, בריכת גלים ומשחק צייד האוצרות. מומלץ להגיע ב-09:00 מוקדם ולרכוש כרטיסי ALL IN אונליין לשימוש בלתי מוגבל במגלשות.</p>
+          <h3 class="card-title">Annagora Aquapark (Balatonfüred)</h3>
+          <p>פארק מים משפחתי עם בריכות ומגלשות. התוכנית מקצה לו יום מלא וממליצה להגיע מוקדם עם כרטיסי ALL IN שנרכשו מראש.</p>
         </div>
       </div>
 
       <div class="card">
         <div class="card-body">
           <h3 class="card-title">BalatoniBob & Sherpa Adventure Park</h3>
-          <p>מסלול מזחלות ההרים הקיצי הארוך בהונגריה (שני מסלולים של 1.5 ק"מ). לצדו נמצא פארק החבלים Sherpa עם 4 מסלולים, Zip line, קשתות וקיר טיפוס (מסלול אתגרי מיוחד לגיל 14+ עם 28 תחנות).</p>
+          <p>מזחלות הרים ופארק אתגרי באזור Balatonfűzfő. מתאים לעצירה בדרך למלון ביום ההגעה.</p>
         </div>
       </div>
 
       <div class="card">
         <div class="card-body">
-          <h3 class="card-title">מערת טפולצה (Tapolca Cave) & טירת שומג</h3>
-          <p>• <strong>טפולצה:</strong> שייט בסירות משוטים באגם תת-קרקעי מרהיב בטמפרטורה קבועה של 18 מעלות.<br>
-          • <strong>טירת שומג:</strong> טירה עתיקה עם תצפית 360 מעלות, ירידי ימי הביניים ומופעי אבירים וטורנירי סוסים בשעה 16:00.</p>
+          <h3 class="card-title">טיהאני, Echo ו‑Bebo Aquapark</h3>
+          <p>בוקר בחצי האי טיהאני עם המנזר ונקודת ההד, ארוחה ב‑Echo Restaurant & Café, ובהמשך פארק המים Bebo או חוף רגוע.</p>
         </div>
       </div>
 
       <div class="card">
         <div class="card-body">
-          <h3 class="card-title">מזחלות ויזגראד (Visegrád Bob) & טירה</h3>
-          <p>שני מסלולי מזחלות הרים מקבילים באורך של 1 ק"מ בתוך היערות. סמוך אליהם ממוקמת טירת ויזגראד המציעה תצפית מרהיבה על עיקול הדנובה.</p>
+          <h3 class="card-title">Tapolca, Sümeg & Keszthely</h3>
+          <p>שייט במערת טפולצה בהזמנה ל‑10:40, ארוחת צהריים ליד האגם, וטירת שומג עם מופע אבירים. Keszthely משמשת חלופה ליום חם.</p>
         </div>
       </div>
 
       <div class="card">
         <div class="card-body">
-          <h3 class="card-title">הקרקס הגדול של בודפשט (Capital Circus)</h3>
-          <p>קרקס קבוע ומפואר בפארק העירוני (Városliget), מציע מופעי אקרובטיקה, תרגילי אקסטרים ואמנות ברמה בינלאומית.</p>
+          <h3 class="card-title">Sobri Jóska Bakonyi Kalandpark</h3>
+          <p>פארק הרפתקאות משפחתי עם מתקנים, מסלולי אתגר ופעילויות חוץ. מוקדש לו יום שלם לפני ערב בטיילת Balatonfüred.</p>
         </div>
       </div>
 
       <div class="card">
         <div class="card-body">
-          <h3 class="card-title">Tropicarium & חדרי בריחה</h3>
-          <p>• <strong>Tropicarium:</strong> מנהרת כרישים, ליטוף חתולי ים והאכלת תנינים.<br>
-          • <strong>חדרי בריחה:</strong> המלצות ספציפיות ל-Neverland ו-Parapark - ברמה עולמית לחוויה קבוצתית אתגרית.</p>
+          <h3 class="card-title">Zalakaros Thermal Bath</h3>
+          <p>פארק מים ומרחצאות עם בריכות פנימיות וחיצוניות. היום גמיש וניתן לשלב בו את Keszthely בהתאם למזג האוויר.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">יום בודפשט המרכזי</h3>
+          <p>השוק המרכזי, גשר השלשלאות, טיילת הדנובה, הקרקס הגדול בשעה 15:00 ושייט ערב מול הפרלמנט המואר.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <div id="gf-balaton" class="section-block">
+<div id="gf-balaton" class="section-block">
     <div class="section-header">
-      <h2 class="section-title">🌾 פירוט מסעדות – אזור אגם בלטון</h2>
+      <h2 class="section-title">🌾 מסעדות ללא גלוטן · אזור בלטון</h2>
     </div>
-
     <div class="grid-2">
 
       <div class="card gf-card">
         <div class="card-body">
-          <span class="gf-badge">בלטונפורד</span>
-          <h3 class="card-title">Tigris Reggeliző és Bisztró</h3>
-          <p><strong>מיקום:</strong> בטיילת של בלטונפורד (Balatonfüred).</p>
-          <p><strong>פירוט המנות:</strong> מגישים לנגוש ללא גלוטן מצוין, שניצל ללא גלוטן, צ'יפס, פנקייקים והמבורגרים.</p>
-        </div>
-      </div>
-
-      <div class="card gf-card">
-        <div class="card-body">
-          <span class="gf-badge">זמארדי</span>
-          <h3 class="card-title">Pizza Pazza</h3>
-          <p><strong>מיקום:</strong> עיירת הנופש זמארדי (Zamárdi).</p>
-          <p><strong>פירוט המנות:</strong> מגישים פיצה ללא גלוטן ומגוון מנות פסטה ללא גלוטן.</p>
-        </div>
-      </div>
-
-      <div class="card gf-card">
-        <div class="card-body">
-          <span class="gf-badge">חצי האי טיהאני</span>
-          <h3 class="card-title">דוכן VITEZ (קיורטוש GF)</h3>
-          <p><strong>מיקום:</strong> בטיילת העליונה בטיהאני, אחרי המנזר והמצודה (בערך באמצע הטיילת).</p>
-          <p><strong>פירוט המנות:</strong> קיורטוש ללא גלוטן מעולה וטרי (טעים אפילו יותר מהרגיל!).</p>
-        </div>
-      </div>
-
-      <div class="card gf-card">
-        <div class="card-body">
-          <span class="gf-badge">טפולצה</span>
-          <h3 class="card-title">Tópart Bisztró</h3>
-          <p><strong>מיקום:</strong> ממש על שפת האגם ליד מערת טפולצה.</p>
-          <p><strong>פירוט המנות:</strong> המבורגר ללא גלוטן, דגים, מנות עוף, צ'יפס ועוד.</p>
-        </div>
-      </div>
-
-      <div class="card gf-card">
-        <div class="card-body">
-          <span class="gf-badge">בלטונפיוזפו / בדרך</span>
           <h3 class="card-title">Kék Öböl Étterem & M71 Bistro</h3>
-          <p>• <strong>Kék Öböl Étterem:</strong> בבלטונפיוזפו, על כביש 71 ליד בלטוניבוב.<br>
-          • <strong>M71 Bistro:</strong> מסעדה על הכביש המהיר M7.<br>
-          • <strong>Várpalota Múzeumkert:</strong> מגישים פיצה ופסטה לל"ג (מרחק 20 דקות נסיעה מבלטוניבוב).</p>
+          <span class="gf-badge">בדרך לבלטון</span><p>שתי אפשרויות לעצירת צהריים ביום ההגעה; Kék Öböl באזור Balatonfűzfő ו‑M71 סמוך לכביש M7.</p>
         </div>
       </div>
 
       <div class="card gf-card">
         <div class="card-body">
-          <span class="gf-badge">פארק בלטוניבוב</span>
-          <h3 class="card-title">מסעדת הפארק (BalatoniBob)</h3>
-          <p><strong>מיקום:</strong> בתוך פארק המזחלות בבלטוניבוב.</p>
-          <p><strong>פירוט המנות:</strong> אורז עם אפונה, מרק עגבניות ומנות קלות מותאמות.</p>
+          <h3 class="card-title">Tópart Bisztró</h3>
+          <span class="gf-badge">טפולצה</span><p>ליד האגם: צ׳יפס, עוף, דגים והמבורגר. מתוכננת לארוחת הצהריים לאחר הביקור במערה.</p>
         </div>
       </div>
 
+      <div class="card gf-card">
+        <div class="card-body">
+          <h3 class="card-title">Tigris Bisztró & Pizza Pazza</h3>
+          <span class="gf-badge">Balatonfüred / Zamárdi</span><p>Tigris מציעה פנקייק, צ׳יפס, שניצל ולנגוש; Pizza Pazza מציעה פיצה ופסטה ללא גלוטן.</p>
+        </div>
+      </div>
+
+      <div class="card gf-card">
+        <div class="card-body">
+          <h3 class="card-title">Várpalota Múzeumkert Étterem</h3>
+          <span class="gf-badge">כ‑20 דקות מהפארק</span><p>אפשרות לפיצה ולפסטה ללא גלוטן באזור Várpalota.</p>
+        </div>
+      </div>
+
+      <div class="card gf-card">
+        <div class="card-body">
+          <h3 class="card-title">VITEZ & Echo Restaurant & Café</h3>
+          <span class="gf-badge">טיהאני</span><p>VITEZ לקיורטוש ללא גלוטן; Echo מציעה מנות ללא גלוטן, לרבות דגים, מרק ומנות עם מרפסת נוף.</p>
+        </div>
+      </div>
+
+      <div class="card gf-card">
+        <div class="card-body">
+          <h3 class="card-title">Green Magic Café & Snack</h3>
+          <span class="gf-badge">Keszthely</span><p>בית קפה עם מבחר קינוחים ומנות ללא גלוטן.</p>
+        </div>
+      </div>
+
+      <div class="card gf-card">
+        <div class="card-body">
+          <h3 class="card-title">Anna Café – Zalakaros</h3>
+          <span class="gf-badge">פארק המים</span><p>אפשרות המתוארת בגיליון כמתאימה ללא גלוטן בסביבת פארק המים Zalakaros.</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div id="gf-budapest" class="section-block">
+<div id="gf-budapest" class="section-block">
     <div class="section-header">
       <h2 class="section-title">🌾 פירוט מסעדות – בודפשט והסביבה</h2>
     </div>
@@ -681,8 +684,8 @@
 </div>
 
 <footer>
-  תוכנית טיול להונגריה • בלטון & בודפשט • מעוצב ומותאם לשימוש מקומי
-</footer>
+  תוכנית טיול להונגריה · עודכן לפי קובץ התוכנית · תחזית מזג אוויר חיה</footer>
 
 </body>
 </html>
+
