@@ -35,16 +35,33 @@
       credit: "Unsplash",
       creditUrl: "https://unsplash.com/s/photos/rock-climbing",
     },
+    "images/zalakaros.jpg": {
+      src: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1600&q=84",
+      credit: "Unsplash",
+      creditUrl: "https://unsplash.com/photos/0cc20b96c2a7",
+    },
     "images/budapest_eye.jpg": {
       src: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Budapest_Eye.jpg/1920px-Budapest_Eye.jpg",
       credit: "Wikimedia Commons",
       creditUrl: "https://commons.wikimedia.org/wiki/File:Budapest_Eye.jpg",
+    },
+    "images/central_market.jpg": {
+      src: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Central%20market%20hall%2C%20Budapest.jpg?width=1600",
+      credit: "András Osvát / Wikimedia Commons",
+      creditUrl:
+        "https://commons.wikimedia.org/wiki/File:Central_market_hall,_Budapest.jpg",
     },
     "images/visegrad.jpg": {
       src: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Visegr%C3%A1d_Castle%2C_2006_%2802%29.jpg/1920px-Visegr%C3%A1d_Castle%2C_2006_%2802%29.jpg",
       credit: "Wikimedia Commons",
       creditUrl:
         "https://commons.wikimedia.org/wiki/File:Visegr%C3%A1d_Castle,_2006_(02).jpg",
+    },
+    "images/budapest_panorama.jpg": {
+      src: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Budapest%20Panorama%202.jpg?width=1600",
+      credit: "Karelj / Wikimedia Commons",
+      creditUrl:
+        "https://commons.wikimedia.org/wiki/File:Budapest_Panorama_2.jpg",
     },
     "images/tropicarium.jpg": {
       src: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Paracanthurus_hepatus_in_Tropicarium-Oceanarium_Budapest.jpg/1920px-Paracanthurus_hepatus_in_Tropicarium-Oceanarium_Budapest.jpg",
@@ -73,7 +90,7 @@
 
   const actionsByTitle = {
     "נחיתה ונסיעה לאגם בלטון": [
-      link("BalatoniBob", "https://balatonibob.hu/en/"),
+      link("BalatoniBob", "https://balatonibob.hu/en"),
       link("SkyLine Resort במפה", maps("SkyLine Resort Balatonalmádi")),
     ],
     "טיהאני, Echo & פארק מים": [
@@ -83,6 +100,7 @@
     ],
     "Annagora Aquapark": [
       link("האתר הרשמי", "https://annagora.com/en/"),
+      link("שעות פתיחה 2026", "https://annagora.com/en/contact-us/"),
       link("כרטיסי ALL IN", "https://ticket.annagora.com/en/shopping/category/all-in-tickets"),
     ],
     "Sobri Jóska Adventure Park": [
@@ -90,15 +108,18 @@
       link("ניווט לפארק", maps("Sobri Jóska Bakonyi Kalandpark Kislőd")),
     ],
     "Zalakaros & Keszthely": [
-      link("פארק המים Zalakaros", "https://zalakarosfurdo.hu/en/"),
+      link("פארק המים Zalakaros", "https://zkf.hu/en/"),
+      link("שעות פתיחה 2026", "https://zkf.hu/nyitvatartas/"),
       link("ארמון Festetics", "https://festeticskastely.hu/en"),
     ],
     "מעבר לבודפשט": [
       link("7Seasons Apartments", "https://www.7seasonsapartments.com/"),
       link("ניווט למלון", maps("7Seasons Apartments Budapest")),
+      link("סיור סגווי במפה", maps("Budapest Segway tour Buda Pest")),
     ],
     "שוק, גשרים, קרקס ושייט לילי": [
       link("הקרקס של בודפשט", "https://fnc.hu/en/"),
+      link("כרטיסי קרקס", "https://fnc.jegy.hu/"),
       link("השוק המרכזי במפה", maps("Central Market Hall Budapest")),
       link("שייט בדנובה", maps("Budapest Danube cruise")),
     ],
@@ -107,7 +128,7 @@
       link("אטרקציות במפה", maps("family attractions Budapest")),
     ],
     "Arena Mall & טיסה חזרה": [
-      link("Arena Mall", "https://arenamall.hu/en/"),
+      link("Arena Mall ושעות פתיחה", "https://www.arenamall.hu/en/contact"),
       link("נמל התעופה בודפשט", "https://www.bud.hu/en"),
     ],
     "נחיתה בישראל": [
@@ -127,6 +148,10 @@
         "https://www.bfnp.hu/en/latogatohely-1/tapolca-lake-cave-visitor-centre-tapolca-tapolca"
       ),
       link("טירת שומג", "https://sumegvar.hu/en/"),
+      link(
+        "לוח מופעי האבירים 2026",
+        "https://sumegvar.hu/en/historical-equestrian-games"
+      ),
     ],
     "פארק אקסטרים בלטונפיוזפיה": [
       link(
@@ -197,6 +222,7 @@
     "Tapolca, Sümeg & Keszthely": [
       link("מערת טפולצה", "https://www.bfnp.hu/en/latogatohely-1/tapolca-lake-cave-visitor-centre-tapolca-tapolca"),
       link("טירת שומג", "https://sumegvar.hu/en/"),
+      link("לוח מופעי 2026", "https://sumegvar.hu/en/historical-equestrian-games"),
       link("ארמון Festetics", "https://festeticskastely.hu/en"),
     ],
     "Sobri Jóska Bakonyi Kalandpark": [
@@ -204,7 +230,8 @@
       link("ניווט", maps("Sobri Jóska Bakonyi Kalandpark Kislőd")),
     ],
     "Zalakaros Thermal Bath": [
-      link("האתר הרשמי", "https://zalakarosfurdo.hu/en/"),
+      link("האתר הרשמי", "https://zkf.hu/en/"),
+      link("שעות פתיחה 2026", "https://zkf.hu/nyitvatartas/"),
       link("ניווט", maps("Zalakaros Thermal Bath")),
     ],
     "יום בודפשט המרכזי": [
