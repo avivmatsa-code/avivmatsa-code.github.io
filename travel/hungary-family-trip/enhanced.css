@@ -453,6 +453,22 @@ a:focus-visible {
   border-top: 1px solid rgba(18, 60, 70, 0.1);
 }
 
+.schedule-alert {
+  margin-top: 16px;
+  border: 1px solid rgba(190, 103, 32, 0.28);
+  border-inline-start: 5px solid #d97706;
+  border-radius: 14px;
+  background: #fff7e6;
+  color: #75420a;
+  padding: 13px 15px;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.schedule-alert strong {
+  color: #9a4f05;
+}
+
 .weather-shell {
   overflow: hidden;
   border: 1px solid rgba(18, 60, 70, 0.12);
