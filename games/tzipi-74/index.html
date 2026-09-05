@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#592bd3">
+  <title>סבתא ציפי חוגגת 74 — משחקים משפחתיים</title>
+  <meta name="description" content="כמה אתם מכירים את סבתא ציפי? שני חידונים משפחתיים ליום הולדת 74: אמת או שקר, ולפני או אחרי שסבתא נולדה.">
+  <link rel="canonical" href="https://avivmatsa-code.github.io/games/tzipi-74/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:title" content="סבתא ציפי חוגגת 74 🎉">
+  <meta property="og:description" content="אמת או שקר? לפני או אחרי? שני חידונים, סבתא אחת — בואו לשחק!">
+  <meta property="og:url" content="https://avivmatsa-code.github.io/games/tzipi-74/">
+  <meta property="og:image" content="https://avivmatsa-code.github.io/games/tzipi-74/tzipi-birthday-share.jpg">
+  <meta property="og:image:secure_url" content="https://avivmatsa-code.github.io/games/tzipi-74/tzipi-birthday-share.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="איור משפחתי חגיגי לכבוד יום הולדת 74 של סבתא ציפי">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://avivmatsa-code.github.io/games/tzipi-74/tzipi-birthday-share.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23592bd3'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Arial' font-weight='bold' font-size='36' fill='%23ffe27c'%3E74%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <a class="skip" href="#main">דילוג לתוכן</a>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="חזרה לבחירת משחק"><span class="brand-mark" aria-hidden="true">74</span><span>החגיגה של ציפי<span class="brand-sub">משפחה אחת. מלא סיפורים.</span></span></a>
+    <span class="birthday-tag">יום הולדת שמח! <span aria-hidden="true">✦</span></span>
+  </header>
+  <main id="main" tabindex="-1">
+    <section id="home" class="home" aria-labelledby="home-title">
+      <div class="intro">
+        <span class="eyebrow">היום כולנו משחקים לכבודך</span>
+        <h1 id="home-title" tabindex="-1">סבתא ציפי,<br><span>את אחת ויחידה.</span></h1>
+        <p class="lead">74 שנים של סיפורים. כמה מהם אתם מכירים?</p>
+        <div class="game-selection">
+          <h2>במה משחקים?</h2>
+          <button class="game-choice family-choice" data-start="family">
+            <span class="game-icon" aria-hidden="true">?</span>
+            <span class="game-copy"><strong>אם לסבתא היו תלתלים</strong><span>אמת או שקר <span class="dot">·</span> 14 שאלות</span></span><span class="arrow" aria-hidden="true">←</span>
+          </button>
+          <button class="game-choice history-choice" data-start="history">
+            <span class="game-icon" aria-hidden="true">↶</span>
+            <span class="game-copy"><strong>זה מעניין ת׳סבתא שלי</strong><span>לפני או אחרי שסבתא נולדה <span class="dot">·</span> 40 שאלות</span></span><span class="arrow" aria-hidden="true">←</span>
+          </button>
+          <p class="small-note">בלי שעון, בלי לחץ. רק לבחור ולגלות.</p>
+        </div>
+      </div>
+      <figure class="family-picture">
+        <div class="photo-frame"><img src="./family-illustration.jpg" width="1536" height="1024" alt="איור של סבתא ציפי עם המשפחה, מחייכים ומתחבקים על הספה" fetchpriority="high"><figcaption>הכי כיף כשכולנו ביחד <span aria-hidden="true">♥</span></figcaption></div>
+        <div class="age-sticker" aria-label="חוגגים 74"><span>חוגגים</span><strong>74</strong><span>לציפי שלנו</span></div>
+        <span class="spark spark-one" aria-hidden="true">✦</span><span class="spark spark-two" aria-hidden="true">✧</span>
+      </figure>
+    </section>
+
+    <section id="play" class="play" hidden aria-labelledby="game-title">
+      <div class="play-top"><button class="text-button" id="leave">→ לבחירת המשחקים</button><span id="game-category" class="eyebrow"></span></div>
+      <h1 id="game-title" class="game-title"></h1>
+      <div class="status-row"><span id="question-count"></span><span class="score-pill">ניקוד <strong id="score">0</strong><span aria-hidden="true">✦</span></span></div>
+      <div id="progress" class="progress" role="progressbar" aria-label="שאלות שנענו" aria-valuemin="0" aria-valuenow="0" aria-valuemax="14"><div id="progress-fill"></div></div>
+      <article class="question-card">
+        <span id="question-hint" class="question-hint"></span>
+        <h2 id="question" tabindex="-1"></h2>
+        <div id="answers" class="answers"></div>
+        <div id="feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true"></div>
+        <button id="next" class="primary-button next" hidden>לשאלה הבאה <span aria-hidden="true">←</span></button>
+      </article>
+      <p class="small-note">כל תשובה נכונה שווה נקודה. אפשר לקחת את הזמן.</p>
+    </section>
+
+    <section id="results" class="results" hidden aria-labelledby="result-title">
+      <div class="result-star" aria-hidden="true">✦</div>
+      <p class="eyebrow" id="result-game"></p>
+      <h1 id="result-title" tabindex="-1"></h1>
+      <div class="result-number"><strong id="result-score"></strong><span id="result-total"></span></div>
+      <p class="result-percent" id="result-percent"></p>
+      <p id="result-message" class="result-message"></p>
+      <div class="result-actions"><button id="again" class="primary-button">עוד סיבוב <span aria-hidden="true">↻</span></button><button id="other" class="secondary-button">למשחק השני <span aria-hidden="true">←</span></button></div>
+      <button id="home-button" class="text-button">חזרה לבחירת המשחקים</button>
+      <p class="birthday-wish">והכי חשוב — מזל טוב, סבתא ציפי! <span aria-hidden="true">♥</span></p>
+    </section>
+    <noscript><p class="noscript">כדי לשחק צריך להפעיל JavaScript בדפדפן.</p></noscript>
+  </main>
+  <footer>לציפי, באהבה מכל המשפחה <span aria-hidden="true">♥</span></footer>
+  <dialog id="exit-dialog" aria-labelledby="exit-title"><h2 id="exit-title">לחזור לבחירת המשחקים?</h2><p>הניקוד מהסיבוב הזה לא יישמר.</p><div class="dialog-actions"><button id="stay" class="primary-button">ממשיכים לשחק</button><button id="exit" class="secondary-button">חזרה לבחירה</button></div></dialog>
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>
